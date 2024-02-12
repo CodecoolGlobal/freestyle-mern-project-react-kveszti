@@ -3,7 +3,7 @@ export default function Footer() {
 
     return (
         <footer className="footer">
-            <h2>not all feet have toebeans</h2>
+            <h2>this be a footer with logo date and not much else</h2>
         </footer>
     )
 }

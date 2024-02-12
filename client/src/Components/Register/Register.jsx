@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 
 export default function Register() {
@@ -20,6 +21,8 @@ export default function Register() {
                 </label>
                 <button className='signUpBtn' key="signUp" type="submit">Sign up</button>
             </form>
+            <h2>Already a member</h2>
+            <Link to="/login" className="siteNavBtn"><button>Login</button></Link>
         </>
     )
 }
