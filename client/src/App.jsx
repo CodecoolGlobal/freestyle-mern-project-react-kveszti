@@ -1,34 +1,58 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect, createContext } from 'react';
+import "./App.css";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Register from './Components/Registration/Registration';
+import Login from './Components/Login/Login';
+import UserSite from './Components/UserSite/UserSite';
+
+export const ValidUserContext = createContext(false);
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [userName, setUserName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [login, setLogin] = useState(false);
+  const [loginBtn, setLoginBtn] = useState('Log in');
+  const [signUpSignIn, setSignUpSignIn] = useState("Already registered");
+  const [validUser, setValidUser] = useState(false); //🔰 needs to be false once done
+
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    console.log('clickk');
+  }
+
+  async function handleLogIn() {
+    if (loginBtn === 'Log in') {
+      setLogin(true);
+      setLoginBtn('Register');
+      setSignUpSignIn("Haven't registered yet");
+
+    }
+
+    if (loginBtn === 'Register') {
+      setLogin(false);
+      setLoginBtn('Log in');
+      setSignUpSignIn("Already registered");
+    }
+  }
+  async function userLogin() {
+    console.log('click')
+    //fetch users from Mongo and cross check
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <ValidUserContext.Provider value={{ validUser, setValidUser }}>
+      {!validUser ?
+        <div className="signUpContainer">
+          {!login ? <Register handleSubmit={handleSubmit} userName={userName} setUserName={setUserName} email={email} setEmail={setEmail} password={password} setPassword={setPassword} /> : <Login userLogin={userLogin} email={email} setEmail={setEmail} password={password} setPassword={setPassword} />}
+          <div className="logInChoice">
+            <h2>{signUpSignIn}</h2>
+            <button onClick={handleLogIn}>{loginBtn}</button>
+          </div>
+        </div> :
+        <UserSite />}
+    </ValidUserContext.Provider>
   )
 }
 
