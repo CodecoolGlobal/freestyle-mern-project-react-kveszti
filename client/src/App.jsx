@@ -1,9 +1,11 @@
 import { useState, useEffect, createContext } from 'react';
 import "./App.css";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Register from './Components/Registration/Registration';
+import Register from './Components/Register/Register.jsx';
 import Login from './Components/Login/Login';
 import UserSite from './Components/UserSite/UserSite';
+
+import { Layout } from './Pages/Layout/Layout.jsx'
 
 export const ValidUserContext = createContext(false);
 
@@ -43,15 +45,14 @@ function App() {
 
   return (
     <ValidUserContext.Provider value={{ validUser, setValidUser }}>
-      {!validUser ?
-        <div className="signUpContainer">
-          {!login ? <Register handleSubmit={handleSubmit} userName={userName} setUserName={setUserName} email={email} setEmail={setEmail} password={password} setPassword={setPassword} /> : <Login userLogin={userLogin} email={email} setEmail={setEmail} password={password} setPassword={setPassword} />}
-          <div className="logInChoice">
-            <h2>{signUpSignIn}</h2>
-            <button onClick={handleLogIn}>{loginBtn}</button>
-          </div>
-        </div> :
-        <UserSite />}
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Layout />}>
+            <Route path='/register' element={<Register />}></Route>
+            <Route path='/login' element={<Login />}></Route>
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </ValidUserContext.Provider>
   )
 }
