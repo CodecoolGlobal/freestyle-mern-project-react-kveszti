@@ -1,3 +1,4 @@
+
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
@@ -96,6 +97,7 @@ export default function Register() {
                     <Link to="/login" className="siteNavBtn"><button>Login</button></Link>
                 </div>
             }
+
         </>
     )
 }
