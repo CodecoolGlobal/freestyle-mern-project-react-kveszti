@@ -14,7 +14,7 @@ export const ValidUserContext = createContext(false);
 export const UserNameContext = createContext("")
 
 function App() {
-  const [validUser, setValidUser] = useState(false); //🔰 needs to be false once done
+  const [validUser, setValidUser] = useState(true); //🔰 needs to be false once done
   const [userName, setUserName] = useState("");
 
   return (

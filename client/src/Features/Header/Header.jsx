@@ -1,11 +1,21 @@
+import { useNavigate } from "react-router-dom";
 
 export default function Header({ validUser }) {
-    let clsName = validUser ? "headerUser" : "headerDefault"
+    const navigate = useNavigate();
 
     return (
-        <header className={clsName}>
-            {validUser ? <h2>Welcome!</h2> : <h2>Welcome to QuizQuest/QuizMasters!</h2>}
-            <p>logo homepage profile login/logout button</p>
+        <header>
+            <nav className="navCont">
+                <img src="/QQLogo_noBG.png" className="logo" onClick={() => navigate("/")}></img>
+                <h2 onClick={() => navigate("/")}>QuizQuest</h2>
+                {validUser ? <>
+                    <p className="navHistory" onClick={() => navigate("/underconstruction")}>History</p>
+                    <p className="navMyStats" onClick={() => navigate("/underconstruction")}>My stats</p>
+                    <p className="navSettings" onClick={() => navigate("/underconstruction")}>Settings</p>
+                </> : ""}
+                <p className="navLogin" onClick={() => navigate("/login")}>Log in</p>
+            </nav>
+
         </header>
     )
 }
