@@ -1,3 +1,7 @@
+* {
+  margin: 0
+}
+
 #root {
   height: 100%;
   max-width: 100%;
@@ -8,6 +12,8 @@
   flex-direction: column;
   place-items: center;
   margin-top: 70px;
+  min-width: 100vw;
+  min-height: 100vh;
 }
 
 @font-face {
@@ -20,11 +26,12 @@
 .mainPageCont {
   display: grid;
   width: 75%;
-  align-items: baseline;
   grid-template-columns: auto auto;
   gap: 20px;
   margin-top: 30px;
-  margin-bottom: 40px
+  margin-bottom: 25px;
+  margin-left: 25%;
+  margin-right: 25%
 }
 
 .gameModeTitle {
@@ -38,12 +45,23 @@
   color: white;
   background-color: #263864;
   border-radius: 25px;
-  height: 350px;
+  height: 250px;
   position: relative;
+  width: 360px;
+  margin: auto
+}
+
+.gameModeSummary {
+  font-size: 20px;
 }
 
 .gameModeCont p {
   margin: 10px;
+}
+
+.startGameHomePage {
+  width: 150px;
+  font-size: 20px;
 }
 
 .gameModeCont button {
@@ -109,7 +127,8 @@ body {
   background-image: linear-gradient(to bottom right, #18A5A7, #BFFFC7);
 }
 
-.formContainerLogin {
+.formContainerLogin,
+.formContainerRegister {
   display: flex;
   flex-direction: column;
   margin-top: 100px;
@@ -118,22 +137,32 @@ body {
   border-radius: 25px;
 }
 
+.formContainerRegister p,
+.formContainerRegister button,
+.formContainerRegister h2 {
+  margin: 20px;
+}
+
 .logInLabel,
-.logInTextInput {
+.signUpLabel,
+.logInTextInput,
+.signUpTextInput {
   display: block;
   margin: 10px;
   padding: 0px;
 
 }
 
-.logInTextInput {
+.logInTextInput,
+.signUpTextInput {
   font-size: large;
   border-radius: 10px;
   margin: auto;
   padding: 5px;
 }
 
-.logInLabel {
+.logInLabel,
+.signUpLabel {
   font-family: "LuckiestGuy";
   font-size: 35px;
 }
@@ -144,17 +173,23 @@ body {
   padding: 0px;
 }
 
-.logInBtn {
+.logInBtn,
+.signUpBtn {
   margin-bottom: 20px
 }
 
-.fromLoginToRegister button {
+.fromLoginToRegister button,
+.fromRegisterToLogin button {
   background-color: transparent;
   display: inline-block;
   color: #033495;
   text-decoration: underline;
   margin-left: 5px;
   padding: 0px;
+}
+
+.alreadyMemberText {
+  display: inline-block;
 }
 
 .logo {
@@ -195,4 +230,12 @@ body {
 
 .read-the-docs {
   color: #888;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  right: 10px;
+  color: #033495;
+  font-style: italic;
 }

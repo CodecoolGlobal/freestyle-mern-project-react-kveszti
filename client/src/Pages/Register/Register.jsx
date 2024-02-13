@@ -51,7 +51,7 @@ export default function Register() {
     return (
         <>
             {success === false ?
-                <div className="formContainerRegister">< h2 > Register</h2 >
+                <><div className="formContainerRegister">
                     <form className="signUpForm" onSubmit={handleSubmit}>
                         <label htmlFor="user" className='signUpLabel'>
                             Username:
@@ -88,9 +88,11 @@ export default function Register() {
                         </label>
                         <button className='signUpBtn' key="signUp" type="submit">Sign up</button>
                     </form>
-                    <h2>Already a member</h2>
-                    <Link to="/login" className="siteNavBtn"><button>Login</button></Link>
-                </div > :
+
+                </div >
+                    <div className="alreadyMemberCont"><p className="alreadyMemberText">Already a member?</p>
+                        <Link to="/login" className="fromRegisterToLogin"><button>Login</button></Link></div>
+                </> :
                 <div className="formContainerRegister">
                     <h2>Registration was successful, please log in.</h2>
                     <p>If you are not redirected in {seconds} seconds, please click on the button.</p>
