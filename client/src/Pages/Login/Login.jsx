@@ -32,17 +32,16 @@ export default function Login() {
                 }
             })
             .catch(error => {
-                console.log(error);
+                // console.log(error);
             });
 
     }
 
-    return (
+    return (<>
         <div className="formContainerLogin">
-            <h2>Log in</h2>
             <form className="logInForm" onSubmit={handleSubmitLogin}>
                 <label htmlFor="email" className='logInLabel'>
-                    Email address:
+                    E-mail:
                     <input
                         type="email"
                         name="email"
@@ -61,8 +60,9 @@ export default function Login() {
                 </label>
                 <button className='logInBtn' key="logIn" type="submit">Log in</button>
             </form>
-            <h2>Create account</h2>
-            <Link to="/register" className="siteNavBtn"><button>Register</button></Link>
         </div>
+        <div><p className="needAccount">Need an account?</p>
+            <Link to="/register" className="fromLoginToRegister"><button>Register</button></Link></div>
+    </>
     )
 }
