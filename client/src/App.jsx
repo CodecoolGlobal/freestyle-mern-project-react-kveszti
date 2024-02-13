@@ -1,7 +1,7 @@
 import { useState, useEffect, createContext } from 'react';
 import "./App.css";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Register from './Pages/MainPage/Register/Register.jsx';
+import Register from './Pages/Register/Register.jsx';
 import Login from './Pages/Login/Login.jsx';
 import UserProfile from './Components/UserProfile/UserProfile.jsx';
 import MainPage from './Pages/MainPage/MainPage.jsx';
