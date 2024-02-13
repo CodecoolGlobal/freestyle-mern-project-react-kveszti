@@ -8,9 +8,9 @@ import { ValidUserContext } from "../../App";
 
 
 export function Layout() {
-    const { validUser } = useContext(ValidUserContext)
+    const { validUser, setValidUser } = useContext(ValidUserContext)
     return (<>
-        <Header validUser={validUser} />
+        <Header validUser={validUser} setValidUser={setValidUser} />
         <Outlet />
         <Footer />
     </>

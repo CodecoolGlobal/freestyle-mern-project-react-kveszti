@@ -1,19 +1,109 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  height: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+  margin-top: 70px;
 }
 
+.mainPageCont {
+  display: grid;
+  width: 75%;
+  align-items: baseline;
+  grid-template-columns: auto auto;
+  gap: 20px;
+  margin-top: 30px;
+  margin-bottom: 40px
+}
+
+.gameModeCont {
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+  color: white;
+  background-color: #263864;
+  border-radius: 25px;
+  height: 350px;
+  position: relative;
+}
+
+.gameModeCont p {
+  margin: 10px
+}
+
+.gameModeCont button {
+  margin-bottom: 10px;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.navCont {
+  width: 100%;
+  background-color: #263864;
+  color: white;
+  padding: 0px;
+  top: 0;
+  display: flex;
+  justify-content: flex-start;
+  position: fixed;
+  height: 70px;
+  left: 0;
+  align-items: center;
+}
+
+.navLoginLogout {
+  position: absolute;
+  right: 0;
+  margin-right: 20px
+}
+
+.navHistory,
+.navMyStats,
+.navSettings {
+  margin: 20px;
+}
+
+.goToRegister {
+  margin: 0 auto;
+  display: block;
+}
+
+body {
+  background-image: linear-gradient(to bottom right, #033495, #AEE4FF);
+}
+
+.blueBodyBackground {
+  background-image: linear-gradient(to bottom right, #033495, #AEE4FF);
+}
+
+.pinkBodyBackground {
+  background-image: linear-gradient(to bottom right, #D74177, #FFE98A);
+}
+
+.greenBodyBackground {
+  background-image: linear-gradient(to bottom right, #18A5A7, #BFFFC7);
+}
+
+
+
 .logo {
-  height: 6em;
-  padding: 1.5em;
+  height: 4em;
+  padding: 0;
   will-change: filter;
   transition: filter 300ms;
+  margin: 5px
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -22,6 +112,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
