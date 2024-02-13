@@ -9,25 +9,29 @@ import MainPage from './Pages/MainPage/MainPage.jsx';
 import { Layout } from './Pages/Layout/Layout.jsx'
 
 export const ValidUserContext = createContext(false);
+export const UserNameContext = createContext("")
 
 function App() {
   const [validUser, setValidUser] = useState(false); //🔰 needs to be false once done
+  const [userName, setUserName] = useState("");
 
 
 
   return (
-    <ValidUserContext.Provider value={{ validUser, setValidUser }}>
-      <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<Layout />}>
-            <Route path='/register' element={<Register />}></Route>
-            <Route path='/login' element={<Login />}></Route>
-            <Route path='/' element={<MainPage />}></Route>
-            <Route path='/profile' element={<UserProfile />}></Route>
-          </Route>
-        </Routes>
-      </BrowserRouter >
-    </ValidUserContext.Provider >
+    <UserNameContext.Provider value={{ userName, setUserName }}>
+      <ValidUserContext.Provider value={{ validUser, setValidUser }}>
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<Layout />}>
+              <Route path='/register' element={<Register />}></Route>
+              <Route path='/login' element={<Login />}></Route>
+              <Route path='/' element={<MainPage />}></Route>
+              <Route path='/profile' element={<UserProfile />}></Route>
+            </Route>
+          </Routes>
+        </BrowserRouter >
+      </ValidUserContext.Provider >
+    </UserNameContext.Provider>
   )
 }
 
