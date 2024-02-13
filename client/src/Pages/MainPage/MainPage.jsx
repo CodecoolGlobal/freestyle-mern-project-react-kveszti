@@ -33,9 +33,12 @@ export default function MainPage() {
         <main className="mainPageCont">
             {gameModeArray.map((mode, index) => <GameModeCont key={index + mode.title.charCodeAt(0)} title={mode.title} summary={mode.summary} validUser={validUser} path={mode.path} cls={"gridItem" + index} />)}
         </main> :
-        <main className="mainPageCont">
-            {gameModeArray.map((mode, index) => <GameModeCont key={index + mode.title.charCodeAt(0)} title={mode.title} summary={mode.summary} validUser={validUser} path={mode.path} />)}
+        <>
+            <main className="mainPageCont">
+                {gameModeArray.map((mode, index) => <GameModeCont key={index + mode.title.charCodeAt(0)} title={mode.title} summary={mode.summary} validUser={validUser} path={mode.path} />)}
+
+            </main>
             <button id="goToRegister" onClick={() => navigate("/register")}>I would like to create an account</button>
-        </main>
+        </>
     )
 }

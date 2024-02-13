@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-export default function Header({ validUser }) {
+export default function Header({ validUser, setValidUser }) {
     const navigate = useNavigate();
 
     return (
@@ -12,8 +12,9 @@ export default function Header({ validUser }) {
                     <p className="navHistory" onClick={() => navigate("/underconstruction")}>History</p>
                     <p className="navMyStats" onClick={() => navigate("/underconstruction")}>My stats</p>
                     <p className="navSettings" onClick={() => navigate("/underconstruction")}>Settings</p>
-                </> : ""}
-                <p className="navLogin" onClick={() => navigate("/login")}>Log in</p>
+                    <button className="navLoginLogout" onClick={() => setValidUser(false)}>Log out</button>
+                </> : <button className="navLoginLogout" onClick={() => navigate("/login")}>Log in</button>}
+
             </nav>
 
         </header>
