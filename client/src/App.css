@@ -101,7 +101,8 @@
 
 .navHistory,
 .navMyStats,
-.navSettings {
+.navSettings,
+.navProfile {
   margin: 0px 20px;
 }
 
