@@ -27,7 +27,7 @@
 
 .mainPageCont {
   display: grid;
-  width: 75%;
+  width: 60%;
   grid-template-columns: auto auto;
   gap: 20px;
   margin-top: 30px;
@@ -107,7 +107,7 @@
 }
 
 .navCont p:hover {
-  transform: scale(1.1);
+  transform: scale(1.2);
 }
 
 .navCont p.active {
@@ -325,9 +325,17 @@ body {
 .footer {
   position: fixed;
   bottom: 0;
-  right: 10px;
+  right: 100px;
   color: #033495;
   font-style: italic;
+
+}
+
+.footerImg {
+  transform: scale(0.5);
+  position: fixed;
+  bottom: -15px;
+  right: -27px
 }
 
 .correct-answer-blink {
