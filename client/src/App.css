@@ -109,6 +109,14 @@
   margin: 0px 20px;
 }
 
+.navCont p.active {
+  color: #263864;
+  font-weight: bold;
+  background-color: #AEE4FF;
+  padding: 8px;
+  border-radius: 3px;
+}
+
 .goToRegister {
   margin: 0 auto;
   display: block;
