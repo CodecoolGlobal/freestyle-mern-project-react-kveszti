@@ -99,7 +99,8 @@
 .navTitle {
   font-family: 'LuckiestGuy';
   margin-top: 7px;
-  margin-right: 20px
+  margin-right: 20px;
+  margin-left: 20px;
 }
 
 .navCont p {
