@@ -86,6 +86,7 @@ export default function Register() {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </label>
+                        <p className="pwInst">Password must have: one uppercase, one lowercase, one number, 6-12 characters.</p>
                         <button className='signUpBtn' key="signUp" type="submit">Sign up</button>
                     </form>
 
