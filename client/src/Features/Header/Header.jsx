@@ -12,8 +12,8 @@ export default function Header({ validUser, setValidUser }) {
                     <p className="navHistory" onClick={() => navigate("/underconstruction")}>History</p>
                     <p className="navMyStats" onClick={() => navigate("/underconstruction")}>My stats</p>
                     <p className="navSettings" onClick={() => navigate("/underconstruction")}>Settings</p>
-                    <p className="navProfile" onClick={() => navigate("/underconstruction")}>Profile</p>
-                    <button className="navLoginLogout" onClick={() => setValidUser(false)}>Log out</button>
+                    <p className="navProfile" onClick={() => navigate("/profile")}>Profile</p>
+                    <button className="navLoginLogout" onClick={() => { setValidUser(false); navigate("/") }}>Log out</button>
                 </> : <button className="navLoginLogout" onClick={() => navigate("/login")}>Log in</button>}
 
             </nav>
