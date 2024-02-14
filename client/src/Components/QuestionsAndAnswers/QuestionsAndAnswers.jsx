@@ -52,16 +52,16 @@ export default function QuestionsAndAnswers({ questionsArray }) {
 
 
 
-  return (<>
+  return (<div className="QAndACont">
     <div id="question" className="questionCont">{questionsArray[questionIndex].question}</div>
     <div className="answersCont">{allAnswers.map((obj, index) => {
-      return <><div className={"answer" + index + "Cont"} onClick={() => setQuestionIndex((previndex) => { return previndex + 1 })}>
-        <div className={"answer" + index + "Index"}>{abc[index]}</div>
-        <div className={"answer" + index + "Text"}>{obj.text}</div>
+      return <><div className="answerCont" onClick={() => setQuestionIndex((previndex) => { return previndex + 1 })}>
+        <div className="answerIndex">{abc[index]}</div>
+        <div className="answerText">{obj.text}</div>
       </div></>
     })}
 
     </div>
-  </>)
+  </div>)
 
 }
