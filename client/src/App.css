@@ -102,11 +102,12 @@
   margin-right: 20px
 }
 
-.navHistory,
-.navMyStats,
-.navSettings,
-.navProfile {
-  margin: 0px 20px;
+.navCont p {
+  margin: 0px 40px;
+}
+
+.navCont p:hover {
+  transform: scale(1.1);
 }
 
 .navCont p.active {
@@ -114,7 +115,8 @@
   font-weight: bold;
   background-color: #AEE4FF;
   padding: 8px;
-  border-radius: 3px;
+  border-radius: 30px;
+  width: 150px;
 }
 
 .goToRegister {
