@@ -319,3 +319,37 @@ body {
   color: #033495;
   font-style: italic;
 }
+
+.correct-answer-blink {
+  animation: blink-green 1s infinite alternate;
+  background-color: #5ADD87 !important;
+}
+
+.correct-answer {
+  background-color: #5ADD87 !important;
+}
+
+.wrong-answer {
+  animation: blink-red 1s infinite alternate;
+  background-color: #eb3452 !important;
+}
+
+@keyframes blink-green {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes blink-red {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.5;
+  }
+}
