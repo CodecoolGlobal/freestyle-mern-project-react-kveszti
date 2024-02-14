@@ -3,7 +3,6 @@
 }
 
 #root {
-  height: 100%;
   max-width: 100%;
   margin: 0;
   padding: 0;
@@ -13,7 +12,7 @@
   place-items: center;
   margin-top: 70px;
   min-width: 100vw;
-  min-height: 100vh;
+  min-height: calc(100vh - 70px);
 }
 
 @font-face {
@@ -198,7 +197,7 @@ body {
   padding: 0;
   will-change: filter;
   transition: filter 300ms;
-  margin: 5px
+  margin: 3px, 5px;
 }
 
 .logo:hover {
