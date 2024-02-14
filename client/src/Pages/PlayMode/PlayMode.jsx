@@ -72,6 +72,11 @@ export default function PlayMode() {
     console.log(generateLink(selectedCat, selectedDiff))
     await fetchQuestions(generateLink(selectedCat, selectedDiff));
     setIsPlaying(true);
+    //Eszti
+    //
+    //Zsani
+    //
+
   }
   useEffect(() => { console.log(selectedCat); console.log(selectedDiff) }, [selectedCat, selectedDiff])
 

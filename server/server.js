@@ -41,7 +41,7 @@ app.patch("/api/users/login", async (req, res) => {
     const user = await User.findOne({ email: email })
     if (user) {
       if (user.password === password) {
-        res.status(201).json({ success: true, data: user.username })
+        res.status(201).json({ success: true, data: { username: user.username, userID: user._id } })
       } else {
         res.status(201).json({ success: false, error: "Password is incorrect." })
       }

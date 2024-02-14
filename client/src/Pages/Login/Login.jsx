@@ -1,12 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import { ValidUserContext } from "../../App";
-import { UserNameContext } from "../../App";
+import { UserObjectContext } from "../../App";
 
 export default function Login() {
     const Navigate = useNavigate();
     const { validUser, setValidUser } = useContext(ValidUserContext);
-    const { userName, setUserName } = useContext(UserNameContext);
+    const { userObj, setUserObj } = useContext(UserObjectContext);
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
 
@@ -27,7 +27,7 @@ export default function Login() {
                 console.log(response);
                 if (response.success) {
                     setValidUser(true);
-                    setUserName(response.data);
+                    setUserObj(response.data);
                     Navigate('/');
                 }
             })

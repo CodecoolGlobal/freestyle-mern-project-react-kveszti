@@ -57,8 +57,16 @@ export default function QuestionsAndAnswers({ questionsArray }) {
 
   function handleAnswerSelect(isCorrect) {
     if (questionIndex < questionsArray.length - 1) {
+      //Eszti
+      //
+      //Zsani
+      //
       setQuestionIndex((previndex) => previndex + 1);
     } else {
+      //Eszti
+      //
+      //Zsani
+      //
       navigate("/");
     }
   }

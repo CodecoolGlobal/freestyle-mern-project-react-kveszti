@@ -11,14 +11,14 @@ import PlayMode from './Pages/PlayMode/PlayMode.jsx';
 import { Layout } from './Pages/Layout/Layout.jsx'
 
 export const ValidUserContext = createContext(false);
-export const UserNameContext = createContext("")
+export const UserObjectContext = createContext("")
 
 function App() {
   const [validUser, setValidUser] = useState(true); //🔰 needs to be false once done
-  const [userName, setUserName] = useState("");
+  const [userObj, setUserObj] = useState("");
 
   return (
-    <UserNameContext.Provider value={{ userName, setUserName }}>
+    <UserObjectContext.Provider value={{ userObj: userObj, setUserObj: setUserObj }}>
       <ValidUserContext.Provider value={{ validUser, setValidUser }}>
         <BrowserRouter>
           <Routes>
@@ -33,7 +33,7 @@ function App() {
           </Routes>
         </BrowserRouter >
       </ValidUserContext.Provider >
-    </UserNameContext.Provider>
+    </UserObjectContext.Provider>
   )
 }
 
