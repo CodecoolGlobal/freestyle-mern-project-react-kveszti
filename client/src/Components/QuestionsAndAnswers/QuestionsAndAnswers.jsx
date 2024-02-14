@@ -76,7 +76,7 @@ export default function QuestionsAndAnswers({ questionsArray }) {
     <div id="question" className="questionCont">{he.decode(questionsArray[questionIndex].question)}</div>
     <div className="answersCont">{allAnswers.map((obj, index) => {
       return <><div className="answerCont" onClick={() => setTimeout(() => handleAnswerSelect(obj.isCorrect), 1000 * seconds)}>
-        <div className="answerIndex">{abc[index]}</div>
+        <div className="answerIndex"><div className="answerIndexText">{abc[index]}</div></div>
         <div className="answerText">{obj.text}</div>
       </div></>
     })}
