@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { ValidUserContext } from "../../App";
-import GameModeCont from "../../Components/UserProfile/GameModeCont";
+import GameModeCont from "../../Components/GameModeCont/GameModeCont";
 import { useContext } from "react";
 
 export default function MainPage() {
