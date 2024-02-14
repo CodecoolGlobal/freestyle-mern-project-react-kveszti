@@ -2,6 +2,8 @@
   margin: 0
 }
 
+
+
 #root {
   max-width: 100%;
   margin: 0;
@@ -13,6 +15,7 @@
   margin-top: 70px;
   min-width: 100vw;
   min-height: calc(100vh - 70px);
+  cursor: url("QQ_cursor.png"), auto;
 }
 
 @font-face {
@@ -128,13 +131,34 @@ body {
 }
 
 .formContainerLogin,
-.formContainerRegister {
+.formContainerRegister,
+.optionsContainer {
   display: flex;
   flex-direction: column;
   margin-top: 100px;
   background-color: #263864;
   width: 500px;
   border-radius: 25px;
+}
+
+.optionsContainer {
+  padding: 20px;
+}
+
+.difficultyDrop,
+.categoryDrop {
+  width: 70%;
+  margin: auto;
+  border-radius: 25px;
+  font-size: large;
+  padding: 10px;
+  margin-bottom: 10px
+}
+
+.startGameBtn {
+  width: 150px;
+  margin: auto;
+  margin-top: 20px
 }
 
 .formContainerRegister p,
@@ -162,7 +186,9 @@ body {
 }
 
 .logInLabel,
-.signUpLabel {
+.signUpLabel,
+.diffLabel,
+.catLabel {
   font-family: "LuckiestGuy";
   font-size: 35px;
   color: white;
