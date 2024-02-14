@@ -192,6 +192,10 @@ body {
   display: inline-block;
 }
 
+.pwInst {
+  color: white;
+}
+
 .logo {
   height: 4em;
   padding: 0;
