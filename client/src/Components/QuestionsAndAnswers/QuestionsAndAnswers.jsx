@@ -2,6 +2,8 @@ import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import he from "he";
 import { UserObjectContext } from "../../App";
+import GameOver from "../GameOver/GameOver";
+
 export default function QuestionsAndAnswers({ questionsArray }) {
   const { userObj, setUserObj } = useContext(UserObjectContext);
   const [id, setID] = useState(userObj.userID);
@@ -12,6 +14,7 @@ export default function QuestionsAndAnswers({ questionsArray }) {
 
   const [allAnswers, setAllAnswers] = useState([])
   const [totalPoints, setTotalPoints] = useState(0);
+  const [isGameOver, setIsGameOver] = useState(false)
 
   const navigate = useNavigate();
   const abc = ["A", "B", "C", "D"];
@@ -78,25 +81,25 @@ export default function QuestionsAndAnswers({ questionsArray }) {
     const answerDiv = document.getElementById(eventTarget.id);
     answerDiv.classList.add(isCorrect ? "correct-answer-blink" : "wrong-answer");
 
-    if (isCorrect) {      
-        const difficulty = questionsArray[questionIndex].difficulty;
-        const category = he.decode(questionsArray[questionIndex].category);
-        let points = difficulty === 'easy' ? 1 : difficulty === 'medium' ? 2 : 3;
-        setTotalPoints((prevPoints) => prevPoints + points);
-        const data = { name: category, points: points }
-        fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', data)
-          .then(response => {
-            console.log(response);
-          })
-          .catch(error => {
-            console.log(error);
-          });
+    if (isCorrect) {
+      const difficulty = questionsArray[questionIndex].difficulty;
+      const category = he.decode(questionsArray[questionIndex].category);
+      let points = difficulty === 'easy' ? 1 : difficulty === 'medium' ? 2 : 3;
+      setTotalPoints((prevPoints) => prevPoints + points);
+      const data = { name: category, points: points }
+      fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', data)
+        .then(response => {
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
       setTimeout(() => {
         answerDiv.classList.remove("correct-answer-blink");
         if (questionIndex < questionsArray.length - 1) {
           setQuestionIndex(prevIndex => prevIndex + 1);
         } else {
-          navigate("/");
+          setIsGameOver(true);
         }
       }, 2000);
     } else {
@@ -112,14 +115,14 @@ export default function QuestionsAndAnswers({ questionsArray }) {
         if (questionIndex < questionsArray.length - 1) {
           setQuestionIndex(prevIndex => prevIndex + 1);
         } else {
-          navigate("/");
+          setIsGameOver(true);
         }
       }, 2000);
 
     }
   }
 
-  return (<div className="QAndACont">
+  return (!isGameOver ? <div className="QAndACont">
     <div id="question" className="questionCont">{he.decode(questionsArray[questionIndex].question)}</div>
     <div className="answersCont">{allAnswersArray.map((obj, index) => {
       return <><div id={"answer" + index} className="answerCont" onClick={(event) => handleAnswerSelect(obj.isCorrect, event.target)}>
@@ -127,8 +130,7 @@ export default function QuestionsAndAnswers({ questionsArray }) {
         <div className="answerText">{obj.text}</div>
       </div></>
     })}
-
     </div>
-  </div>)
+  </div> : <GameOver totalPoints={totalPoints} />)
 
 }
