@@ -90,10 +90,10 @@ export default function UserProfile() {
     return (
         <div>
             {editor === 'profile' ?
-                <div className="formContainer">
-                    <form className="profieEditForm" onSubmit={handleSubmit}>
+                <div className="profileFormContainer">
+                    <form className="profileEditForm" onSubmit={handleSubmit}>
                         <label htmlFor="user" className='profileEditLabel'>
-                            Change username:
+                            Username:
                             <input
                                 type="text"
                                 name="user"
@@ -104,7 +104,7 @@ export default function UserProfile() {
                             />
                         </label>
                         <label htmlFor="email" className='profileEditLabel'>
-                            Change email address:
+                            E-mail:
                             <input
                                 type="email"
                                 name="email"
@@ -114,7 +114,7 @@ export default function UserProfile() {
                             />
                         </label>
                         <label htmlFor="date" className='profileEditLabel'>
-                            Change birthday:
+                            Birthday:
                             <input
                                 type="date"
                                 name="birthday"
@@ -124,7 +124,7 @@ export default function UserProfile() {
                             />
                         </label>
                         <label htmlFor="date" className='profileEditLabel'>
-                            Change gender:
+                            Gender:
                             <input
                                 type="text"
                                 name="gender"
@@ -137,7 +137,7 @@ export default function UserProfile() {
                     </form>
                     <button className='menuBtn' onClick={() => setEditor("")}>Cancel</button>
                 </div> : editor === 'password' ?
-                    <div className="formContainer">
+                    <div className="pwdFormContainer">
                         <form className="pwdEditForm" onSubmit={handlePWSubmit}>
                             <label htmlFor="pwdOld" className='profileEditLabel'>
                                 Old password:
@@ -172,24 +172,31 @@ export default function UserProfile() {
                             <button className="menuBtn" onClick={() => setEditor('')}>No</button>
                         </div>}</div> :
                         <div className="profileCont">
+                            <div className="profileImgCont">
+                                <p className="profileInitials">{name.charAt(0)}</p>
+                            </div>
                             <div className="profileDataCont">
-                                <h4 className="profileTitle">Name:</h4>
                                 <h2 className="profileData">{name}</h2>
                             </div>
                             <div className="profileDataCont">
+                                <p className="profileData">{email}</p>
+                            </div>
+                            <div className="profileThemeDivider">Personal info</div>
+                            <div className="profileDataCont">
                                 <h4 className="profileTitle">Birthday:</h4>
-                                <h2 className="profileData">{birthday.split('T')[0]}</h2>
+                                <h4 className="profileData">{birthday.split('T')[0]}</h4>
                             </div>
                             <div className="profileDataCont">
                                 <h4 className="profileTitle">Gender:</h4>
-                                <h2 className="profileData">{gender}</h2>
+                                <h4 className="profileData">{gender}</h4>
                             </div>
+                            <div className="profileThemeDivider">Control panel</div>
                             <div className="btnContProfile">
                                 <button className='menuBtn' onClick={() => setEditor("profile")}>Edit Profile</button>
                                 <button className='menuBtn' onClick={() => setEditor("password")}>Change password</button>
                                 <button className="dangerBtn" onClick={() => setEditor("delete")}>Delete profile</button>
                             </div>
-                            <h2>stats under construction</h2>
+                            <h4 className="profileData">(Stats under construction)</h4>
                         </div>}
         </div>
     )
