@@ -54,7 +54,7 @@ export default function UserProfile() {
                 .then(response => {
                     console.log(response);
                     console.log(editor);
-                    if (response) {
+                    if (response.success) {
                         setSuccess(true);
                     }
                 })

@@ -293,11 +293,11 @@ body {
 }
 
 .formContainerRegister p,
-.formContainerRegister button,
 .formContainerRegister h2 {
   margin: 20px;
   color: white;
 }
+
 
 .logInLabel,
 .signUpLabel,
