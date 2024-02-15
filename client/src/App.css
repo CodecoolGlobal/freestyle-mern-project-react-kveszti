@@ -491,3 +491,7 @@ body {
     opacity: 0.5;
   }
 }
+
+.underConstImg {
+  transform: scale(0.7)
+}
