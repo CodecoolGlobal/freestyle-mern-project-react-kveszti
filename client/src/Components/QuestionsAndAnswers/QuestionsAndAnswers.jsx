@@ -6,6 +6,8 @@ import GameOver from "../GameOver/GameOver";
 
 export default function QuestionsAndAnswers({ questionsArray }) {
   const { userObj, setUserObj } = useContext(UserObjectContext);
+  let correctAnswerSound = new Audio('correctChime.mp3');
+  let incorrectAnswerSound = new Audio('incorrectChime.mp3');
   const [id, setID] = useState(userObj.userID);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [allAnswersArray, setAllAnswersArray] = useState([]);
@@ -82,6 +84,7 @@ export default function QuestionsAndAnswers({ questionsArray }) {
     answerDiv.classList.add(isCorrect ? "correct-answer-blink" : "wrong-answer");
 
     if (isCorrect) {
+      correctAnswerSound.play();
       const difficulty = questionsArray[questionIndex].difficulty;
       const category = he.decode(questionsArray[questionIndex].category);
       let points = difficulty === 'easy' ? 1 : difficulty === 'medium' ? 2 : 3;
@@ -103,6 +106,7 @@ export default function QuestionsAndAnswers({ questionsArray }) {
         }
       }, 2000);
     } else {
+      incorrectAnswerSound.play();
       const correctAnswerIndex = allAnswersArray.findIndex(answer => answer.isCorrect === true);
       console.log(correctAnswerIndex)
       const correctAnswerDiv = document.getElementById(`answer${correctAnswerIndex}`);
