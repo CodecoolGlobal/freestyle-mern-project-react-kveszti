@@ -75,8 +75,12 @@ app.patch("/api/users/edit/id/:id", async (req, res) => {
   const id = req.params.id;
   try {
     const user = await User.findById(id);
+    const userStats = await User.findOne({ userID: id });
     if (!user) {
       return res.status(404).json({ success: false, error: 'User not found' });
+    }
+    if (!userStats) {
+      return res.status(404).json({ success: false, error: 'Userstats not found' });
     }
     if (req.body.password) {
       const { password } = req.body;
@@ -87,9 +91,11 @@ app.patch("/api/users/edit/id/:id", async (req, res) => {
       user.email = email;
       user.birthday = birthday;
       user.gender = gender;
+      userStats.username = username;
     }
 
     await user.save();
+    await userStats.save();
     console.log(`app.patch  user:`, user);
     res.status(200).json({ success: true, user });
   } catch (error) {
