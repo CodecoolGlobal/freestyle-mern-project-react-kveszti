@@ -287,7 +287,7 @@ body {
   display: flex;
   flex-direction: column;
   background-color: #263864;
-  margin-top: 90px;
+  margin-top: 5%;
   border-radius: 25px;
   width: 850px;
 }
@@ -340,7 +340,7 @@ body {
 }
 
 .correct-answer-blink {
-  animation: blink-green 1s infinite alternate;
+  animation: blink-green 0.5s infinite alternate;
   background-color: #5ADD87 !important;
 }
 
@@ -349,7 +349,7 @@ body {
 }
 
 .wrong-answer {
-  animation: blink-red 1s infinite alternate;
+  animation: blink-red 0.5s infinite alternate;
   background-color: #eb3452 !important;
 }
 
