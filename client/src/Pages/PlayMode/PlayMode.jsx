@@ -83,15 +83,15 @@ export default function PlayMode() {
   return (<>
     {isPlaying ? <QuestionsAndAnswers questionsArray={questionsArray} /> :
       <div className="optionsContainer">
-        <h2>Difficulty</h2>
+        <h2 className="diffLabel">Difficulty</h2>
         <select name="difficulty" className="difficultyDrop" onChange={(e) => setSelectedDiff(e.target.value)}>
           {difficultyArray.map(str => { return <option key={str} className="difficultyOption" value={str !== 'Any' ? str.toLowerCase() : str} >{str}</option> })}
         </select>
-        <h2>Category</h2>
+        <h2 className="catLabel">Category</h2>
         <select name="category" className="categoryDrop" onChange={(e) => setSelectedCat(e.target.value)}>
           {categoryObj.map(obj => { return <option key={obj.id} className="categoryOption" value={obj.id}>{obj.category}</option> })}
         </select>
-        <button onClick={() => handleSelectedCategory()}>Start game</button>
+        <button className="startGameBtn" onClick={() => handleSelectedCategory()}>Start game</button>
       </div>}
   </>)
 } 

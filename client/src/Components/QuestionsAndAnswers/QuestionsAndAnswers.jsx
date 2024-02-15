@@ -9,8 +9,10 @@ export default function QuestionsAndAnswers({ questionsArray }) {
   const [allAnswersArray, setAllAnswersArray] = useState([]);
   const [objectifiedArrayIncorrect, setObjectifiedArrayIncorrect] = useState([])
   const [correctAnswerObject, setCorrectAnswerObject] = useState({})
+
   const [allAnswers, setAllAnswers] = useState([])
   const [totalPoints, setTotalPoints] = useState(0);
+
   const navigate = useNavigate();
   const abc = ["A", "B", "C", "D"];
   const seconds = 1;
@@ -66,17 +68,21 @@ export default function QuestionsAndAnswers({ questionsArray }) {
     return array;
   }
 
-  function handleAnswerSelect(isCorrect) {
-    if (questionIndex < questionsArray.length - 1) {
-      //Eszti
-      //
-      //Zsani
-      if (isCorrect) {
+
+  function handleAnswerSelect(isCorrect, eventTarget) {
+    //Eszti
+    //
+    while (eventTarget && !eventTarget.classList.contains("answerCont")) {
+      eventTarget = eventTarget.parentElement;
+    }
+    const answerDiv = document.getElementById(eventTarget.id);
+    answerDiv.classList.add(isCorrect ? "correct-answer-blink" : "wrong-answer");
+
+    if (isCorrect) {      
         const difficulty = questionsArray[questionIndex].difficulty;
         const category = he.decode(questionsArray[questionIndex].category);
         let points = difficulty === 'easy' ? 1 : difficulty === 'medium' ? 2 : 3;
         setTotalPoints((prevPoints) => prevPoints + points);
-        console.log(totalPoints, category);
         const data = { name: category, points: points }
         fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', data)
           .then(response => {
@@ -85,38 +91,39 @@ export default function QuestionsAndAnswers({ questionsArray }) {
           .catch(error => {
             console.log(error);
           });
-      }
-      //
-      setQuestionIndex((previndex) => previndex + 1);
+      setTimeout(() => {
+        answerDiv.classList.remove("correct-answer-blink");
+        if (questionIndex < questionsArray.length - 1) {
+          setQuestionIndex(prevIndex => prevIndex + 1);
+        } else {
+          navigate("/");
+        }
+      }, 2000);
     } else {
-      //Eszti
-      //
-      //Zsani
-      if (isCorrect) {
-        const difficulty = questionsArray[questionIndex].difficulty;
-        const category = he.decode(questionsArray[questionIndex].category);
-        let points = difficulty === 'easy' ? 1 : difficulty === 'medium' ? 2 : 3;
-        setTotalPoints((prevPoints) => prevPoints + points);
-        const data = { name: category, points: points }
-        fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', data)
-          .then(response => {
-            console.log(response);
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      }
-      //
-      navigate("/");
+      const correctAnswerIndex = allAnswersArray.findIndex(answer => answer.isCorrect === true);
+      console.log(correctAnswerIndex)
+      const correctAnswerDiv = document.getElementById(`answer${correctAnswerIndex}`);
+      console.log(correctAnswerDiv)
+      correctAnswerDiv.classList.add("correct-answer");
+
+      setTimeout(() => {
+        answerDiv.classList.remove("wrong-answer");
+        correctAnswerDiv.classList.remove("correct-answer");
+        if (questionIndex < questionsArray.length - 1) {
+          setQuestionIndex(prevIndex => prevIndex + 1);
+        } else {
+          navigate("/");
+        }
+      }, 2000);
+
     }
   }
 
-
   return (<div className="QAndACont">
     <div id="question" className="questionCont">{he.decode(questionsArray[questionIndex].question)}</div>
-    <div className="answersCont">{allAnswers.map((obj, index) => {
-      return <><div className="answerCont" onClick={() => setTimeout(() => handleAnswerSelect(obj.isCorrect), 1000 * seconds)}>
-        <div className="answerIndex">{abc[index]}</div>
+    <div className="answersCont">{allAnswersArray.map((obj, index) => {
+      return <><div id={"answer" + index} className="answerCont" onClick={(event) => handleAnswerSelect(obj.isCorrect, event.target)}>
+        <div className="answerIndex"><div className="answerIndexText">{abc[index]}</div></div>
         <div className="answerText">{obj.text}</div>
       </div></>
     })}
