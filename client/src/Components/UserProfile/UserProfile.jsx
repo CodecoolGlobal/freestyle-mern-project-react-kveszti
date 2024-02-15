@@ -121,6 +121,7 @@ export default function UserProfile() {
                                 name="birthday"
                                 className="editDateInput"
                                 value={birthday}
+                                required
                                 onChange={(e) => setBirthday(e.target.value)}
                             />
                         </label>
