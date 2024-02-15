@@ -162,6 +162,29 @@ body {
   margin-bottom: 30px;
 }
 
+.gameOverCont {
+  margin-top: 100px;
+  padding: 20px;
+  margin-bottom: 30px;
+  background-color: #263864;
+  width: 500px;
+  border-radius: 25px;
+}
+
+.gameOverCont h2,
+.gameOverCont p {
+  color: white;
+  margin-top: 20px;
+}
+
+.gameOverCont button {
+  width: 200px;
+  display: inline-block;
+  margin: 20px 10px;
+
+}
+
+
 .profileFormContainer button,
 .pwdFormContainer button {
   width: 200px;

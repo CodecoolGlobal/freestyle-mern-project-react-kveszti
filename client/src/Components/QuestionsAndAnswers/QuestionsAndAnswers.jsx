@@ -4,7 +4,7 @@ import he from "he";
 import { UserObjectContext } from "../../App";
 import GameOver from "../GameOver/GameOver";
 
-export default function QuestionsAndAnswers({ questionsArray }) {
+export default function QuestionsAndAnswers({ questionsArray, setIsPlaying }) {
   const { userObj, setUserObj } = useContext(UserObjectContext);
   let correctAnswerSound = new Audio('correctChime.mp3');
   let incorrectAnswerSound = new Audio('incorrectChime.mp3');
@@ -135,6 +135,6 @@ export default function QuestionsAndAnswers({ questionsArray }) {
       </div></>
     })}
     </div>
-  </div> : <GameOver totalPoints={totalPoints} />)
+  </div> : <GameOver totalPoints={totalPoints} setIsPlaying={setIsPlaying} setIsGameOver={setIsGameOver} />)
 
 }

@@ -71,7 +71,7 @@ export default function PlayMode() {
   useEffect(() => { console.log(selectedCat); console.log(selectedDiff) }, [selectedCat, selectedDiff])
 
   return (<>
-    {isPlaying ? <QuestionsAndAnswers questionsArray={questionsArray} /> :
+    {isPlaying ? <QuestionsAndAnswers questionsArray={questionsArray} setIsPlaying={setIsPlaying} /> :
       <div className="optionsContainer">
         <h2 className="diffLabel">Difficulty</h2>
         <select name="difficulty" className="difficultyDrop" onChange={(e) => setSelectedDiff(e.target.value)}>
