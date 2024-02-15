@@ -190,7 +190,6 @@ export default function UserProfile() {
                                 <button className="dangerBtn" onClick={() => setEditor("delete")}>Delete profile</button>
                             </div>
                             <h2>stats under construction</h2>
-                            <Link to="/"><button>Play</button></Link>
                         </div>}
         </div>
     )
