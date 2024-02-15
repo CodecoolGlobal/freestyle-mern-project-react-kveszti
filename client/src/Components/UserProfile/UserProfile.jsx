@@ -38,6 +38,7 @@ export default function UserProfile() {
                 if (response.success) {
                     setSuccess(true);
                     setUserObj(response.data);
+
                 }
             })
             .catch(error => {

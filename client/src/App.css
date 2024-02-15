@@ -243,6 +243,7 @@ body {
   margin-bottom: 20px;
   background-color: rgb(174, 228, 255, 0.8);
   width: 500px;
+  color: #263864;
 }
 
 .profileTitle {
@@ -295,6 +296,7 @@ body {
 .formContainerRegister button,
 .formContainerRegister h2 {
   margin: 20px;
+  color: white;
 }
 
 .logInLabel,

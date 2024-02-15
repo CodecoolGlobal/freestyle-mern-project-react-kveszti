@@ -12,6 +12,7 @@ export default function Header({ validUser, setValidUser }) {
     function handleLogOut() {
         setActiveItem(null);
         setValidUser(false);
+        navigate("/")
     }
     return (
         <header>
