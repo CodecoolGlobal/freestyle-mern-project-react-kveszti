@@ -7,6 +7,7 @@ import UserProfile from './Components/UserProfile/UserProfile.jsx';
 import MainPage from './Pages/MainPage/MainPage.jsx';
 import UnderConstruction from './Pages/UnderConstruction/UnderConstruction.jsx';
 import PlayMode from './Pages/PlayMode/PlayMode.jsx';
+import Settings from './Pages/Settings/Settings.jsx';
 
 import { Layout } from './Pages/Layout/Layout.jsx'
 
@@ -42,6 +43,7 @@ function App() {
                 <Route path='/login' element={<Login />}></Route>
                 <Route path='/' element={<MainPage />}></Route>
                 <Route path='/profile' element={<UserProfile />}></Route>
+                <Route path='/settings' element={<Settings />}></Route >
                 <Route path='/underconstruction' element={<UnderConstruction />}></Route>
                 <Route path='/play' element={<PlayMode />}></Route>
               </Route>

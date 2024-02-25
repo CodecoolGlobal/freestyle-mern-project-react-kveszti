@@ -26,7 +26,7 @@ export default function Header({ validUser, setValidUser }) {
 
                     <p className={`navHistory ${activeItem === "history" ? "active" : ""}`} onClick={() => handleClick("history", "/underconstruction")}>History</p>
                     <p className={`navMyStats ${activeItem === "my-stats" ? "active" : ""}`} onClick={() => handleClick("my-stats", "/underconstruction")}>My stats</p>
-                    <p className={`navSettings ${activeItem === "settings" ? "active" : ""}`} onClick={() => handleClick("settings", "/underconstruction")}>Settings</p>
+                    <p className={`navSettings ${activeItem === "settings" ? "active" : ""}`} onClick={() => handleClick("settings", "/settings")}>Settings</p>
                     <p className={`navProfile ${activeItem === "profile" ? "active" : ""}`} onClick={() => handleClick("profile", "/profile")}>Profile</p>
                     <button className="navLoginLogout" onClick={() => handleLogOut()}>Log out</button>
 

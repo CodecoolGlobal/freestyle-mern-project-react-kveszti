@@ -156,7 +156,7 @@
 }
 
 body {
-  background-image: linear-gradient(to bottom right, #033495, #AEE4FF);
+  background-image: linear-gradient(to bottom right, #18A5A7, #BFFFC7);
 }
 
 .blueBodyBackground {
@@ -234,6 +234,35 @@ body {
   border-radius: 25px;
   padding: 10px;
   font-size: medium;
+}
+
+.blueColorPicker,
+.greenColorPicker,
+.pinkColorPicker {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: white;
+  border-width: 3px;
+  border-style: solid;
+  margin: 20px;
+}
+
+.colorPickerCont {
+  display: flex;
+  flex-direction: row;
+}
+
+.blueColorPicker {
+  background-image: linear-gradient(to bottom right, #033495, #AEE4FF);
+}
+
+.greenColorPicker {
+  background-image: linear-gradient(to bottom right, #18A5A7, #BFFFC7);
+}
+
+.pinkColorPicker {
+  background-image: linear-gradient(to bottom right, #D74177, #FFE98A);
 }
 
 .profileEditLabel {
