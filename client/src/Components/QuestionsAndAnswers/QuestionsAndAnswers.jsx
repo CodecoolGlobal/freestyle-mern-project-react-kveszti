@@ -2,10 +2,12 @@ import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import he from "he";
 import { UserObjectContext } from "../../App";
+import { ColorThemeContext } from "../../App";
 import GameOver from "../GameOver/GameOver";
 
 export default function QuestionsAndAnswers({ questionsArray, setIsPlaying }) {
   const { userObj, setUserObj } = useContext(UserObjectContext);
+  const { colorTheme } = useContext(ColorThemeContext);
   let correctAnswerSound = new Audio('correctChime.mp3');
   let incorrectAnswerSound = new Audio('incorrectChime.mp3');
   const [id, setID] = useState(userObj.userID);
@@ -126,12 +128,12 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying }) {
     }
   }
 
-  return (!isGameOver ? <div className="QAndACont">
-    <div id="question" className="questionCont">{he.decode(questionsArray[questionIndex].question)}</div>
+  return (!isGameOver ? <div className={`QAndACont ${colorTheme.darkContBackground}`}>
+    <div id="question" className={`questionCont ${colorTheme.darkText}`}>{he.decode(questionsArray[questionIndex].question)}</div>
     <div className="answersCont">{allAnswersArray.map((obj, index) => {
       return <><div id={"answer" + index} className="answerCont" onClick={(event) => handleAnswerSelect(obj.isCorrect, event.target)}>
-        <div className="answerIndex"><div className="answerIndexText">{abc[index]}</div></div>
-        <div className="answerText">{obj.text}</div>
+        <div className={`answerIndex ${colorTheme.lightText} ${colorTheme.darkContBackground}`}><div className="answerIndexText">{abc[index]}</div></div>
+        <div className={`answerText ${colorTheme.darkText}`}>{obj.text}</div>
       </div></>
     })}
     </div>

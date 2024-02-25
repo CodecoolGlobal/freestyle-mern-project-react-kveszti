@@ -1,9 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { ColorThemeContext } from "../../App";
+import { useContext } from "react";
 
 export default function Header({ validUser, setValidUser }) {
     const navigate = useNavigate();
     const [activeItem, setActiveItem] = useState(null);
+    const { colorTheme } = useContext(ColorThemeContext);
 
     function handleClick(itemName, whereTo) {
         setActiveItem(itemName);
@@ -16,7 +19,7 @@ export default function Header({ validUser, setValidUser }) {
     }
     return (
         <header>
-            <nav className="navCont">
+            <nav className={`navCont ${colorTheme.darkContBackground}`}>
                 <img src="/QQLogo_noBG.png" className="logo" onClick={() => handleClick(null, "/")}></img>
                 <h2 onClick={() => handleClick(null, "/")} className="navTitle">QuizQuest</h2>
                 {validUser ? <>

@@ -1,13 +1,16 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { ColorThemeContext } from "../../App";
 
 export default function GameOver({ totalPoints, setIsPlaying, setIsGameOver }) {
+    const { colorTheme } = useContext(ColorThemeContext);
 
     function handlePlayAgain() {
         setIsGameOver(false);
         setIsPlaying(false);
     }
 
-    return (<div className="gameOverCont"> {totalPoints > 0 ?
+    return (<div className={`gameOverCont ${colorTheme.darkContBackground}`}> {totalPoints > 0 ?
         <>
             <h2>Congratulations! You earned: {totalPoints} XP</h2>
         </> :

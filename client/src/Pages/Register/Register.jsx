@@ -1,10 +1,12 @@
 
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { ColorThemeContext } from "../../App";
 
 
 
 export default function Register() {
+    const { colorTheme } = useContext(ColorThemeContext);
     const [name, setName] = useState();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
@@ -51,7 +53,7 @@ export default function Register() {
     return (
         <>
             {success === false ?
-                <><div className="formContainerRegister">
+                <><div className={`formContainerRegister ${colorTheme.darkBackground}`}>
                     <form className="signUpForm" onSubmit={handleSubmit}>
                         <label htmlFor="user" className='signUpLabel'>
                             Username:

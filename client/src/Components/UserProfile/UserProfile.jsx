@@ -2,10 +2,12 @@ import { useContext, useState, useEffect } from "react";
 import { UserObjectContext } from "../../App";
 import { ValidUserContext } from "../../App";
 import { Link, useNavigate } from "react-router-dom";
+import { ColorThemeContext } from "../../App";
 
 export default function UserProfile() {
     const { userObj, setUserObj } = useContext(UserObjectContext);
     const { validUser, setValidUser } = useContext(ValidUserContext);
+    const { colorTheme } = useContext(ColorThemeContext);
     const [birthday, setBirthday] = useState(userObj.birthday);
     const [gender, setGender] = useState(userObj.gender);
     const [editor, setEditor] = useState();
@@ -91,7 +93,7 @@ export default function UserProfile() {
     return (
         <div>
             {editor === 'profile' ?
-                <div className="profileFormContainer">
+                <div className={`profileFormContainer ${colorTheme.darkContBackground}`}>
                     <form className="profileEditForm" onSubmit={handleSubmit}>
                         <label htmlFor="user" className='profileEditLabel'>
                             Username:
@@ -139,7 +141,7 @@ export default function UserProfile() {
                     </form>
                     <button className='menuBtn' onClick={() => setEditor("")}>Cancel</button>
                 </div> : editor === 'password' ?
-                    <div className="pwdFormContainer">
+                    <div className={`pwdFormContainer ${colorTheme.darkContBackground}`}>
                         <form className="pwdEditForm" onSubmit={handlePWSubmit}>
                             <label htmlFor="pwdOld" className='profileEditLabel'>
                                 Old password:
@@ -173,8 +175,8 @@ export default function UserProfile() {
                             <button className="menuBtn" onClick={handleDelete}>Yes</button>
                             <button className="menuBtn" onClick={() => setEditor('')}>No</button>
                         </div>}</div> :
-                        <div className="profileCont">
-                            <div className="profileImgCont">
+                        <div className={`profileCont ${colorTheme.darkContBackground}`}>
+                            <div className={`profileImgCont ${colorTheme.lightContBackground}`}>
                                 <p className="profileInitials">{name.charAt(0)}</p>
                             </div>
                             <div className="profileDataCont">
@@ -183,7 +185,7 @@ export default function UserProfile() {
                             <div className="profileDataCont">
                                 <p className="profileData">{email}</p>
                             </div>
-                            <div className="profileThemeDivider">Personal info</div>
+                            <div className={`profileThemeDivider ${colorTheme.lightOpacBackground} ${colorTheme.darkText}`}>Personal info</div>
                             <div className="profileDataCont">
                                 <h4 className="profileTitle">Birthday:</h4>
                                 <h4 className="profileData">{birthday.split('T')[0]}</h4>
@@ -192,7 +194,7 @@ export default function UserProfile() {
                                 <h4 className="profileTitle">Gender:</h4>
                                 <h4 className="profileData">{gender}</h4>
                             </div>
-                            <div className="profileThemeDivider">Control panel</div>
+                            <div className={`profileThemeDivider ${colorTheme.lightOpacBackground} ${colorTheme.darkText}`}>Control panel</div>
                             <div className="btnContProfile">
                                 <button className='menuBtn' onClick={() => setEditor("profile")}>Edit Profile</button>
                                 <button className='menuBtn' onClick={() => setEditor("password")}>Change password</button>

@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import QuestionsAndAnswers from "../../Components/QuestionsAndAnswers/QuestionsAndAnswers";
+import { ColorThemeContext } from "../../App";
 
 export default function PlayMode() {
+  const { colorTheme } = useContext(ColorThemeContext);
   const [isPlaying, setIsPlaying] = useState(false);
   const [questionsArray, setQuestionsArray] = useState(null);
   const [selectedDiff, setSelectedDiff] = useState('easy');
@@ -72,7 +74,7 @@ export default function PlayMode() {
 
   return (<>
     {isPlaying ? <QuestionsAndAnswers questionsArray={questionsArray} setIsPlaying={setIsPlaying} /> :
-      <div className="optionsContainer">
+      <div className={`optionsContainer ${colorTheme.darkContBackground}`}>
         <h2 className="diffLabel">Difficulty</h2>
         <select name="difficulty" className="difficultyDrop" onChange={(e) => setSelectedDiff(e.target.value)}>
           {difficultyArray.map(str => { return <option key={str} className="difficultyOption" value={str !== 'Any' ? str.toLowerCase() : str} >{str}</option> })}

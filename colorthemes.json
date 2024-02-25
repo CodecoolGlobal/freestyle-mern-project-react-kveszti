@@ -1,0 +1,25 @@
+[ //blue
+  {
+    "darkContBackground": "darkBlueBackground",
+    "lightContBackground": "lightBlueBackground",
+    "lightText": "lightBlueText",
+    "darkText": "darkBlueText",
+    "lightOpacBackground": "lightBlueOpacBackground",
+  },
+  //green
+  {
+    "darkContBackground": "darkGreenBackground",
+    "lightContBackground": "lightGreenBackground",
+    "lightText": "lightGreenText",
+    "darkText": "darkGreenText",
+    "lightOpacBackground": "lightGreenOpacBackground",
+  },
+  //pink
+  {
+    "darkContBackground": "darkPinkBackground",
+    "lightContBackground": "lightPinkBackground",
+    "lightText": "lightPinkText",
+    "darkText": "darkPinkText",
+    "lightOpacBackground": "lightPinkOpacBackground",
+  }
+]
