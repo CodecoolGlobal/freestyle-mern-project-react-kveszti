@@ -89,7 +89,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying }) {
       correctAnswerSound.play();
       const difficulty = questionsArray[questionIndex].difficulty;
       const category = he.decode(questionsArray[questionIndex].category);
-      let points = difficulty === 'easy' ? 1 : difficulty === 'medium' ? 2 : 3;
+      let points = difficulty === 'easy' ? 2 : difficulty === 'medium' ? 4 : 6;
       setTotalPoints((prevPoints) => prevPoints + points);
       const data = { name: category, points: points }
       fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', data)
