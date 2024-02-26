@@ -177,7 +177,7 @@ export default function UserProfile() {
                         </div>}</div> :
                         <div className={`profileCont ${colorTheme.darkContBackground}`}>
                             <div className={`profileImgCont ${colorTheme.lightContBackground}`}>
-                                <p className="profileInitials">{name.charAt(0)}</p>
+                                <p className={`profileInitials ${colorTheme.darkText}`}>{name.charAt(0)}</p>
                             </div>
                             <div className="profileDataCont">
                                 <h2 className="profileData">{name}</h2>
