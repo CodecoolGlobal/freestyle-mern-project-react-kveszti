@@ -18,7 +18,9 @@ export const ColorThemeContext = createContext({
   "lightContBackground": "lightGreenBackground",
   "lightText": "lightGreenText",
   "darkText": "darkGreenText",
-  "lightOpacBackground": "lightGreenOpacBackground"
+  "lightOpacBackground": "lightGreenOpacBackground",
+  "progressDonutPath": "#18A5A7",
+  "progressDonutTrail": "#BFFFC7",
 })
 
 function App() {
@@ -29,7 +31,9 @@ function App() {
     "lightContBackground": "lightGreenBackground",
     "lightText": "lightGreenText",
     "darkText": "darkGreenText",
-    "lightOpacBackground": "lightGreenOpacBackground"
+    "lightOpacBackground": "lightGreenOpacBackground",
+    "progressDonutPath": "#18A5A7",
+    "progressDonutTrail": "#BFFFC7",
   })
 
   return (
