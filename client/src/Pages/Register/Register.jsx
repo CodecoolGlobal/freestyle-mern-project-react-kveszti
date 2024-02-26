@@ -53,7 +53,7 @@ export default function Register() {
     return (
         <>
             {success === false ?
-                <><div className={`formContainerRegister ${colorTheme.darkBackground}`}>
+                <><div className={`formContainerRegister ${colorTheme.darkContBackground}`}>
                     <form className="signUpForm" onSubmit={handleSubmit}>
                         <label htmlFor="user" className='signUpLabel'>
                             Username:
