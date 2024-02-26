@@ -65,6 +65,11 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
     setAllAnswers([...objectifiedArrayIncorrect, correctAnswerObject]);
 
     setAllAnswersArray(shuffleArray(allAnswers))
+
+  }, [questionIndex])
+
+  useEffect(() => {
+
     if (gameMode !== "zen") {
       var interval = setInterval(() => {
         const correctAnswerIndex = allAnswersArray.findIndex(answer => answer.isCorrect === true);
@@ -82,7 +87,8 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
     }
     return () => clearInterval(interval);
 
-  }, [questionIndex])
+  }, [allAnswersArray])
+
 
 
   function shuffleArray(array) {
