@@ -45,12 +45,50 @@
   font-size: 30px;
   text-align: center;
   color: white;
-  background-color: #263864;
   border-radius: 25px;
   height: 250px;
   position: relative;
   width: 360px;
   margin: auto
+}
+
+.darkBlueBackground {
+  background-color: #263864;
+}
+
+.darkPinkBackground {
+  background-color: #974C79;
+}
+
+.darkGreenBackground {
+  background-color: #187072;
+}
+
+.darkBlueBackground p.active {
+  color: #263864;
+  font-weight: bold;
+  background-color: #AEE4FF;
+  padding: 8px;
+  border-radius: 30px;
+  width: 150px;
+}
+
+.darkGreenBackground p.active {
+  color: #187072;
+  font-weight: bold;
+  background-color: #BFFFC7;
+  padding: 8px;
+  border-radius: 30px;
+  width: 150px;
+}
+
+.darkPinkBackground p.active {
+  color: #974C79;
+  font-weight: bold;
+  background-color: #FFE98A;
+  padding: 8px;
+  border-radius: 30px;
+  width: 150px;
 }
 
 .gameModeSummary {
@@ -76,7 +114,6 @@
 
 .navCont {
   width: 100%;
-  background-color: #263864;
   color: white;
   padding: 0px;
   top: 0;
@@ -111,14 +148,7 @@
   transform: scale(1.2);
 }
 
-.navCont p.active {
-  color: #263864;
-  font-weight: bold;
-  background-color: #AEE4FF;
-  padding: 8px;
-  border-radius: 30px;
-  width: 150px;
-}
+
 
 .goToRegister {
   margin: 0 auto;
@@ -126,7 +156,7 @@
 }
 
 body {
-  background-image: linear-gradient(to bottom right, #033495, #AEE4FF);
+  background-image: linear-gradient(to bottom right, #18A5A7, #BFFFC7);
 }
 
 .blueBodyBackground {
@@ -150,7 +180,6 @@ body {
   display: flex;
   flex-direction: column;
   margin-top: 100px;
-  background-color: #263864;
   width: 500px;
   border-radius: 25px;
 }
@@ -166,7 +195,6 @@ body {
   margin-top: 100px;
   padding: 20px;
   margin-bottom: 30px;
-  background-color: #263864;
   width: 500px;
   border-radius: 25px;
 }
@@ -208,6 +236,35 @@ body {
   font-size: medium;
 }
 
+.blueColorPicker,
+.greenColorPicker,
+.pinkColorPicker {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: white;
+  border-width: 3px;
+  border-style: solid;
+  margin: 20px;
+}
+
+.colorPickerCont {
+  display: flex;
+  flex-direction: row;
+}
+
+.blueColorPicker {
+  background-image: linear-gradient(to bottom right, #033495, #AEE4FF);
+}
+
+.greenColorPicker {
+  background-image: linear-gradient(to bottom right, #18A5A7, #BFFFC7);
+}
+
+.pinkColorPicker {
+  background-image: linear-gradient(to bottom right, #D74177, #FFE98A);
+}
+
 .profileEditLabel {
   color: white;
   font-family: "LuckiestGuy";
@@ -227,7 +284,6 @@ body {
 }
 
 .profileImgCont {
-  background-color: #AEE4FF;
   border-radius: 50%;
   width: 80px;
   height: 80px;
@@ -237,13 +293,62 @@ body {
   vertical-align: middle;
 }
 
+.lightBlueBackground {
+  background-color: #AEE4FF;
+}
+
+.lightPinkBackground {
+  background-color: #FFE98A;
+}
+
+.lightGreenBackground {
+  background-color: #BFFFC7;
+}
+
 .profileThemeDivider {
   margin: auto;
   margin-top: 20px;
   margin-bottom: 20px;
-  background-color: rgb(174, 228, 255, 0.8);
+
   width: 500px;
   color: #263864;
+}
+
+.lightBlueText {
+  color: #AEE4FF;
+}
+
+.lightPinkText {
+  color: #FFE98A;
+}
+
+.lightGreenText {
+  color: #BFFFC7;
+}
+
+.darkBlueText {
+  color: #263864;
+}
+
+.darkPinkText {
+  color: #974C79;
+}
+
+.darkGreenText {
+  color: #187072;
+}
+
+.lightBlueOpacBackground {
+  background-color: rgb(174, 228, 255, 0.8);
+}
+
+.lightPinkOpacBackground {
+  background-color: rgb(255, 233, 138, 0.8);
+}
+
+.lightGreenOpacBackground {
+  background-color: rgb(191, 255, 199, 0.8);
+  color: #187072;
 }
 
 .profileTitle {
@@ -400,14 +505,12 @@ body {
   margin: 30px;
   padding: 30px;
   border-radius: 25px;
-  color: #263864;
   font-weight: bold;
 }
 
 .QAndACont {
   display: flex;
   flex-direction: column;
-  background-color: #263864;
   margin-top: 5%;
   border-radius: 25px;
   width: 850px;
@@ -426,15 +529,12 @@ body {
 .answerText {
   display: inline-block;
   margin: auto 20px;
-  color: #263864;
 }
 
 .answerIndex {
   height: 35px;
   width: 35px;
   border-radius: 50%;
-  background-color: #263864;
-  color: #AEE4FF;
   padding: auto;
   align-items: center;
   vertical-align: middle;
@@ -448,9 +548,6 @@ body {
   position: fixed;
   bottom: 0;
   right: 100px;
-  color: #033495;
-  font-style: italic;
-
 }
 
 .footerImg {

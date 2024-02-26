@@ -2,11 +2,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import { ValidUserContext } from "../../App";
 import { UserObjectContext } from "../../App";
+import { ColorThemeContext } from "../../App";
 
 export default function Login() {
     const Navigate = useNavigate();
     const { validUser, setValidUser } = useContext(ValidUserContext);
     const { userObj, setUserObj } = useContext(UserObjectContext);
+    const { colorTheme } = useContext(ColorThemeContext);
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
 
@@ -38,7 +40,7 @@ export default function Login() {
     }
 
     return (<>
-        <div className="formContainerLogin">
+        <div className={`formContainerLogin ${colorTheme.darkContBackground}`}>
             <form className="logInForm" onSubmit={handleSubmitLogin}>
                 <label htmlFor="email" className='logInLabel'>
                     E-mail:
