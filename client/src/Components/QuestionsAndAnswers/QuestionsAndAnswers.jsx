@@ -78,6 +78,23 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
         const correctAnswerIndex = allAnswersArray.findIndex(answer => answer.isCorrect === true);
         const correctAnswerDiv = document.getElementById(`answer${correctAnswerIndex}`);
         correctAnswerDiv.classList.add("wrong-answer");
+
+        const difficulty = questionsArray[questionIndex].difficulty;
+        const category = he.decode(questionsArray[questionIndex].category);
+        let points;
+        if (gameMode === 'allIn') {
+          points = difficulty === 'easy' ? 2 : difficulty === 'medium' ? 4 : 6;
+        }
+        setTotalPoints((prevPoints) => prevPoints >= points ? prevPoints - points : 0);
+        const data = { name: category, points: points }
+        fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', data)
+          .then(response => {
+            console.log(response);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+
         setTimeout(() => {
           correctAnswerDiv.classList.remove("wrong-answer");
           if (questionIndex < questionsArray.length - 1) {
@@ -130,7 +147,14 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
       correctAnswerSound.play();
       const difficulty = questionsArray[questionIndex].difficulty;
       const category = he.decode(questionsArray[questionIndex].category);
-      let points = difficulty === 'easy' ? 2 : difficulty === 'medium' ? 4 : 6;
+      let points;
+      if (gameMode === 'sprint' || gameMode === "zen") {
+        points = difficulty === 'easy' ? 2 : difficulty === 'medium' ? 4 : 6;
+      } else if (gameMode !== 'allIn') {
+        points = difficulty === 'easy' ? 4 : difficulty === 'medium' ? 8 : 12;
+      } else if (gameMode !== '5050') {
+        points = difficulty === 'easy' ? 1 : difficulty === 'medium' ? 2 : 3;
+      }
       setTotalPoints((prevPoints) => prevPoints + points);
       const data = { name: category, points: points }
       fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', data)
@@ -157,7 +181,21 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
       const correctAnswerDiv = document.getElementById(`answer${correctAnswerIndex}`);
       console.log(correctAnswerDiv)
       correctAnswerDiv.classList.add("correct-answer");
-
+      const difficulty = questionsArray[questionIndex].difficulty;
+      const category = he.decode(questionsArray[questionIndex].category);
+      let points;
+      if (gameMode === 'allIn') {
+        points = difficulty === 'easy' ? 2 : difficulty === 'medium' ? 4 : 6;
+      }
+      setTotalPoints((prevPoints) => prevPoints >= points ? prevPoints - points : 0);
+      const data = { name: category, points: points }
+      fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', data)
+        .then(response => {
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
       setTimeout(() => {
         answerDiv.classList.remove("wrong-answer");
         correctAnswerDiv.classList.remove("correct-answer");
