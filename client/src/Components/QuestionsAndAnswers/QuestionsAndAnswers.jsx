@@ -8,8 +8,8 @@ import GameOver from "../GameOver/GameOver";
 export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, gameMode }) {
   const { userObj, setUserObj } = useContext(UserObjectContext);
   const { colorTheme } = useContext(ColorThemeContext);
-  let correctAnswerSound = new Audio('correctChime.mp3');
-  let incorrectAnswerSound = new Audio('incorrectChime.mp3');
+  let correctAnswerSound = new Audio('/correctChime.mp3');
+  let incorrectAnswerSound = new Audio('/incorrectChime.mp3');
   const [id, setID] = useState(userObj.userID);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [allAnswersArray, setAllAnswersArray] = useState([]);
@@ -18,7 +18,10 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
 
   const [allAnswers, setAllAnswers] = useState([])
   const [totalPoints, setTotalPoints] = useState(0);
-  const [isGameOver, setIsGameOver] = useState(false)
+  const [isGameOver, setIsGameOver] = useState(false);
+
+  const [barWidth, setBarWidth] = useState(100);
+  const [answerSelected, setAnswerSelected] = useState(false);
 
   const navigate = useNavigate();
   const abc = ["A", "B", "C", "D"];
@@ -79,15 +82,28 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
           correctAnswerDiv.classList.remove("wrong-answer");
           if (questionIndex < questionsArray.length - 1) {
             setQuestionIndex(prevIndex => prevIndex + 1);
+            setBarWidth(100);
           } else {
             setIsGameOver(true);
           }
         }, 2000);
-      }, 1000 * 5);
+      }, 1000 * 10);
     }
     return () => clearInterval(interval);
 
   }, [allAnswersArray])
+
+  useEffect(() => {
+    if (gameMode !== "zen") {
+      var intervalBar = setInterval(() => {
+        if (!answerSelected) {
+          setBarWidth(prev => Math.max(prev - 1, 0));
+        }
+      }, 100);
+    }
+    return () => clearInterval(intervalBar);
+  }, [questionIndex, allAnswersArray, gameMode]);
+
 
 
 
@@ -102,6 +118,8 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
 
   function handleAnswerSelect(isCorrect, eventTarget) {
     //clearInterval();
+    setAnswerSelected(true);
+
     while (eventTarget && !eventTarget.classList.contains("answerCont")) {
       eventTarget = eventTarget.parentElement;
     }
@@ -126,6 +144,8 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
         answerDiv.classList.remove("correct-answer-blink");
         if (questionIndex < questionsArray.length - 1) {
           setQuestionIndex(prevIndex => prevIndex + 1);
+          setBarWidth(100);
+          setAnswerSelected(false);
         } else {
           setIsGameOver(true);
         }
@@ -143,6 +163,8 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
         correctAnswerDiv.classList.remove("correct-answer");
         if (questionIndex < questionsArray.length - 1) {
           setQuestionIndex(prevIndex => prevIndex + 1);
+          setBarWidth(100);
+          setAnswerSelected(false);
         } else {
           setIsGameOver(true);
         }
@@ -151,15 +173,16 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
     }
   }
 
-  return (!isGameOver ? <div className={`QAndACont ${colorTheme.darkContBackground}`}>
-    <div id="question" className={`questionCont ${colorTheme.darkText}`}>{he.decode(questionsArray[questionIndex].question)}</div>
-    <div className="answersCont">{allAnswersArray.map((obj, index) => {
-      return <><div id={"answer" + index} className="answerCont" onClick={(event) => handleAnswerSelect(obj.isCorrect, event.target)}>
-        <div className={`answerIndex ${colorTheme.lightText} ${colorTheme.darkContBackground}`}><div className="answerIndexText">{abc[index]}</div></div>
-        <div className={`answerText ${colorTheme.darkText}`}>{obj.text}</div>
-      </div></>
-    })}
-    </div>
-  </div> : <GameOver totalPoints={totalPoints} setIsPlaying={setIsPlaying} setIsGameOver={setIsGameOver} />)
+  return (!isGameOver ? <div className="topMargin"> {gameMode === "zen" ? <></> : isGameOver === false ? <div className="timeBarCont"><div className="timeBar" style={{ width: `${barWidth}%` }}></div></div> : <></>}
+    <div className={`QAndACont ${colorTheme.darkContBackground}`}>
+      <div id="question" className={`questionCont ${colorTheme.darkText}`}>{he.decode(questionsArray[questionIndex].question)}</div>
+      <div className="answersCont">{allAnswersArray.map((obj, index) => {
+        return <><div id={"answer" + index} className="answerCont" onClick={(event) => handleAnswerSelect(obj.isCorrect, event.target)}>
+          <div className={`answerIndex ${colorTheme.lightText} ${colorTheme.darkContBackground}`}><div className="answerIndexText">{abc[index]}</div></div>
+          <div className={`answerText ${colorTheme.darkText}`}>{obj.text}</div>
+        </div></>
+      })}
+      </div>
+    </div></div> : <GameOver totalPoints={totalPoints} setIsPlaying={setIsPlaying} setIsGameOver={setIsGameOver} />)
 
 }
