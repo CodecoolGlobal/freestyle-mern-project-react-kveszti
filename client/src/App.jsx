@@ -45,7 +45,7 @@ function App() {
                 <Route path='/profile' element={<UserProfile />}></Route>
                 <Route path='/settings' element={<Settings />}></Route >
                 <Route path='/underconstruction' element={<UnderConstruction />}></Route>
-                <Route path='/play' element={<PlayMode />}></Route>
+                <Route path='/play/:gameMode' element={<PlayMode />}></Route>
               </Route>
             </Routes>
           </BrowserRouter >

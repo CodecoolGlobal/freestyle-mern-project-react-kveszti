@@ -11,22 +11,22 @@ export default function MainPage() {
         {
             title: "Sprint",
             summary: "10 questions, 10 seconds each - and your tempo counts!",
-            path: "/underconstruction"
+            path: "/play/sprint"
         },
         {
             title: "50:50",
             summary: "10 true or false questions to test your wit... And your luck!",
-            path: "/underconstruction"
+            path: "/play/5050"
         },
         {
             title: "Zen",
             summary: "15 questions, no timer! Keep calm and quiz on!",
-            path: "/play"
+            path: "/play/zen"
         },
         {
             title: "All in",
             summary: "10 questions with new rules - good answers are worth double points, but wrong answers make you lose points!",
-            path: "/underconstruction"
+            path: "/play/allIn"
         }
     ]
     return (validUser ?

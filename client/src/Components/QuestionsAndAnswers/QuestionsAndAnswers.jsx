@@ -5,7 +5,7 @@ import { UserObjectContext } from "../../App";
 import { ColorThemeContext } from "../../App";
 import GameOver from "../GameOver/GameOver";
 
-export default function QuestionsAndAnswers({ questionsArray, setIsPlaying }) {
+export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, gameMode }) {
   const { userObj, setUserObj } = useContext(UserObjectContext);
   const { colorTheme } = useContext(ColorThemeContext);
   let correctAnswerSound = new Audio('correctChime.mp3');
@@ -46,6 +46,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying }) {
       }))
       setCorrectAnswerObject({ text: questionsArray[questionIndex].correct_answer, isCorrect: true })
 
+
     } catch (err) {
       console.error(err)
     }
@@ -64,6 +65,23 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying }) {
     setAllAnswers([...objectifiedArrayIncorrect, correctAnswerObject]);
 
     setAllAnswersArray(shuffleArray(allAnswers))
+    if (gameMode !== "zen") {
+      var interval = setInterval(() => {
+        const correctAnswerIndex = allAnswersArray.findIndex(answer => answer.isCorrect === true);
+        const correctAnswerDiv = document.getElementById(`answer${correctAnswerIndex}`);
+        correctAnswerDiv.classList.add("wrong-answer");
+        setTimeout(() => {
+          correctAnswerDiv.classList.remove("wrong-answer");
+          if (questionIndex < questionsArray.length - 1) {
+            setQuestionIndex(prevIndex => prevIndex + 1);
+          } else {
+            setIsGameOver(true);
+          }
+        }, 2000);
+      }, 1000 * 5);
+    }
+    return () => clearInterval(interval);
+
   }, [questionIndex])
 
 
@@ -77,8 +95,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying }) {
 
 
   function handleAnswerSelect(isCorrect, eventTarget) {
-    //Eszti
-    //
+    //clearInterval();
     while (eventTarget && !eventTarget.classList.contains("answerCont")) {
       eventTarget = eventTarget.parentElement;
     }

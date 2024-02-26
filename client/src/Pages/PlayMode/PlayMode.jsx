@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext } from "react";
+import { useParams } from "react-router-dom";
 import QuestionsAndAnswers from "../../Components/QuestionsAndAnswers/QuestionsAndAnswers";
 import { ColorThemeContext } from "../../App";
 
@@ -8,6 +9,9 @@ export default function PlayMode() {
   const [questionsArray, setQuestionsArray] = useState(null);
   const [selectedDiff, setSelectedDiff] = useState('easy');
   const [selectedCat, setSelectedCat] = useState('Any');
+
+
+  const { gameMode } = useParams()
 
   const categoryObj = [
     { id: 'Any', category: 'Any Category' },
@@ -28,12 +32,12 @@ export default function PlayMode() {
   ]
   const difficultyArray = ['Easy', 'Medium', 'Hard', 'Any'];
 
-  function generateLink(category, difficulty) {
-
-    const APILinkStart = `https://opentdb.com/api.php?amount=15`;
+  function generateLink(category, difficulty, quantity, type) {
+    //type can be "boolean" or "multiple"
+    const APILinkStart = `https://opentdb.com/api.php?amount=${quantity}`;
     const APILinkCategory = `&category=${category}`;
     const APILinkDifficulty = `&difficulty=${difficulty}`;
-    const APILinkType = `&type=multiple`;
+    const APILinkType = `&type=${type}`;
 
     if (category === "Any" && difficulty === "Any") {
       return APILinkStart + APILinkType;
@@ -61,19 +65,23 @@ export default function PlayMode() {
   }
 
   async function handleSelectedCategory() {
-    console.log(generateLink(selectedCat, selectedDiff))
-    await fetchQuestions(generateLink(selectedCat, selectedDiff));
+    //console.log(generateLink(selectedCat, selectedDiff))
+    if (gameMode === "sprint" || gameMode === "allIn") {
+      await fetchQuestions(generateLink(selectedCat, selectedDiff, "10", "multiple"));
+    }
+    if (gameMode === "zen") {
+      await fetchQuestions(generateLink(selectedCat, selectedDiff, "15", "multiple"));
+    }
+    if (gameMode === "5050") {
+      await fetchQuestions(generateLink(selectedCat, selectedDiff, "10", "boolean"));
+    }
     setIsPlaying(true);
-    //Eszti
-    //
-    //Zsani
-    //
-
   }
-  useEffect(() => { console.log(selectedCat); console.log(selectedDiff) }, [selectedCat, selectedDiff])
+  //useEffect(() => { console.log(selectedCat); console.log(selectedDiff) }, [selectedCat, selectedDiff]);
+  useEffect(() => { console.log(gameMode) }, [gameMode]);
 
   return (<>
-    {isPlaying ? <QuestionsAndAnswers questionsArray={questionsArray} setIsPlaying={setIsPlaying} /> :
+    {isPlaying ? <QuestionsAndAnswers questionsArray={questionsArray} setIsPlaying={setIsPlaying} gameMode={gameMode} /> :
       <div className={`optionsContainer ${colorTheme.darkContBackground}`}>
         <h2 className="diffLabel">Difficulty</h2>
         <select name="difficulty" className="difficultyDrop" onChange={(e) => setSelectedDiff(e.target.value)}>
