@@ -12,7 +12,9 @@ export default function Settings() {
       "lightText": "lightBlueText",
       "darkText": "darkBlueText",
       "lightOpacBackground": "lightBlueOpacBackground",
-      "bodyBackground": "linear-gradient(to bottom right, #033495, #AEE4FF)"
+      "bodyBackground": "linear-gradient(to bottom right, #033495, #AEE4FF)",
+      "progressDonutPath": "#033495",
+      "progressDonutTrail": "#AEE4FF",
     },
     green: {
       "darkContBackground": "darkGreenBackground",
@@ -21,6 +23,8 @@ export default function Settings() {
       "darkText": "darkGreenText",
       "lightOpacBackground": "lightGreenOpacBackground",
       "bodyBackground": "linear-gradient(to bottom right, #18A5A7, #BFFFC7)",
+      "progressDonutPath": "#18A5A7",
+      "progressDonutTrail": "#BFFFC7",
     },
     pink: {
       "darkContBackground": "darkPinkBackground",
@@ -29,6 +33,8 @@ export default function Settings() {
       "darkText": "darkPinkText",
       "lightOpacBackground": "lightPinkOpacBackground",
       "bodyBackground": "linear-gradient(to bottom right, #D74177, #FFE98A)",
+      "progressDonutPath": "#D74177",
+      "progressDonutTrail": "#FFE98A",
     }
   }
 

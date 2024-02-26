@@ -149,6 +149,24 @@ app.patch("/api/users/id/:id/stats", async (req, res) => {
 })
 
 
+app.get("/api/users/id/:id/stats", async (req, res) => {
+  const id = req.params.id;
+  console.log(id)
+  try {
+    let userStats = await Stats.findOne({ userID: id });
+    if (!userStats) {
+      return res.status(404).json({ success: false, error: 'User not found' });
+    }
+    console.log(userStats)
+    res.status(200).json({ success: true, user: userStats });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: 'Failed to get user' });
+  }
+})
+
+
+
 app.delete("/api/users/edit/id/:id", async (req, res) => {
   const id = req.params.id;
   try {

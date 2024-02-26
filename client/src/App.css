@@ -197,10 +197,11 @@ body {
   margin-bottom: 30px;
   width: 500px;
   border-radius: 25px;
+  display: block;
+  align-content: center;
 }
 
-.gameOverCont h2,
-.gameOverCont p {
+.gameOverCont h2 {
   color: white;
   margin-top: 20px;
 }
@@ -610,4 +611,19 @@ body {
   height: 100%;
   background-color: #5ADD87;
   transition: width 0.1s linear
+}
+
+.progressCont {
+  display: block;
+  width: 30%;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.donutTxt {
+  margin-top: 0;
+}
+
+.gameOverInfo {
+  margin-top: 20px;
 }
