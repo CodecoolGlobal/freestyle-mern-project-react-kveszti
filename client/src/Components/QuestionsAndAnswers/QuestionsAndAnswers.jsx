@@ -23,7 +23,6 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
   const [barWidth, setBarWidth] = useState(100);
   const [answerSelected, setAnswerSelected] = useState(false);
 
-  const [longestGoodAnswerStreak, setLongestGoodAnswerStreak] = useState(0);
   const [currentStreak, setCurrentStreak] = useState(0);
 
   const [gameId, setGameId] = useState(null);
@@ -75,6 +74,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
 
     if (gameMode !== "zen" && gameId) {
       var interval = setInterval(() => {
+        setCurrentStreak(0);
         const correctAnswerIndex = allAnswersArray.findIndex(answer => answer.isCorrect === true);
         const correctAnswerDiv = document.getElementById(`answer${correctAnswerIndex}`);
         correctAnswerDiv.classList.add("wrong-answer");
@@ -145,6 +145,8 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
     return array;
   }
 
+  useEffect(() => { console.log(currentStreak) }, [currentStreak])
+
   function handleAnswerSelect(isCorrect, eventTarget) {
     //clearInterval();
     setAnswerSelected(true);
@@ -166,7 +168,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
 
 
     if (isCorrect) {
-      setCurrentStreak((prevNum) => prevNum++)
+      setCurrentStreak((prevNum) => prevNum + 1);
       correctAnswerSound.play();
       setCorrectAnswersNr(prev => prev += 1)
 
@@ -182,10 +184,10 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
       const data = { name: category, points: points, question: currentQuestion }
       fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', data)
         .then(response => {
-          // console.log(response);
+          console.log(response);
         })
         .catch(error => {
-          // console.log(error);
+          console.log(error);
         });
       setTimeout(() => {
         answerDiv.classList.remove("correct-answer-blink");
@@ -198,13 +200,6 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
         }
       }, 2000);
     } else {
-      setLongestGoodAnswerStreak((prevStreak) => {
-        if (prevStreak < currentStreak) {
-          return currentStreak;
-        } else {
-          return prevStreak;
-        }
-      })
       setCurrentStreak(0);
       incorrectAnswerSound.play();
       const correctAnswerIndex = allAnswersArray.findIndex(answer => answer.isCorrect === true);
@@ -224,10 +219,10 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
       const data = { name: category, points: points, question: currentQuestion }
       fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', data)
         .then(response => {
-          // console.log(response);
+          console.log(response);
         })
         .catch(error => {
-          // console.log(error);
+          console.log(error);
         });
       setTimeout(() => {
         answerDiv.classList.remove("wrong-answer");

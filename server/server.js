@@ -15,6 +15,9 @@ mongoose.connect(process.env.CONSTRING).then(app.listen(3000, () => {
   console.log("Server running on: http://localhost:3000")
 })).catch(err => console.log(err));
 
+
+let currentStreak = 0;
+
 app.get("/", (req, res) => {
   res.send("hi")
 });
@@ -45,14 +48,23 @@ app.post("/api/users/all", async (req, res) => {
 })
 
 app.post("/api/gamehistory", async (req, res) => {
+  currentStreak = 0;
   try {
     const { user } = req.body;
     const createdAt = Date.now();
     const finished = false;
+    const gainedPoints = 0;
+    const correctAnswers = 0;
+    const allAnswers = 0;
+    const longestGoodAnswerStreak = 0;
     const gameHistory = new GameHistory({
       user,
       createdAt,
-      finished
+      finished,
+      gainedPoints,
+      correctAnswers,
+      allAnswers,
+      longestGoodAnswerStreak,
     });
     await gameHistory.save();
     res.status(201).json({ success: true, gameHistory });
@@ -135,6 +147,8 @@ app.patch("/api/users/id/:id/stats", async (req, res) => {
     const name = req.body.name;
     const points = req.body.points;
     const { game, question, isCorrect, difficulty, category, "correct_answer": correctAnswer, "incorrect_answers": incorrectAnswers, choosenAnswer } = req.body.question;
+
+
     console.log(req.body)
 
     const questionObject = new Question({
@@ -150,6 +164,29 @@ app.patch("/api/users/id/:id/stats", async (req, res) => {
     });
 
     await questionObject.save();
+
+    const gameHistoryObject = await GameHistory.findOne({ _id: game });
+    if (!gameHistoryObject) {
+      return res.status(404).json({ success: false, error: 'Game history not found' });
+    }
+    gameHistoryObject.questionsAndAnswers.push(questionObject._id);
+    gameHistoryObject.gainedPoints += points;
+    if (isCorrect) {
+      gameHistoryObject.correctAnswers++
+    };
+    gameHistoryObject.allAnswers++;
+
+    if (isCorrect) {
+      currentStreak++;
+      if (gameHistoryObject.longestGoodAnswerStreak < currentStreak) {
+        gameHistoryObject.longestGoodAnswerStreak = currentStreak;
+      }
+    } else {
+      currentStreak = 0;
+    }
+
+
+    await gameHistoryObject.save();
 
     let categoryFound = false;
     if (userStats.stats.length !== 0) {
