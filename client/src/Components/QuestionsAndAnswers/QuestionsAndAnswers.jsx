@@ -117,7 +117,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
             setQuestionIndex(prevIndex => prevIndex + 1);
             setBarWidth(100);
           } else {
-            setIsGameOver(true);
+            fetchData(`/api/gameover/gameID/${gameId}`, '', "PATCH", {}).then(data => setIsGameOver(true));
           }
         }, 2000);
       }, 1000 * 10);
@@ -196,7 +196,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
           setBarWidth(100);
           setAnswerSelected(false);
         } else {
-          setIsGameOver(true);
+          fetchData(`/api/gameover/gameID/${gameId}`, '', "PATCH", {}).then(data => setIsGameOver(true));
         }
       }, 2000);
     } else {
@@ -232,7 +232,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
           setBarWidth(100);
           setAnswerSelected(false);
         } else {
-          setIsGameOver(true);
+          fetchData(`/api/gameover/gameID/${gameId}`, '', "PATCH", {}).then(data => setIsGameOver(true));
         }
       }, 2000);
     }

@@ -10,7 +10,11 @@ const userSchema = new Schema({
   gender: { type: String, required: false },
   createdAt: { type: Date },
   longestStreakThroughGames: Number,
-  longestStreakOneGame: Number
+  longestStreakOneGame: Number,
+  playedGames: [{
+    type: Schema.Types.ObjectId,
+    ref: "GameHistory"
+  }]
 });
 
 
