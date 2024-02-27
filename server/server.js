@@ -17,6 +17,7 @@ mongoose.connect(process.env.CONSTRING).then(app.listen(3000, () => {
 
 
 let currentStreak = 0;
+let currentStreakThroughGames = 0;
 
 app.get("/", (req, res) => {
   res.send("hi")
@@ -26,11 +27,13 @@ app.post("/api/users/all", async (req, res) => {
   try {
     const { username, email, password } = req.body;
     const createdAt = Date.now();
+    const longestStreakThroughGames = 0;
     const user = new User({
       username,
       email,
       password,
       createdAt,
+      longestStreakThroughGames
     });
     await user.save();
     const userID = user._id;
@@ -56,7 +59,8 @@ app.post("/api/gamehistory", async (req, res) => {
     const gainedPoints = 0;
     const correctAnswers = 0;
     const allAnswers = 0;
-    const longestGoodAnswerStreak = 0;
+    const longestStreakThroughGames = 0;
+    const longestStreakOneGame = 0;
     const gameHistory = new GameHistory({
       user,
       createdAt,
@@ -64,7 +68,9 @@ app.post("/api/gamehistory", async (req, res) => {
       gainedPoints,
       correctAnswers,
       allAnswers,
-      longestGoodAnswerStreak,
+      longestStreakThroughGames,
+      longestStreakOneGame
+
     });
     await gameHistory.save();
     res.status(201).json({ success: true, gameHistory });
@@ -138,6 +144,7 @@ app.patch("/api/users/edit/id/:id", async (req, res) => {
 
 app.patch("/api/users/id/:id/stats", async (req, res) => {
   const id = req.params.id;
+  const user = await User.findById(id);
   try {
     let userStats = await Stats.findOne({ userID: id });
     if (!userStats) {
@@ -178,11 +185,19 @@ app.patch("/api/users/id/:id/stats", async (req, res) => {
 
     if (isCorrect) {
       currentStreak++;
+      currentStreakThroughGames++;
       if (gameHistoryObject.longestGoodAnswerStreak < currentStreak) {
         gameHistoryObject.longestGoodAnswerStreak = currentStreak;
       }
+      if (user.longestStreakOneGame < currentStreak) {
+        user.longestStreakOneGame = currentStreak;
+      }
+      if (user.longestStreakThroughGames < currentStreakThroughGames) {
+        user.longestStreakThroughGames = currentStreakThroughGames;
+      }
     } else {
       currentStreak = 0;
+      currentStreakThroughGames = 0;
     }
 
 
