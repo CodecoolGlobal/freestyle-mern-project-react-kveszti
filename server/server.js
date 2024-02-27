@@ -21,23 +21,30 @@ app.post("/api/users/all", async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-
-
-    const createdAt = Date.now();
-    const user = new User({
-      username,
-      email,
-      password,
-      createdAt,
-    });
-    await user.save();
-    const userID = user._id;
-    const userStats = new Stats({
-      username,
-      userID,
-      createdAt
-    })
-    await userStats.save();
+    const emailCheck = await User.findOne({ email: email })
+    const usernameCheck = await User.findOne({ username: username })
+    let user;
+    if (emailCheck) {
+      return res.status(409).json({ success: false, error: 'Email already in use.' });
+    } else if (usernameCheck) {
+      return res.status(409).json({ success: false, error: 'Username already in use.' });
+    } else {
+      const createdAt = Date.now();
+      user = new User({
+        username,
+        email,
+        password,
+        createdAt,
+      });
+      await user.save();
+      const userID = user._id;
+      const userStats = new Stats({
+        username,
+        userID,
+        createdAt
+      })
+      await userStats.save();
+    }
     res.status(201).json({ success: true, user });
   } catch (error) {
     console.error(error);

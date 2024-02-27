@@ -11,6 +11,7 @@ export default function Register() {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [success, setSuccess] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("")
     const Navigate = useNavigate();
     let seconds = 4;
 
@@ -31,8 +32,12 @@ export default function Register() {
         fetchData('/api/users/all', '', 'POST', data)
             .then(response => {
                 console.log(response);
-                if (response) {
+                if (response.success) {
                     setSuccess(true);
+                    setErrorMsg('');
+                } else {
+                    setErrorMsg(prev => prev ? prev + ' ' + response.error : response.error);
+                    setTimeout(() => { setErrorMsg("") }, 2000)
                 }
             })
             .catch(error => {
@@ -53,46 +58,47 @@ export default function Register() {
     return (
         <>
             {success === false ?
-                <><div className={`formContainerRegister ${colorTheme.darkContBackground}`}>
-                    <form className="signUpForm" onSubmit={handleSubmit}>
-                        <label htmlFor="user" className='signUpLabel'>
-                            Username:
-                            <input
-                                type="text"
-                                name="user"
-                                className="signUpTextInput"
-                                maxLength={20}
-                                required
-                                onChange={(e) => setName(e.target.value)}
-                            />
-                        </label>
-                        <label htmlFor="email" className='signUpLabel'>
-                            Email address:
-                            <input
-                                type="email"
-                                name="email"
-                                className="signUpTextInput"
-                                required
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                        </label>
-                        <label htmlFor="pwd" className='signUpLabel'>
-                            Password:
-                            <input type="password"
-                                name="pwd"
-                                className="signUpTextInput"
-                                minLength={6}
-                                maxLength={12}
-                                required
-                                pattern={validPattern}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                        </label>
-                        <p className="pwInst">Password must have: one uppercase, one lowercase, one number, 6-12 characters.</p>
-                        <button className='signUpBtn' key="signUp" type="submit">Sign up</button>
-                    </form>
+                <>
+                    <div className={`formContainerRegister ${colorTheme.darkContBackground}`}><div className="error">{errorMsg}</div>
+                        <form className="signUpForm" onSubmit={handleSubmit}>
+                            <label htmlFor="user" className='signUpLabel'>
+                                Username:
+                                <input
+                                    type="text"
+                                    name="user"
+                                    className="signUpTextInput"
+                                    maxLength={20}
+                                    required
+                                    onChange={(e) => setName(e.target.value)}
+                                />
+                            </label>
+                            <label htmlFor="email" className='signUpLabel'>
+                                Email address:
+                                <input
+                                    type="email"
+                                    name="email"
+                                    className="signUpTextInput"
+                                    required
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
+                            </label>
+                            <label htmlFor="pwd" className='signUpLabel'>
+                                Password:
+                                <input type="password"
+                                    name="pwd"
+                                    className="signUpTextInput"
+                                    minLength={6}
+                                    maxLength={12}
+                                    required
+                                    pattern={validPattern}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                            </label>
+                            <p className="pwInst">Password must have: one uppercase, one lowercase, one number, 6-12 characters.</p>
+                            <button className='signUpBtn' key="signUp" type="submit">Sign up</button>
+                        </form>
 
-                </div >
+                    </div >
                     <div className="alreadyMemberCont"><p className="alreadyMemberText">Already a member?</p>
                         <Link to="/login" className="fromRegisterToLogin"><button>Login</button></Link></div>
                 </> :
