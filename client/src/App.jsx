@@ -51,7 +51,7 @@ function App() {
                 <Route path='/settings' element={<Settings />}></Route >
                 <Route path='/underconstruction' element={<UnderConstruction />}></Route>
                 <Route path='/play/:gameMode' element={<PlayMode />}></Route>
-                <Route path='/leaderbord' element={<Leaderboard />}></Route >
+                <Route path='/leaderboard' element={<Leaderboard />}></Route >
               </Route>
             </Routes>
           </BrowserRouter >
