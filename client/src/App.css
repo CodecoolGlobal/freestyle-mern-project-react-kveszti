@@ -553,6 +553,10 @@ body {
   padding: 20px;
 }
 
+.btnContProfile {
+  margin-bottom: 10px;
+}
+
 .btnContProfile button {
   margin: 10px;
 }

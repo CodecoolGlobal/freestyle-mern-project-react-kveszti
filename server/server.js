@@ -37,10 +37,9 @@ app.post("/api/users/all", async (req, res) => {
         createdAt,
       });
       await user.save();
-      const userID = user._id;
+      const user = user._id;
       const userStats = new Stats({
-        username,
-        userID,
+        user,
         createdAt
       })
       await userStats.save();
@@ -163,7 +162,7 @@ app.get("/api/users/id/:id/stats", async (req, res) => {
   const id = req.params.id;
   console.log(id)
   try {
-    let userStats = await Stats.findOne({ userID: id });
+    let userStats = await Stats.findOne({ userID: id }).populate("user");
     if (!userStats) {
       return res.status(404).json({ success: false, error: 'User not found' });
     }

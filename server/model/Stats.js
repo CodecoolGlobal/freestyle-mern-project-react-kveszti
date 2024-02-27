@@ -2,8 +2,10 @@ import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
 const statsSchema = new Schema({
-  username: String,
-  userID: String,
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
   stats: [{
     category: {
       name: String,

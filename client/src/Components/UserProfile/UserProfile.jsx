@@ -200,7 +200,6 @@ export default function UserProfile() {
                                 <button className='menuBtn' onClick={() => setEditor("password")}>Change password</button>
                                 <button className="dangerBtn" onClick={() => setEditor("delete")}>Delete profile</button>
                             </div>
-                            <h4 className="profileData">(Stats under construction)</h4>
                         </div>}
         </div>
     )

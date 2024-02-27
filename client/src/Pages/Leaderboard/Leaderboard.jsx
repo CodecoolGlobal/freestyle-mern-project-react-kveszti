@@ -38,7 +38,7 @@ const categoryObj = [
 function top5(statisticsObj, categoryName) {
     const result = [...statisticsObj].map(user => {
         const category = user.stats.find(category => category.category.name === categoryName);
-        return { username: user.username, category };
+        return { username: user.username, category }; //elvileg kell plusz egy .user
     }).filter(entry => entry.category !== undefined);
 
     return result.sort((a, b) => b.category.category.points - a.category.category.points).slice(0, 5);
