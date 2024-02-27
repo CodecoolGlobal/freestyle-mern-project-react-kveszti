@@ -4,6 +4,7 @@ import * as dotenv from "dotenv";
 import User from "./model/User.js";
 import Stats from "./model/Stats.js";
 import GameHistory from "./model/GameHistory.js";
+import Question from "./model/Questions.js";
 
 dotenv.config();
 
@@ -131,10 +132,24 @@ app.patch("/api/users/id/:id/stats", async (req, res) => {
       return res.status(404).json({ success: false, error: 'User not found' });
     }
 
-
     const name = req.body.name;
     const points = req.body.points;
-    console.log(req.body);
+    const { game, question, isCorrect, difficulty, category, "correct_answer": correctAnswer, "incorrect_answers": incorrectAnswers, choosenAnswer } = req.body.question;
+    console.log(req.body)
+
+    const questionObject = new Question({
+      game,
+      question,
+      isCorrect,
+      difficulty,
+      category,
+      "correct_answer": correctAnswer,
+      "incorrect_answers": incorrectAnswers,
+      choosenAnswer,
+      points
+    });
+
+    await questionObject.save();
 
     let categoryFound = false;
     if (userStats.stats.length !== 0) {

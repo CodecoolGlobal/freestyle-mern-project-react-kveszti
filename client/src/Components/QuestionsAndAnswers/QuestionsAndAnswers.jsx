@@ -73,7 +73,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
 
   useEffect(() => {
 
-    if (gameMode !== "zen") {
+    if (gameMode !== "zen" && gameId) {
       var interval = setInterval(() => {
         const correctAnswerIndex = allAnswersArray.findIndex(answer => answer.isCorrect === true);
         const correctAnswerDiv = document.getElementById(`answer${correctAnswerIndex}`);
@@ -81,11 +81,20 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
 
         const difficulty = questionsArray[questionIndex].difficulty;
         const category = he.decode(questionsArray[questionIndex].category);
-        let points;
+        let points = 0;
+
+        const currentQuestion = questionsArray[questionIndex];
+        currentQuestion.game = gameId;
+        currentQuestion.choosenAnswer = "none";
+        currentQuestion.isCorrect = false;
+        currentQuestion.points = points;
+
         if (gameMode === 'allIn') {
           points = difficulty === 'easy' ? 2 : difficulty === 'medium' ? 4 : 6;
           setTotalPoints((prevPoints) => prevPoints >= points ? prevPoints - points : 0);
-          const data = { name: category, points: points }
+          currentQuestion.points = points;
+          const data = { name: category, points: points, question: currentQuestion }
+
           fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', data)
             .then(response => {
               console.log(response);
@@ -93,8 +102,15 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
             .catch(error => {
               console.log(error);
             });
+        } else {
+          fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', { question: currentQuestion })
+            .then(response => {
+              console.log(response);
+            })
+            .catch(error => {
+              console.log(error);
+            });
         }
-
         setTimeout(() => {
           correctAnswerDiv.classList.remove("wrong-answer");
           if (questionIndex < questionsArray.length - 1) {
@@ -108,7 +124,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
     }
     return () => clearInterval(interval);
 
-  }, [allAnswersArray])
+  }, [allAnswersArray, gameId])
 
   useEffect(() => {
     if (gameMode !== "zen") {

@@ -8,8 +8,8 @@ const questionSchema = new Schema({
     ref: "GameHistory"
   },
   question: String,
-  correctAnswer: String,
-  incorrectAnswers: [String],
+  "correct_answer": String,
+  "incorrect_answers": [String],
   choosenAnswer: String,
   isCorrect: Boolean,
   difficulty: String,
