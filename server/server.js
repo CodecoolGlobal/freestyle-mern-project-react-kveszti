@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import * as dotenv from "dotenv";
 import User from "./model/User.js";
 import Stats from "./model/Stats.js";
+import GameHistory from "./model/GameHistory.js";
 
 dotenv.config();
 
@@ -39,6 +40,24 @@ app.post("/api/users/all", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(400).json({ success: false, error: 'Failed to register please try again' });
+  }
+})
+
+app.post("/api/gamehistory", async (req, res) => {
+  try {
+    const { user } = req.body;
+    const createdAt = Date.now();
+    const finished = false;
+    const gameHistory = new GameHistory({
+      user,
+      createdAt,
+      finished
+    });
+    await gameHistory.save();
+    res.status(201).json({ success: true, gameHistory });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ success: false, error: 'Failed to save gamehistory pls try again' });
   }
 })
 

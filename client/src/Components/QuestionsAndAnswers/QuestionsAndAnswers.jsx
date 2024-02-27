@@ -23,11 +23,16 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
   const [barWidth, setBarWidth] = useState(100);
   const [answerSelected, setAnswerSelected] = useState(false);
 
+  const [longestGoodAnswerStreak, setLongestGoodAnswerStreak] = useState(0);
+  const [currentStreak, setCurrentStreak] = useState(0);
+
+  const [gameId, setGameId] = useState(null);
+
   const abc = ["A", "B", "C", "D"];
 
-  //console.log(questionsArray);
+  // //console.log(questionsArray);
 
-  //useEffect(() => { console.log(allAnswersArray) }, [allAnswersArray])
+  // //useEffect(() => { console.log(allAnswersArray) }, [allAnswersArray])
 
   async function fetchData(url, id, method = "GET", body = {}) {
     try {
@@ -40,15 +45,11 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
 
   useEffect(() => {
     try {
-      //console.log("I'm running")
-
-      //console.log('in try: ', questionsArray);
       setObjectifiedArrayIncorrect(questionsArray[questionIndex].incorrect_answers.map(answer => {
         return { text: answer, isCorrect: false }
       }))
-      setCorrectAnswerObject({ text: questionsArray[questionIndex].correct_answer, isCorrect: true })
-
-
+      setCorrectAnswerObject({ text: questionsArray[questionIndex].correct_answer, isCorrect: true });
+      fetchData("/api/gamehistory", "", "POST", { user: id }).then(response => setGameId(response.gameHistory._id));
     } catch (err) {
       console.error(err)
     }
@@ -120,9 +121,6 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
     return () => clearInterval(intervalBar);
   }, [questionIndex, allAnswersArray, gameMode]);
 
-
-
-
   function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -130,7 +128,6 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
     }
     return array;
   }
-
 
   function handleAnswerSelect(isCorrect, eventTarget) {
     //clearInterval();
@@ -142,12 +139,21 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
     const answerDiv = document.getElementById(eventTarget.id);
     answerDiv.classList.add(isCorrect ? "correct-answer-blink" : "wrong-answer");
 
+    const difficulty = questionsArray[questionIndex].difficulty;
+    const category = he.decode(questionsArray[questionIndex].category);
+    let points = 0;
+
+    const currentQuestion = questionsArray[questionIndex];
+    currentQuestion.game = gameId;
+    currentQuestion.choosenAnswer = eventTarget.textContent.slice(1);
+    currentQuestion.isCorrect = isCorrect;
+
+
     if (isCorrect) {
+      setCurrentStreak((prevNum) => prevNum++)
       correctAnswerSound.play();
       setCorrectAnswersNr(prev => prev += 1)
-      const difficulty = questionsArray[questionIndex].difficulty;
-      const category = he.decode(questionsArray[questionIndex].category);
-      let points;
+
       if (gameMode === 'sprint' || gameMode === "zen") {
         points = difficulty === 'easy' ? 2 : difficulty === 'medium' ? 4 : 6;
       } else if (gameMode !== 'allIn') {
@@ -155,14 +161,15 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
       } else if (gameMode !== '5050') {
         points = difficulty === 'easy' ? 1 : difficulty === 'medium' ? 2 : 3;
       }
+      currentQuestion.points = points;
       setTotalPoints((prevPoints) => prevPoints + points);
-      const data = { name: category, points: points }
+      const data = { name: category, points: points, question: currentQuestion }
       fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', data)
         .then(response => {
-          console.log(response);
+          // console.log(response);
         })
         .catch(error => {
-          console.log(error);
+          // console.log(error);
         });
       setTimeout(() => {
         answerDiv.classList.remove("correct-answer-blink");
@@ -175,27 +182,37 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
         }
       }, 2000);
     } else {
+      setLongestGoodAnswerStreak((prevStreak) => {
+        if (prevStreak < currentStreak) {
+          return currentStreak;
+        } else {
+          return prevStreak;
+        }
+      })
+      setCurrentStreak(0);
       incorrectAnswerSound.play();
       const correctAnswerIndex = allAnswersArray.findIndex(answer => answer.isCorrect === true);
-      //console.log(correctAnswerIndex)
+      // //console.log(correctAnswerIndex)
       const correctAnswerDiv = document.getElementById(`answer${correctAnswerIndex}`);
-      //console.log(correctAnswerDiv)
+      // //console.log(correctAnswerDiv)
       correctAnswerDiv.classList.add("correct-answer");
-      const difficulty = questionsArray[questionIndex].difficulty;
-      const category = he.decode(questionsArray[questionIndex].category);
-      let points;
+
+
       if (gameMode === 'allIn') {
         points = difficulty === 'easy' ? 2 : difficulty === 'medium' ? 4 : 6;
         setTotalPoints((prevPoints) => prevPoints >= points ? prevPoints - points : 0);
-        const data = { name: category, points: points }
-        fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', data)
-          .then(response => {
-            console.log(response);
-          })
-          .catch(error => {
-            console.log(error);
-          });
       }
+
+      currentQuestion.points = -Math.abs(points);
+
+      const data = { name: category, points: points, question: currentQuestion }
+      fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', data)
+        .then(response => {
+          // console.log(response);
+        })
+        .catch(error => {
+          // console.log(error);
+        });
       setTimeout(() => {
         answerDiv.classList.remove("wrong-answer");
         correctAnswerDiv.classList.remove("correct-answer");
@@ -207,7 +224,6 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
           setIsGameOver(true);
         }
       }, 2000);
-
     }
   }
 
