@@ -64,6 +64,27 @@
   background-color: #187072;
 }
 
+.darkPurpleBackground {
+  background-color: #503786;
+}
+
+.darkYellowBackground {
+  background-color: #D68659;
+}
+
+.darkCodeCoolBackground {
+  background-color: #231E52;
+}
+
+.darkKvesztiBackground {
+  background-color: #1C1C1C;
+}
+
+.darkZsaniBackground {
+  background-color: #002B36;
+}
+
+
 .darkBlueBackground p.active {
   color: #263864;
   font-weight: bold;
@@ -86,6 +107,51 @@
   color: #974C79;
   font-weight: bold;
   background-color: #FFE98A;
+  padding: 8px;
+  border-radius: 30px;
+  width: 150px;
+}
+
+.darkPurpleBackground p.active {
+  color: #503786;
+  font-weight: bold;
+  background-color: #D8C1F5;
+  padding: 8px;
+  border-radius: 30px;
+  width: 150px;
+}
+
+.darkYellowBackground p.active {
+  color: #D68659;
+  font-weight: bold;
+  background-color: #FFEE93;
+  padding: 8px;
+  border-radius: 30px;
+  width: 150px;
+}
+
+.darkCodeCoolBackground p.active {
+  color: #231E52;
+  font-weight: bold;
+  background-color: #FAF052;
+  padding: 8px;
+  border-radius: 30px;
+  width: 150px;
+}
+
+.darkKvesztiBackground p.active {
+  color: #1C1C1C;
+  font-weight: bold;
+  background-color: #FFCC7C;
+  padding: 8px;
+  border-radius: 30px;
+  width: 150px;
+}
+
+.darkZsaniBackground p.active {
+  color: #002B36;
+  font-weight: bold;
+  background-color: #E22E5D;
   padding: 8px;
   border-radius: 30px;
   width: 150px;
@@ -172,6 +238,26 @@ body {
   background-image: linear-gradient(to bottom right, #18A5A7, #BFFFC7);
 }
 
+.purpleBodyBackground {
+  background-image: linear-gradient(to bottom right, #7C3FCB, #E593FA);
+}
+
+.yellowBodyBackground {
+  background-image: linear-gradient(to bottom right, #F1A45D, #FAE7B8);
+}
+
+.codeCoolBodyBackground {
+  background-image: linear-gradient(to bottom right, #3A7B98, #C8F9FF);
+}
+
+.kvesztiBodyBackground {
+  background-image: linear-gradient(to bottom right, #E9528F, #76D9EE);
+}
+
+.zsaniBodyBackground {
+  background-image: linear-gradient(to bottom right, #008EAC, #09BEAD);
+}
+
 .formContainerLogin,
 .formContainerRegister,
 .optionsContainer,
@@ -239,6 +325,11 @@ body {
   font-size: medium;
 }
 
+.yellowColorPicker,
+.codeCoolColorPicker,
+.kvesztiColorPicker,
+.zsaniColorPicker,
+.purpleColorPicker,
 .blueColorPicker,
 .greenColorPicker,
 .pinkColorPicker {
@@ -266,6 +357,26 @@ body {
 
 .pinkColorPicker {
   background-image: linear-gradient(to bottom right, #D74177, #FFE98A);
+}
+
+.purpleColorPicker {
+  background-image: linear-gradient(to bottom right, #7C3FCB, #E593FA);
+}
+
+.yellowColorPicker {
+  background-image: linear-gradient(to bottom right, #F1A45D, #FAE7B8);
+}
+
+.codeCoolColorPicker {
+  background-image: linear-gradient(to bottom right, #3A7B98, #C8F9FF);
+}
+
+.kvesztiColorPicker {
+  background-image: linear-gradient(to bottom right, #E9528F, #76D9EE);
+}
+
+.zsaniColorPicker {
+  background-image: linear-gradient(to bottom right, #008EAC, #09BEAD);
 }
 
 .profileEditLabel {
@@ -308,6 +419,26 @@ body {
   background-color: #BFFFC7;
 }
 
+.lightPurpleBackground {
+  background-color: #E593FA;
+}
+
+.lightYellowBackground {
+  background-color: #FAE7B8;
+}
+
+.lightCodeCoolBackground {
+  background-color: #C8F9FF;
+}
+
+.lightKvesztiBackground {
+  background-color: #76D9EE;
+}
+
+.lightZsaniBackground {
+  background-color: #09BEAD;
+}
+
 .profileThemeDivider {
   margin: auto;
   margin-top: 20px;
@@ -329,6 +460,26 @@ body {
   color: #BFFFC7;
 }
 
+.lightPurpleText {
+  color: #D8C1F5;
+}
+
+.lightYellowText {
+  color: #FAE7B8;
+}
+
+.lightCodeCoolText {
+  color: #FAF052;
+}
+
+.lightKvesztiText {
+  color: #FFCC7C;
+}
+
+.lightZsaniText {
+  color: #E22E5D;
+}
+
 .darkBlueText {
   color: #263864;
 }
@@ -339,6 +490,26 @@ body {
 
 .darkGreenText {
   color: #187072;
+}
+
+.darkPurpleText {
+  color: #503786;
+}
+
+.darkYellowText {
+  color: #D68659;
+}
+
+.darkCodeCoolText {
+  color: #231E52;
+}
+
+.darkKvesztiText {
+  color: #1C1C1C;
+}
+
+.darkZsaniText {
+  color: #002B36;
 }
 
 .lightBlueOpacBackground {
@@ -352,6 +523,26 @@ body {
 .lightGreenOpacBackground {
   background-color: rgb(191, 255, 199, 0.8);
   color: #187072;
+}
+
+.lightPurpleOpacBackground {
+  background-color: rgb(244, 202, 255, 0.8);
+}
+
+.lightYellowOpacBackground {
+  background-color: rgb(250, 231, 184, 0.8);
+}
+
+.lightCodeCoolOpacBackground {
+  background-color: rgb(200, 249, 255, 0.8);
+}
+
+.lightKvesztiOpacBackground {
+  background-color: rgb(118, 217, 238, 0.8);
+}
+
+.lightZsaniOpacBackground {
+  background-color: rgb(9, 190, 173, 0.8);
 }
 
 .profileTitle {
