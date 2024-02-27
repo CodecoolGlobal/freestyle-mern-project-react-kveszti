@@ -28,12 +28,14 @@ app.post("/api/users/all", async (req, res) => {
     const { username, email, password } = req.body;
     const createdAt = Date.now();
     const longestStreakThroughGames = 0;
+    const longestStreakOneGame = 0;
     const user = new User({
       username,
       email,
       password,
       createdAt,
-      longestStreakThroughGames
+      longestStreakThroughGames,
+      longestStreakOneGame
     });
     await user.save();
     const userID = user._id;
@@ -59,8 +61,8 @@ app.post("/api/gamehistory", async (req, res) => {
     const gainedPoints = 0;
     const correctAnswers = 0;
     const allAnswers = 0;
-    const longestStreakThroughGames = 0;
-    const longestStreakOneGame = 0;
+    const longestGoodAnswerStreak = 0;
+
     const gameHistory = new GameHistory({
       user,
       createdAt,
@@ -68,8 +70,7 @@ app.post("/api/gamehistory", async (req, res) => {
       gainedPoints,
       correctAnswers,
       allAnswers,
-      longestStreakThroughGames,
-      longestStreakOneGame
+      longestGoodAnswerStreak
 
     });
     await gameHistory.save();
