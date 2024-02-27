@@ -8,6 +8,7 @@ import MainPage from './Pages/MainPage/MainPage.jsx';
 import UnderConstruction from './Pages/UnderConstruction/UnderConstruction.jsx';
 import PlayMode from './Pages/PlayMode/PlayMode.jsx';
 import Settings from './Pages/Settings/Settings.jsx';
+import Leaderboard from './Pages/Leaderboard/Leaderboard.jsx';
 
 import { Layout } from './Pages/Layout/Layout.jsx'
 
@@ -50,6 +51,7 @@ function App() {
                 <Route path='/settings' element={<Settings />}></Route >
                 <Route path='/underconstruction' element={<UnderConstruction />}></Route>
                 <Route path='/play/:gameMode' element={<PlayMode />}></Route>
+                <Route path='/leaderbord' element={<Leaderboard />}></Route >
               </Route>
             </Routes>
           </BrowserRouter >

@@ -22,6 +22,7 @@ export default function Header({ validUser, setValidUser }) {
             <nav className={`navCont ${colorTheme.darkContBackground}`}>
                 <img src="/QQLogo_noBG.png" className="logo" onClick={() => handleClick(null, "/")}></img>
                 <h2 onClick={() => handleClick(null, "/")} className="navTitle">QuizQuest</h2>
+                <p className={`navLeaderboard ${activeItem === "leaderboard" ? "active" : ""}`} onClick={() => handleClick("leaderboard", "/leaderboard")}>Leaderboard</p>
                 {validUser ? <>
 
                     <p className={`navHistory ${activeItem === "history" ? "active" : ""}`} onClick={() => handleClick("history", "/underconstruction")}>History</p>
