@@ -258,6 +258,17 @@ app.patch("/api/users/id/:id/stats", async (req, res) => {
     res.status(500).json({ success: false, error: 'Failed to update user' });
   }
 })
+//ez lesz majd a mystatshoz
+// app.get("/api/user/id/:id", async (req, res) => {
+//   const id = req.params.id;
+
+//   try {
+//     const user = await User.findOne({ _id: id });
+
+//   } catch (err) {
+//     console.error("Error while fetching user data", err)
+//   }
+// })
 
 
 app.get("/api/users/id/:id/stats", async (req, res) => {

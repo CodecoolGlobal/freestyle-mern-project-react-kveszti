@@ -184,6 +184,16 @@ body {
   border-radius: 25px;
 }
 
+.HListElementCont {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+  width: 700px;
+  border-radius: 25px;
+  text-align: left;
+  padding: 25px;
+}
+
 .profileFormContainer,
 .pwdFormContainer {
   margin-top: 30px;
@@ -199,6 +209,21 @@ body {
   border-radius: 25px;
   display: block;
   align-content: center;
+}
+
+.darkGreenHrBorder {
+  border-width: 2px;
+  border-color: #187072;
+}
+
+.darkBlueHrBorder {
+  border-width: 2px;
+  border-color: #263864;
+}
+
+.darkPinkHrBorder {
+  border-width: 2px;
+  border-color: #974C79;
 }
 
 .gameOverCont h2 {

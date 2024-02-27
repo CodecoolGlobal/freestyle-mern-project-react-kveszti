@@ -9,6 +9,8 @@ import UnderConstruction from './Pages/UnderConstruction/UnderConstruction.jsx';
 import PlayMode from './Pages/PlayMode/PlayMode.jsx';
 import Settings from './Pages/Settings/Settings.jsx';
 import Leaderboard from './Pages/Leaderboard/Leaderboard.jsx';
+import MyStats from './Pages/MyStats/MyStats.jsx';
+import History from './Pages/History/History.jsx';
 
 import { Layout } from './Pages/Layout/Layout.jsx'
 
@@ -52,6 +54,8 @@ function App() {
                 <Route path='/underconstruction' element={<UnderConstruction />}></Route>
                 <Route path='/play/:gameMode' element={<PlayMode />}></Route>
                 <Route path='/leaderboard' element={<Leaderboard />}></Route >
+                <Route path='/mystats' element={<MyStats />}></Route >
+                <Route path='/history' element={<History />}></Route >
               </Route>
             </Routes>
           </BrowserRouter >
