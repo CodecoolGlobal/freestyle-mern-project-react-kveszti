@@ -20,6 +20,9 @@ app.get("/", (req, res) => {
 app.post("/api/users/all", async (req, res) => {
   try {
     const { username, email, password } = req.body;
+
+
+
     const createdAt = Date.now();
     const user = new User({
       username,
@@ -178,4 +181,9 @@ app.delete("/api/users/edit/id/:id", async (req, res) => {
     console.error(error);
     res.status(500).json({ success: false, error: 'Failed to update user' });
   }
+})
+
+app.get("/api/users/stats", async (req, res) => {
+  const statistics = await Stats.find();
+  return res.json(statistics);
 })

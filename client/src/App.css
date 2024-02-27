@@ -133,6 +133,7 @@
   margin-right: 20px
 }
 
+.lbTitle,
 .navTitle {
   font-family: 'LuckiestGuy';
   margin-top: 7px;
@@ -191,6 +192,7 @@ body {
   margin-bottom: 30px;
 }
 
+.leaderboardCont,
 .gameOverCont {
   margin-top: 100px;
   padding: 20px;
@@ -626,4 +628,36 @@ body {
 
 .gameOverInfo {
   margin-top: 20px;
+}
+
+.trophyImg {
+  width: 150px;
+  margin: 10px;
+}
+
+.leaderboardCont {
+  margin-top: 0px;
+  padding: 20px;
+  margin-bottom: 30px;
+  width: 500px;
+  border-radius: 25px;
+  display: block;
+  align-content: center;
+}
+
+.top5Global {
+  display: flex;
+  flex-direction: row;
+  background-color: #D9D9D9;
+  margin: 10px;
+  border-radius: 25px;
+  height: 40px;
+  align-items: center;
+  padding-left: 20px;
+}
+
+.top3Global p {}
+
+.categoryBtn {
+  margin: 5px;
 }
