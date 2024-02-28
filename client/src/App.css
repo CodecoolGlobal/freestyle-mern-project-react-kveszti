@@ -52,6 +52,23 @@
   margin: auto
 }
 
+.questionDetails {
+  display: flex;
+  flex-direction: row;
+}
+
+.whichQuestion,
+.currentStreak {
+  font-family: "LuckiestGuy";
+  font-weight: bolder;
+  font-size: 30px
+}
+
+.currentStreak {
+  margin-left: 750px;
+  margin-right: 2px;
+}
+
 .backToHomeBtn {
   margin: 10px;
 }

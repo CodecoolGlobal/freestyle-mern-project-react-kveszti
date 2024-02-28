@@ -13,7 +13,9 @@ export default function PlayMode() {
 
   const { gameMode } = useParams()
 
-  const categoryObj = [
+  let difficultyArray = ['Easy', 'Medium', 'Hard', 'Any'];
+
+  let categoryObj = [
     { id: 'Any', category: 'Any Category' },
     { id: 9, category: 'General Knowledge' },
     { id: 10, category: 'Entertainment: Books' },
@@ -31,7 +33,20 @@ export default function PlayMode() {
     { id: 32, category: 'Entertainment: Cartoon & Animations' }
   ]
 
-  const difficultyArray = ['Easy', 'Medium', 'Hard', 'Any'];
+  if (gameMode === "sprint" || gameMode === "allIn") {
+    categoryObj.push({ id: 16, category: 'Entertainment: Board Games' });
+    categoryObj.push({ id: 20, category: 'Mythology' });
+    categoryObj.push({ id: 27, category: 'Animals' });
+    categoryObj.push({ id: 29, category: 'Entertainment: Comics' });
+  }
+  else if (gameMode === "5050") {
+    categoryObj = [
+      { id: 'Any', category: 'Any Category' }
+    ];
+    difficultyArray = ["Any"]
+  }
+
+
 
   function generateLink(category, difficulty, quantity, type) {
     //type can be "boolean" or "multiple"
