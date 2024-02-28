@@ -15,6 +15,7 @@ export default function Settings() {
       "bodyBackground": "linear-gradient(to bottom right, #033495, #AEE4FF)",
       "progressDonutPath": "#033495",
       "progressDonutTrail": "#AEE4FF",
+      "hrBorderColor": "darkBlueHrBorder"
     },
     green: {
       "darkContBackground": "darkGreenBackground",
@@ -25,6 +26,7 @@ export default function Settings() {
       "bodyBackground": "linear-gradient(to bottom right, #18A5A7, #BFFFC7)",
       "progressDonutPath": "#18A5A7",
       "progressDonutTrail": "#BFFFC7",
+      "hrBorderColor": "darkGreenHrBorder"
     },
     pink: {
       "darkContBackground": "darkPinkBackground",
@@ -35,6 +37,7 @@ export default function Settings() {
       "bodyBackground": "linear-gradient(to bottom right, #D74177, #FFE98A)",
       "progressDonutPath": "#D74177",
       "progressDonutTrail": "#FFE98A",
+      "hrBorderColor": "darkPinkHrBorder"
     },
     purple: {
       "darkContBackground": "darkPurpleBackground",
@@ -44,7 +47,7 @@ export default function Settings() {
       "lightOpacBackground": "lightPurpleOpacBackground",
       "bodyBackground": "linear-gradient(to bottom right, #7C3FCB, #E593FA)",
       "progressDonutPath": "#7C3FCB",
-      "progressDonutTrail": "#E593FA",
+      "progressDonutTrail": "#E593FA", //HrBorder!!!
     },
     yellow: {
       "darkContBackground": "darkYellowBackground",
@@ -84,7 +87,7 @@ export default function Settings() {
       "lightOpacBackground": "lightZsaniOpacBackground",
       "bodyBackground": "linear-gradient(to bottom right, #008EAC, #09BEAD)",
       "progressDonutPath": "#008EAC",
-      "progressDonutTrail": "#09BEAD",
+      "progressDonutTrail": "#09BEAD", 
     }
   }
 

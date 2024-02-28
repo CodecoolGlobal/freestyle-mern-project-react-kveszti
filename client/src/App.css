@@ -271,12 +271,47 @@ body {
   border-radius: 25px;
 }
 
+.HListElementCont {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+  width: 700px;
+  border-radius: 25px;
+  text-align: left;
+  padding: 25px;
+}
+
 .profileFormContainer,
 .pwdFormContainer {
   margin-top: 30px;
   padding: 20px;
   margin-bottom: 30px;
 }
+
+
+.singleQuestionCont {
+  margin-top: 30px;
+  padding: 20px;
+  margin-bottom: 10px;
+  border-radius: 25px;
+}
+
+.choosenIncorrectAnswer {
+  color: #D74177;
+}
+
+.correctAnswer {
+  color: #5ADD87;
+}
+
+.simpleIncorrectAnswer {
+  color: white;
+}
+
+.historyQuestion {
+  color: white;
+}
+
 
 .leaderboardCont,
 .gameOverCont {
@@ -287,6 +322,21 @@ body {
   border-radius: 25px;
   display: block;
   align-content: center;
+}
+
+.darkGreenHrBorder {
+  border-width: 2px;
+  border-color: #187072;
+}
+
+.darkBlueHrBorder {
+  border-width: 2px;
+  border-color: #263864;
+}
+
+.darkPinkHrBorder {
+  border-width: 2px;
+  border-color: #974C79;
 }
 
 .gameOverCont h2,
