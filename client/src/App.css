@@ -289,7 +289,8 @@ body {
   align-content: center;
 }
 
-.gameOverCont h2 {
+.gameOverCont h2,
+.gameOverCont h3 {
   color: white;
   margin-top: 20px;
 }
@@ -822,6 +823,7 @@ body {
 }
 
 .gameOverInfo {
+  color: white;
   margin-top: 20px;
 }
 
