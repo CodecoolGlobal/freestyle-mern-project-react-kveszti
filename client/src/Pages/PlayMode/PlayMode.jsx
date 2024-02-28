@@ -30,6 +30,7 @@ export default function PlayMode() {
     { id: 31, category: 'Entertainment: Japanese Anime & Manga' },
     { id: 32, category: 'Entertainment: Cartoon & Animations' }
   ]
+
   const difficultyArray = ['Easy', 'Medium', 'Hard', 'Any'];
 
   function generateLink(category, difficulty, quantity, type) {

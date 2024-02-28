@@ -77,7 +77,7 @@ export default function GameOver({ totalPoints, setIsPlaying, setIsGameOver, cor
     }
         {userStats ? (<>
             <div className="progressCont">
-                <ChangingProgressProvider values={[Math.floor((userStats.stats[1].category.points - prevLevel - totalPoints) / (nextLevel - prevLevel) * 100), Math.floor((userStats.stats[1].category.points - prevLevel) / (nextLevel - prevLevel) * 100)]}>
+                <ChangingProgressProvider values={[(userStats.stats[1].category.points - prevLevel - totalPoints) <= 0 ? 0 : Math.floor((userStats.stats[1].category.points - prevLevel - totalPoints) / (nextLevel - prevLevel) * 100), Math.floor((userStats.stats[1].category.points - prevLevel) / (nextLevel - prevLevel) * 100)]}>
                     {percentage => (
                         <CircularProgressbarWithChildren
                             value={percentage}
@@ -93,6 +93,7 @@ export default function GameOver({ totalPoints, setIsPlaying, setIsGameOver, cor
                     )}
                 </ChangingProgressProvider>
             </div>
+            {(userStats.stats[1].category.points - prevLevel - totalPoints) <= 0 ? <h3>✨LEVEL UP!✨</h3> : <></>}
             <h3>CURRENT LEVEL: {currentLevel}</h3>
             <p className="gameOverInfo">You have answered <strong>{correctAnswersNr}</strong> questions correctly out of <strong>{questionsArrayLength}</strong>.</p>
             <p className="gameOverInfo">You need <strong>{`${Math.trunc(nextLevel - userStats.stats[1].category.points)}`} XP</strong> to level up.</p>
