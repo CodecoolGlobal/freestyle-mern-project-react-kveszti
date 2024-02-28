@@ -717,6 +717,12 @@ body {
   padding: 0px;
 }
 
+.unfinishedGame {
+  color: #D74177;
+  text-align: right;
+  margin-right: 2px;
+}
+
 .logInBtn,
 .signUpBtn {
   margin-bottom: 20px

@@ -90,8 +90,8 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
         currentQuestion.points = points;
 
         if (gameMode === 'allIn') {
-          points = difficulty === 'easy' ? 2 : difficulty === 'medium' ? 4 : 6;
-          setTotalPoints((prevPoints) => prevPoints >= points ? prevPoints - points : 0);
+          points = difficulty === 'easy' ? -2 : difficulty === 'medium' ? -4 : -6;
+          setTotalPoints((prevPoints) => prevPoints >= Math.abs(points) ? prevPoints + points : 0);
           currentQuestion.points = points;
           const data = { name: category, points: points, question: currentQuestion }
 
@@ -210,11 +210,11 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
 
 
       if (gameMode === 'allIn') {
-        points = difficulty === 'easy' ? 2 : difficulty === 'medium' ? 4 : 6;
-        setTotalPoints((prevPoints) => prevPoints >= points ? prevPoints - points : 0);
+        points = difficulty === 'easy' ? -2 : difficulty === 'medium' ? -4 : -6;
+        setTotalPoints((prevPoints) => prevPoints >= Math.abs(points) ? prevPoints + points : 0);
       }
 
-      currentQuestion.points = -Math.abs(points);
+      currentQuestion.points = points;
 
       const data = { name: category, points: points, question: currentQuestion }
       fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', data)

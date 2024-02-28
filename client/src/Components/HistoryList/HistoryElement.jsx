@@ -30,6 +30,7 @@ export default function HistoryListElement({ gameObject, handleDetailedView }) {
         <div>XP earned: <strong>{gameObject.gainedPoints}</strong></div>
         <div><strong>{gameObject.correctAnswers}</strong> correct answer(s) out of <strong>{gameObject.allAnswers}</strong> answered question(s)</div>
         <div>Longest streak of correct answers: <strong>{gameObject.longestGoodAnswerStreak}</strong></div>
+        {gameObject.finished ? "" : <div id="unfinishedGame" className="unfinishedGame">This game was abandoned while playing.</div>}
 
       </div>
     </>
