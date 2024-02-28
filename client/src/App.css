@@ -52,6 +52,10 @@
   margin: auto
 }
 
+.backToHomeBtn {
+  margin: 10px;
+}
+
 .darkBlueBackground {
   background-color: #263864;
 }

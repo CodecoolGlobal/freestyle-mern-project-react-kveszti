@@ -34,6 +34,6 @@ export default function History() {
       <div id="allHistoryListElements" className="historyListCont">
         {allGamesArray.map(game => <HistoryListElement key={game._id} gameObject={game} handleDetailedView={handleDetailedView} />)}
       </div> :
-      <div id="singleDetailedGameHistory"><HistoryDetailed gameObject={inspectedGame} /></div>}</>
+      <div id="singleDetailedGameHistory"><HistoryDetailed gameObject={inspectedGame} setView={setView} /></div>}</>
   )
 }
