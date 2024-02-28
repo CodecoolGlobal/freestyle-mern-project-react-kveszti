@@ -9,6 +9,12 @@ const userSchema = new Schema({
   birthday: { type: Date, required: false },
   gender: { type: String, required: false },
   createdAt: { type: Date },
+  longestStreakThroughGames: Number,
+  longestStreakOneGame: Number,
+  playedGames: [{
+    type: Schema.Types.ObjectId,
+    ref: "GameHistory"
+  }]
 });
 
 

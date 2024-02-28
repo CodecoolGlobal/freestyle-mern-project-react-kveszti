@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import * as dotenv from "dotenv";
 import User from "./model/User.js";
 import Stats from "./model/Stats.js";
+import GameHistory from "./model/GameHistory.js";
+import Question from "./model/Questions.js";
 
 dotenv.config();
 
@@ -13,19 +15,62 @@ mongoose.connect(process.env.CONSTRING).then(app.listen(3000, () => {
   console.log("Server running on: http://localhost:3000")
 })).catch(err => console.log(err));
 
+
+let currentStreak = 0;
+let currentStreakThroughGames = 0;
+
 app.get("/", (req, res) => {
   res.send("hi")
 });
+
+app.get("/api/userHistory/id/:id", async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findOne({ _id: userId });
+    const games = await GameHistory.find({ user: userId });
+    games.forEach(game => user.playedGames.push(game._id));
+    user.populate("playedGames").then(user => res.json({ success: true, user: user }));
+
+  } catch (err) {
+    console.error("Error while fetching game history for user.", err)
+  }
+});
+
+app.get("/api/gameHistory/id/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const gameHistory = await GameHistory.findOne({ _id: id });
+    gameHistory.populate("questionsAndAnswers").then(gameHistory => res.json({ success: true, gameHistory: gameHistory }))
+  } catch (err) {
+    console.error(err);
+    res.json({ success: false, error: err });
+  }
+})
+
+app.patch("/api/gameover/gameID/:id", async (req, res) => {
+  const id = req.params.id;
+  const game = await GameHistory.findOne({ _id: id });
+
+  game.finished = true;
+  await game.save();
+  res.json({ success: true, game: game });
+})
 
 app.post("/api/users/all", async (req, res) => {
   try {
     const { username, email, password } = req.body;
     const createdAt = Date.now();
+    const longestStreakThroughGames = 0;
+    const longestStreakOneGame = 0;
+    const playedGames = [];
     const user = new User({
       username,
       email,
       password,
       createdAt,
+      longestStreakThroughGames,
+      longestStreakOneGame,
+      playedGames,
     });
     await user.save();
     const userID = user._id;
@@ -39,6 +84,37 @@ app.post("/api/users/all", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(400).json({ success: false, error: 'Failed to register please try again' });
+  }
+})
+
+app.post("/api/gamehistory", async (req, res) => {
+  currentStreak = 0;
+  try {
+    const { user, gameMode } = req.body;
+    const createdAt = Date.now();
+    const finished = false;
+    const gainedPoints = 0;
+    const correctAnswers = 0;
+    const allAnswers = 0;
+    const longestGoodAnswerStreak = 0;
+
+
+    const gameHistory = new GameHistory({
+      user,
+      createdAt,
+      finished,
+      gainedPoints,
+      correctAnswers,
+      allAnswers,
+      longestGoodAnswerStreak,
+      gameMode
+
+    });
+    await gameHistory.save();
+    res.status(201).json({ success: true, gameHistory });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ success: false, error: 'Failed to save gamehistory pls try again' });
   }
 })
 
@@ -106,16 +182,64 @@ app.patch("/api/users/edit/id/:id", async (req, res) => {
 
 app.patch("/api/users/id/:id/stats", async (req, res) => {
   const id = req.params.id;
+  const user = await User.findById(id);
   try {
     let userStats = await Stats.findOne({ userID: id });
     if (!userStats) {
       return res.status(404).json({ success: false, error: 'User not found' });
     }
 
-
     const name = req.body.name;
     const points = req.body.points;
-    console.log(req.body);
+    const { game, question, isCorrect, difficulty, category, "correct_answer": correctAnswer, "incorrect_answers": incorrectAnswers, choosenAnswer } = req.body.question;
+
+
+    console.log(req.body)
+
+    const questionObject = new Question({
+      game,
+      question,
+      isCorrect,
+      difficulty,
+      category,
+      "correct_answer": correctAnswer,
+      "incorrect_answers": incorrectAnswers,
+      choosenAnswer,
+      points
+    });
+
+    await questionObject.save();
+
+    const gameHistoryObject = await GameHistory.findOne({ _id: game });
+    if (!gameHistoryObject) {
+      return res.status(404).json({ success: false, error: 'Game history not found' });
+    }
+    gameHistoryObject.questionsAndAnswers.push(questionObject._id);
+    gameHistoryObject.gainedPoints += points;
+    if (isCorrect) {
+      gameHistoryObject.correctAnswers++
+    };
+    gameHistoryObject.allAnswers++;
+
+    if (isCorrect) {
+      currentStreak++;
+      currentStreakThroughGames++;
+      if (gameHistoryObject.longestGoodAnswerStreak < currentStreak) {
+        gameHistoryObject.longestGoodAnswerStreak = currentStreak;
+      }
+      if (user.longestStreakOneGame < currentStreak) {
+        user.longestStreakOneGame = currentStreak;
+      }
+      if (user.longestStreakThroughGames < currentStreakThroughGames) {
+        user.longestStreakThroughGames = currentStreakThroughGames;
+      }
+    } else {
+      currentStreak = 0;
+      currentStreakThroughGames = 0;
+    }
+
+
+    await gameHistoryObject.save();
 
     let categoryFound = false;
     if (userStats.stats.length !== 0) {
@@ -147,6 +271,17 @@ app.patch("/api/users/id/:id/stats", async (req, res) => {
     res.status(500).json({ success: false, error: 'Failed to update user' });
   }
 })
+//ez lesz majd a mystatshoz
+// app.get("/api/user/id/:id", async (req, res) => {
+//   const id = req.params.id;
+
+//   try {
+//     const user = await User.findOne({ _id: id });
+
+//   } catch (err) {
+//     console.error("Error while fetching user data", err)
+//   }
+// })
 
 
 app.get("/api/users/id/:id/stats", async (req, res) => {
