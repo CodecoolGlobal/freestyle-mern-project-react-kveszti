@@ -37,6 +37,7 @@ function App() {
     "lightOpacBackground": "lightGreenOpacBackground",
     "progressDonutPath": "#18A5A7",
     "progressDonutTrail": "#BFFFC7",
+    "hrBorderColor": "darkGreenHrBorder"
   })
 
   return (

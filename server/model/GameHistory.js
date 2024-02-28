@@ -12,7 +12,7 @@ const gameHistorySchema = new Schema({
     ref: "Question"
   }],
   gainedPoints: Number,
-  newLvl: Boolean,
+  gameMode: String,
   correctAnswers: Number,
   allAnswers: Number,
   finished: Boolean,

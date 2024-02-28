@@ -201,6 +201,29 @@ body {
   margin-bottom: 30px;
 }
 
+.singleQuestionCont {
+  margin-top: 30px;
+  padding: 20px;
+  margin-bottom: 10px;
+  border-radius: 25px;
+}
+
+.choosenIncorrectAnswer {
+  color: #D74177;
+}
+
+.correctAnswer {
+  color: #5ADD87;
+}
+
+.simpleIncorrectAnswer {
+  color: white;
+}
+
+.historyQuestion {
+  color: white;
+}
+
 .gameOverCont {
   margin-top: 100px;
   padding: 20px;

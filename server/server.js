@@ -36,6 +36,17 @@ app.get("/api/userHistory/id/:id", async (req, res) => {
   }
 });
 
+app.get("/api/gameHistory/id/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const gameHistory = await GameHistory.findOne({ _id: id });
+    gameHistory.populate("questionsAndAnswers").then(gameHistory => res.json({ success: true, gameHistory: gameHistory }))
+  } catch (err) {
+    console.error(err);
+    res.json({ success: false, error: err });
+  }
+})
+
 app.patch("/api/gameover/gameID/:id", async (req, res) => {
   const id = req.params.id;
   const game = await GameHistory.findOne({ _id: id });
@@ -79,13 +90,14 @@ app.post("/api/users/all", async (req, res) => {
 app.post("/api/gamehistory", async (req, res) => {
   currentStreak = 0;
   try {
-    const { user } = req.body;
+    const { user, gameMode } = req.body;
     const createdAt = Date.now();
     const finished = false;
     const gainedPoints = 0;
     const correctAnswers = 0;
     const allAnswers = 0;
     const longestGoodAnswerStreak = 0;
+
 
     const gameHistory = new GameHistory({
       user,
@@ -94,7 +106,8 @@ app.post("/api/gamehistory", async (req, res) => {
       gainedPoints,
       correctAnswers,
       allAnswers,
-      longestGoodAnswerStreak
+      longestGoodAnswerStreak,
+      gameMode
 
     });
     await gameHistory.save();

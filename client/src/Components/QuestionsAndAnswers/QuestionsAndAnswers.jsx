@@ -48,7 +48,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
         return { text: answer, isCorrect: false }
       }))
       setCorrectAnswerObject({ text: questionsArray[questionIndex].correct_answer, isCorrect: true });
-      fetchData("/api/gamehistory", "", "POST", { user: id }).then(response => setGameId(response.gameHistory._id));
+      fetchData("/api/gamehistory", "", "POST", { user: id, gameMode: gameMode }).then(response => setGameId(response.gameHistory._id));
     } catch (err) {
       console.error(err)
     }
@@ -103,7 +103,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
               console.log(error);
             });
         } else {
-          fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', { question: currentQuestion })
+          fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', { question: currentQuestion, points: 0 })
             .then(response => {
               console.log(response);
             })
