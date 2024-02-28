@@ -28,7 +28,12 @@ app.get("/api/userHistory/id/:id", async (req, res) => {
     const userId = req.params.id;
     const user = await User.findOne({ _id: userId });
     const games = await GameHistory.find({ user: userId });
-    games.forEach(game => user.playedGames.push(game._id));
+    games.forEach(game => {
+      if (!user.playedGames.includes(game._id)) {
+        user.playedGames.push(game._id);
+      }
+    });
+    await user.save();
     user.populate("playedGames").then(user => res.json({ success: true, user: user }));
 
   } catch (err) {

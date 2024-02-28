@@ -29,9 +29,9 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
 
   const abc = ["A", "B", "C", "D"];
 
-  // //console.log(questionsArray);
+  // // //console.log(questionsArray);
 
-  // //useEffect(() => { console.log(allAnswersArray) }, [allAnswersArray])
+  // // //useEffect(() => { console.log(allAnswersArray) }, [allAnswersArray])
 
   async function fetchData(url, id, method = "GET", body = {}) {
     try {
@@ -90,25 +90,25 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
         currentQuestion.points = points;
 
         if (gameMode === 'allIn') {
-          points = difficulty === 'easy' ? 2 : difficulty === 'medium' ? 4 : 6;
-          setTotalPoints((prevPoints) => prevPoints >= points ? prevPoints - points : 0);
+          points = difficulty === 'easy' ? -2 : difficulty === 'medium' ? -4 : -6;
+          setTotalPoints((prevPoints) => prevPoints >= Math.abs(points) ? prevPoints + points : 0);
           currentQuestion.points = points;
           const data = { name: category, points: points, question: currentQuestion }
 
           fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', data)
             .then(response => {
-              console.log(response);
+              // console.log(response);
             })
             .catch(error => {
-              console.log(error);
+              // console.log(error);
             });
         } else {
           fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', { question: currentQuestion, points: 0 })
             .then(response => {
-              console.log(response);
+              // console.log(response);
             })
             .catch(error => {
-              console.log(error);
+              // console.log(error);
             });
         }
         setTimeout(() => {
@@ -145,7 +145,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
     return array;
   }
 
-  useEffect(() => { console.log(currentStreak) }, [currentStreak])
+  // useEffect(() => { console.log(currentStreak) }, [currentStreak])
 
   function handleAnswerSelect(isCorrect, eventTarget) {
     //clearInterval();
@@ -184,10 +184,10 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
       const data = { name: category, points: points, question: currentQuestion }
       fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', data)
         .then(response => {
-          console.log(response);
+          // console.log(response);
         })
         .catch(error => {
-          console.log(error);
+          // console.log(error);
         });
       setTimeout(() => {
         answerDiv.classList.remove("correct-answer-blink");
@@ -203,26 +203,26 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
       setCurrentStreak(0);
       incorrectAnswerSound.play();
       const correctAnswerIndex = allAnswersArray.findIndex(answer => answer.isCorrect === true);
-      // //console.log(correctAnswerIndex)
+      // // //console.log(correctAnswerIndex)
       const correctAnswerDiv = document.getElementById(`answer${correctAnswerIndex}`);
-      // //console.log(correctAnswerDiv)
+      // // //console.log(correctAnswerDiv)
       correctAnswerDiv.classList.add("correct-answer");
 
 
       if (gameMode === 'allIn') {
-        points = difficulty === 'easy' ? 2 : difficulty === 'medium' ? 4 : 6;
-        setTotalPoints((prevPoints) => prevPoints >= points ? prevPoints - points : 0);
+        points = difficulty === 'easy' ? -2 : difficulty === 'medium' ? -4 : -6;
+        setTotalPoints((prevPoints) => prevPoints >= Math.abs(points) ? prevPoints + points : 0);
       }
 
-      currentQuestion.points = -Math.abs(points);
+      currentQuestion.points = points;
 
       const data = { name: category, points: points, question: currentQuestion }
       fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', data)
         .then(response => {
-          console.log(response);
+          // console.log(response);
         })
         .catch(error => {
-          console.log(error);
+          // console.log(error);
         });
       setTimeout(() => {
         answerDiv.classList.remove("wrong-answer");
@@ -238,7 +238,10 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
     }
   }
 
-  return (!isGameOver ? <div className="topMargin"> {gameMode === "zen" ? <></> : isGameOver === false ? <div className="timeBarCont"><div className="timeBar" style={{ width: `${barWidth}%` }}></div></div> : <></>}
+  return (!isGameOver ? <div className="topMargin"> <div className="questionDetails">
+    <div className="whichQuestion">{questionIndex + 1 + '/' + questionsArray.length}</div>
+    <div className="currentStreak">{currentStreak} 🔥</div>
+  </div>{gameMode === "zen" ? <></> : isGameOver === false ? <div className="timeBarCont"><div className="timeBar" style={{ width: `${barWidth}%` }}></div></div> : <></>}
     <div className={`QAndACont ${colorTheme.darkContBackground}`}>
       <div id="question" className={`questionCont ${colorTheme.darkText}`}>{he.decode(questionsArray[questionIndex].question)}</div>
       <div className="answersCont">{allAnswersArray.map((obj, index) => {

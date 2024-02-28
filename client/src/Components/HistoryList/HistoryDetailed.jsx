@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { ColorThemeContext } from "../../App";
 import QuestionComponent from "./QuestionComponent";
+import { Link } from "react-router-dom";
 
 async function fetchData(url, id, method = "GET", body = {}) {
   try {
@@ -11,7 +12,7 @@ async function fetchData(url, id, method = "GET", body = {}) {
   }
 }
 
-export default function HistoryDetailed({ gameObject }) {
+export default function HistoryDetailed({ gameObject, setView }) {
   const { colorTheme } = useContext(ColorThemeContext);
   const id = gameObject._id;
   const [gameHistory, setGameHistory] = useState(null);
@@ -47,17 +48,21 @@ export default function HistoryDetailed({ gameObject }) {
   return (
     <>
       {gameHistory ? (
-        <div id="HListElementCont" className={`HListElementCont ${colorTheme.lightContBackground} ${colorTheme.darkText}`}>
-          <div><strong>{formattedDate}</strong></div>
-          <hr className={`${colorTheme.hrBorderColor}`} />
-          <div><strong>{gameMode}</strong></div>
-          <div>XP earned: <strong>{gameObject.gainedPoints}</strong></div>
-          <div><strong>{gameObject.correctAnswers}</strong> correct answer(s) out of <strong>{gameObject.allAnswers}</strong> answered question(s)</div>
-          <div>Longest streak of correct answers: <strong>{gameObject.longestGoodAnswerStreak}</strong></div>
-          <hr className={`${colorTheme.hrBorderColor}`} />
-          {gameHistory.questionsAndAnswers.map((question, index) => <QuestionComponent key={question._id} questionObject={question} num={index + 1} />)}
-          <div id="questionsCont"></div>
-        </div>
+        <>
+          <button className="backToHomeBtn" onClick={() => setView("all")}>Back to history list</button>
+          <Link to={'/'}><button className="backToHomeBtn">Back to Homepage</button></Link>
+          <div id="HListElementCont" className={`HListElementCont ${colorTheme.lightContBackground} ${colorTheme.darkText}`}>
+            <div><strong>{formattedDate}</strong></div>
+            <hr className={`${colorTheme.hrBorderColor}`} />
+            <div><strong>{gameMode}</strong></div>
+            <div>XP earned: <strong>{gameObject.gainedPoints}</strong></div>
+            <div><strong>{gameObject.correctAnswers}</strong> correct answer(s) out of <strong>{gameObject.allAnswers}</strong> answered question(s)</div>
+            <div>Longest streak of correct answers: <strong>{gameObject.longestGoodAnswerStreak}</strong></div>
+            <hr className={`${colorTheme.hrBorderColor}`} />
+            {gameHistory.questionsAndAnswers.map((question, index) => <QuestionComponent key={question._id} questionObject={question} num={index + 1} />)}
+            <div id="questionsCont"></div>
+          </div>
+        </>
       ) : (
         <div>Loading...</div>
       )}
