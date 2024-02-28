@@ -339,6 +339,37 @@ body {
   border-color: #974C79;
 }
 
+.darkPurpleHrBorder {
+  border-width: 2px;
+  border-color: #503786;
+}
+
+.darkYellowHrBorder {
+  border-width: 2px;
+  border-color: #D68659;
+}
+
+.darkYellowHrBorder {
+  border-width: 2px;
+  border-color: #D68659;
+}
+
+.darkCodeCoolHrBorder {
+  border-width: 2px;
+  border-color: #231E52;
+}
+
+.darkKvesztiHrBorder {
+  border-width: 2px;
+  border-color: #1C1C1C;
+}
+
+
+.darkZsaniHrBorder {
+  border-width: 2px;
+  border-color: #002B36;
+}
+
 .gameOverCont h2,
 .gameOverCont h3 {
   color: white;

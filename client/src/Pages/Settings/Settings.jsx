@@ -47,7 +47,8 @@ export default function Settings() {
       "lightOpacBackground": "lightPurpleOpacBackground",
       "bodyBackground": "linear-gradient(to bottom right, #7C3FCB, #E593FA)",
       "progressDonutPath": "#7C3FCB",
-      "progressDonutTrail": "#E593FA", //HrBorder!!!
+      "progressDonutTrail": "#E593FA",
+      "hrBorderColor": "darkPurpleHrBorder"
     },
     yellow: {
       "darkContBackground": "darkYellowBackground",
@@ -58,6 +59,7 @@ export default function Settings() {
       "bodyBackground": "linear-gradient(to bottom right, #F1A45D, #FAE7B8)",
       "progressDonutPath": "#F1A45D",
       "progressDonutTrail": "#FAE7B8",
+      "hrBorderColor": "darkYellowHrBorder"
     },
     codeCool: {
       "darkContBackground": "darkCodeCoolBackground",
@@ -68,6 +70,7 @@ export default function Settings() {
       "bodyBackground": "linear-gradient(to bottom right, #3A7B98, #C8F9FF)",
       "progressDonutPath": "#3A7B98",
       "progressDonutTrail": "#C8F9FF",
+      "hrBorderColor": "darkCodeCoolHrBorder"
     },
     kveszti: {
       "darkContBackground": "darkKvesztiBackground",
@@ -78,6 +81,7 @@ export default function Settings() {
       "bodyBackground": "linear-gradient(to bottom right, #E9528F, #76D9EE)",
       "progressDonutPath": "#E9528F",
       "progressDonutTrail": "#76D9EE",
+      "hrBorderColor": "darkKvesztiHrBorder"
     },
     zsani: {
       "darkContBackground": "darkZsaniBackground",
@@ -87,7 +91,8 @@ export default function Settings() {
       "lightOpacBackground": "lightZsaniOpacBackground",
       "bodyBackground": "linear-gradient(to bottom right, #008EAC, #09BEAD)",
       "progressDonutPath": "#008EAC",
-      "progressDonutTrail": "#09BEAD", 
+      "progressDonutTrail": "#09BEAD",
+      "hrBorderColor": "darkZsaniHrBorder"
     }
   }
 
