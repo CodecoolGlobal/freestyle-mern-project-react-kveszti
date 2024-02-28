@@ -11,6 +11,7 @@ const userSchema = new Schema({
   createdAt: { type: Date },
   longestStreakThroughGames: Number,
   longestStreakOneGame: Number,
+  collectedTitles: [String],
   playedGames: [{
     type: Schema.Types.ObjectId,
     ref: "GameHistory"

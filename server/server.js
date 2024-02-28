@@ -5,6 +5,7 @@ import User from "./model/User.js";
 import Stats from "./model/Stats.js";
 import GameHistory from "./model/GameHistory.js";
 import Question from "./model/Questions.js";
+import CategoryTitle from "./model/CategoryTitle.js";
 
 dotenv.config();
 
