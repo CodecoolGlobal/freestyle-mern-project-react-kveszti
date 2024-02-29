@@ -352,6 +352,6 @@ app.delete("/api/users/edit/id/:id", async (req, res) => {
 })
 
 app.get("/api/users/stats", async (req, res) => {
-  const statistics = await Stats.find();
+  const statistics = await Stats.find().populate("userRef");
   return res.json(statistics);
 })

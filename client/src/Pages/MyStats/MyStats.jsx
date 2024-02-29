@@ -153,8 +153,8 @@ export default function MyStats() {
                 })}>
                 {<div><p className="donutTxt">{`${userStats.stats[1].category.name}:`} <br /> {`${userStats.stats[1].category.points}`}</p></div>}
               </CircularProgressbarWithChildren>
+              <h3>CURRENT LEVEL: {currentLevel}</h3>
             </div>
-            <h3>CURRENT LEVEL: {currentLevel}</h3>
             <div className="XPContRemaining">
               {filteredUserStats ?
                 <select name="category" className="categoryDrop" onChange={(e) => setSelectedCat(e.target.value)}>

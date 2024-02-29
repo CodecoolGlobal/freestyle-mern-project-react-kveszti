@@ -38,7 +38,7 @@ const categoryObj = [
 function top5(statisticsObj, categoryName) {
     const result = [...statisticsObj].map(user => {
         const category = user.stats.find(category => category.category.name === categoryName);
-        return { username: user.userRef.username, category }; //elvileg kell plusz egy .user
+        return { username: user.userRef.username, category };
     }).filter(entry => entry.category !== undefined);
 
     return result.sort((a, b) => b.category.category.points - a.category.category.points).slice(0, 5);
@@ -46,15 +46,15 @@ function top5(statisticsObj, categoryName) {
 
 export default function Leaderboard() {
     const { colorTheme } = useContext(ColorThemeContext);
-    const [allStats, setAllSats] = useState(null);
+    const [allStats, setAllStats] = useState(null);
 
 
     useEffect(() => {
         fetchData(`/api/users/stats`) //endpoint populate!
             .then(response => {
-                console.log(response);
-                setAllSats(response)
-                console.log(response)
+                console.log("res1: ", response);
+                setAllStats(response);
+                console.log("res2: ", response);
             })
             .catch(error => {
                 console.log(error);
@@ -64,7 +64,7 @@ export default function Leaderboard() {
     useEffect(() => {
         if (allStats) {
             const stuff = top5(allStats, "total")
-            console.log(stuff)
+            console.log("stuff: ", stuff)
         }
     }, [allStats])
 
