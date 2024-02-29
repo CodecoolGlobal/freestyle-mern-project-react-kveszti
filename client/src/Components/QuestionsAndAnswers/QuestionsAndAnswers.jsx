@@ -97,18 +97,18 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
 
           fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', data)
             .then(response => {
-              // console.log(response);
+              console.log(response);
             })
             .catch(error => {
-              // console.log(error);
+              console.log(error);
             });
         } else {
           fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', { question: currentQuestion, points: 0 })
             .then(response => {
-              // console.log(response);
+              console.log(response);
             })
             .catch(error => {
-              // console.log(error);
+              console.log(error);
             });
         }
         setTimeout(() => {
@@ -184,10 +184,10 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
       const data = { name: category, points: points, question: currentQuestion }
       fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', data)
         .then(response => {
-          // console.log(response);
+          console.log(response);
         })
         .catch(error => {
-          // console.log(error);
+          console.log(error);
         });
       setTimeout(() => {
         answerDiv.classList.remove("correct-answer-blink");
@@ -219,10 +219,10 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
       const data = { name: category, points: points, question: currentQuestion }
       fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', data)
         .then(response => {
-          // console.log(response);
+          console.log(response);
         })
         .catch(error => {
-          // console.log(error);
+          console.log(error);
         });
       setTimeout(() => {
         answerDiv.classList.remove("wrong-answer");
