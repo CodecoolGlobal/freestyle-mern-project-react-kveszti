@@ -46,7 +46,7 @@ export default function MyStats() {
   useEffect(() => {
     fetchData(`/api/users/id/${id}/stats`)
       .then(response => {
-        console.log(response);
+        // console.log(response);
         if (response.success) {
           setUserStats(response.user);
           console.log(response.user);
@@ -69,17 +69,24 @@ export default function MyStats() {
     }
   }, [userStats])
 
-  useEffect(() => { console.log(userObj) }, [userObj])
-  useEffect(() => { console.log(filteredUserStats) }, [filteredUserStats])
+  // useEffect(() => { console.log(userObj) }, [userObj])
+  // useEffect(() => { console.log(filteredUserStats) }, [filteredUserStats])
 
   return (
     <>
-      <div className={`XPContMain ${colorTheme.darkContBackground}`}>
+      <div className={`StatsContMain ${colorTheme.darkContBackground}`}>
 
-        <h2 className="lbTitle">Overall progress</h2>
         {userStats ? (
           <>
+            <div className={`generalStatsCont ${colorTheme.lightContBackground} ${colorTheme.darkText}`}>
+              <div>Played games: {userStats.userRef.playedGames.length}</div>
+
+              <div className="streakCont"><div>Longest 🔥</div>
+                <div>In a single gameplay: {userStats.userRef.longestStreakOneGame}</div>
+                <div>Through multiple games: {userStats.userRef.longestStreakThroughGames}</div></div>
+            </div>
             <div className="progressCont">
+              <h2 className="lbTitle">Overall progress</h2>
               <CircularProgressbarWithChildren
                 value={Math.floor((userStats.stats[1].category.points - prevLevel) / (nextLevel - prevLevel) * 100)}
                 maxValue={100}

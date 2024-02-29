@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
 const statsSchema = new Schema({
-  user: {
+  userRef: {
     type: Schema.Types.ObjectId,
     ref: 'User'
   },

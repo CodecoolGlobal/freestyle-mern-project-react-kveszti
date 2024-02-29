@@ -75,16 +75,22 @@ app.post("/api/users/all", async (req, res) => {
       return res.status(409).json({ success: false, error: 'Username already in use.' });
     } else {
       const createdAt = Date.now();
+      const longestStreakOneGame = 0;
+      const longestStreakThroughGames = 0;
+      const collectedTitles = [];
       user = new User({
         username,
         email,
         password,
         createdAt,
+        longestStreakOneGame,
+        longestStreakThroughGames,
+        collectedTitles
       });
       await user.save();
-      const user = user._id;
+      const userRef = user._id;
       const userStats = new Stats({
-        user,
+        userRef,
         createdAt
       })
       await userStats.save();
@@ -195,7 +201,7 @@ app.patch("/api/users/id/:id/stats", async (req, res) => {
   const id = req.params.id;
   const user = await User.findById(id);
   try {
-    let userStats = await Stats.findOne({ userID: id });
+    let userStats = await Stats.findOne({ userRef: id });
     if (!userStats) {
       return res.status(404).json({ success: false, error: 'User not found' });
     }
@@ -249,7 +255,7 @@ app.patch("/api/users/id/:id/stats", async (req, res) => {
       currentStreakThroughGames = 0;
     }
 
-
+    await user.save();
     await gameHistoryObject.save();
 
     let categoryFound = false;
@@ -299,12 +305,21 @@ app.get("/api/users/id/:id/stats", async (req, res) => {
   const id = req.params.id;
   console.log(id)
   try {
-    let userStats = await Stats.findOne({ userID: id }).populate("user");
+    const user = await User.findOne({ _id: id });
+    const games = await GameHistory.find({ user: id });
+    games.forEach(game => {
+      if (!user.playedGames.includes(game._id)) {
+        user.playedGames.push(game._id);
+      }
+    });
+    await user.save();
+
+    let userStats = await Stats.findOne({ userRef: id }).populate("userRef").then(userStats => res.status(200).json({ success: true, user: userStats }));
     if (!userStats) {
       return res.status(404).json({ success: false, error: 'User not found' });
     }
     console.log(userStats)
-    res.status(200).json({ success: true, user: userStats });
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, error: 'Failed to get user' });

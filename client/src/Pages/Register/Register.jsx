@@ -102,7 +102,7 @@ export default function Register() {
                     <div className="alreadyMemberCont"><p className="alreadyMemberText">Already a member?</p>
                         <Link to="/login" className="fromRegisterToLogin"><button>Login</button></Link></div>
                 </> :
-                <div className="formContainerRegister">
+                <div className={`formContainerRegister ${colorTheme.darkContBackground}`}>
                     <h2>Registration was successful, please log in.</h2>
                     <p>If you are not redirected in {seconds} seconds, please click on the button.</p>
                     <Link to="/login" className="siteNavBtn"><button>Login</button></Link>
