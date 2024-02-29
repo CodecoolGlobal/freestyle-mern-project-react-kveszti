@@ -211,7 +211,6 @@ app.patch("/api/users/id/:id/stats", async (req, res) => {
     const { game, question, isCorrect, difficulty, category, "correct_answer": correctAnswer, "incorrect_answers": incorrectAnswers, choosenAnswer } = req.body.question;
 
 
-    console.log(req.body)
 
     const questionObject = new Question({
       game,
@@ -312,20 +311,29 @@ app.get("/api/users/id/:id/stats", async (req, res) => {
         user.playedGames.push(game._id);
       }
     });
+
+    const allQuestionIds = [];
+    games.forEach(game => game.populate("questionsAndAnswers").then(res => game.save()));
+    games.forEach(game => game.questionsAndAnswers.forEach(q => allQuestionIds.push(q)));
+    console.log("allQuestionsIDs console log", allQuestionIds)
+
+    const allQuestions = await Question.find({ _id: { $in: allQuestionIds } })
+    console.log(allQuestions)
+
     await user.save();
 
-    let userStats = await Stats.findOne({ userRef: id }).populate("userRef").then(userStats => res.status(200).json({ success: true, user: userStats }));
+
+    let userStats = await Stats.findOne({ userRef: id }).populate("userRef").then(userStats => res.status(200).json({ success: true, user: userStats, games: games, allQuestions: allQuestions }));
     if (!userStats) {
       return res.status(404).json({ success: false, error: 'User not found' });
     }
-    console.log(userStats)
+    // console.log(userStats)
 
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, error: 'Failed to get user' });
   }
 })
-
 
 
 app.delete("/api/users/edit/id/:id", async (req, res) => {

@@ -33,6 +33,8 @@ export default function MyStats() {
   const { colorTheme } = useContext(ColorThemeContext);
   const [id, setID] = useState(userObj.userID);
   const [userStats, setUserStats] = useState(null);
+  const [userGames, setUserGames] = useState(null);
+  const [allQuestions, setAllQuestions] = useState(null);
   const [filteredUserStats, setFilteredUserStats] = useState(null);
   const [prevLevel, setPrevLevel] = useState(15);
   const [nextLevel, setNextLevel] = useState(22.5);
@@ -43,19 +45,43 @@ export default function MyStats() {
   const [currentLevelCat, setCurrentLevelCat] = useState(0);
   const [selectedCat, setSelectedCat] = useState(null);
 
+  const [mostPlayedMode, setMostPlayedMode] = useState(null);
+  const [mostQuestionsCat, setMostQuestionsCat] = useState(null);
+
   useEffect(() => {
     fetchData(`/api/users/id/${id}/stats`)
       .then(response => {
-        // console.log(response);
+        // // console.log(response);
         if (response.success) {
           setUserStats(response.user);
-          console.log(response.user);
+          setAllQuestions(response.allQuestions);
+          setUserGames(response.games);
+          // // //console.log(response.user);
         }
       })
       .catch(error => {
-        console.log(error);
+        // // console.log(error);
       });
   }, [])
+
+  useEffect(() => {
+    if (allQuestions) {
+      const questionPcsObject = {}
+      allQuestions.forEach(question => {
+        if (!Object.keys(questionPcsObject).includes(question.category)) {
+          questionPcsObject[question.category] = [question];
+        } else {
+          questionPcsObject[question.category].push(question);
+        }
+      })
+      const obj = Object.entries(questionPcsObject).reduce((acc, [key, value]) => {
+        return value.length > acc[1].length ? [key, value] : acc;
+      }, ['', []])
+      console.log(obj);
+      setMostQuestionsCat(obj)
+    }
+
+  }, [allQuestions])
 
   useEffect(() => {
     if (userStats) {
@@ -69,8 +95,8 @@ export default function MyStats() {
     }
   }, [userStats])
 
-  // useEffect(() => { console.log(userObj) }, [userObj])
-  // useEffect(() => { console.log(filteredUserStats) }, [filteredUserStats])
+  // // // useEffect(() => { console.log(userObj) }, [userObj])
+  // // // useEffect(() => { console.log(filteredUserStats) }, [filteredUserStats])
 
   return (
     <>
@@ -110,6 +136,9 @@ export default function MyStats() {
                     ))}
                 </select> : <></>}
             </div>
+            {mostQuestionsCat ? <div className={`generalStatsCont ${colorTheme.lightContBackground} ${colorTheme.darkText}`}>
+              <div>Most questions answered: {mostQuestionsCat[0]}({mostQuestionsCat[1].length})</div>
+            </div> : <></>}
           </>) : (
           <p className="gameOverInfo">Loading user stats...</p>
         )}
