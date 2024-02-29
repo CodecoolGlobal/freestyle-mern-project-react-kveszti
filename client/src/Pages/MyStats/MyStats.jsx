@@ -15,15 +15,12 @@ async function fetchData(url, id, method = "GET", body = {}) {
 
 function findClosestNumbers(starterNumber, currentNumber) {
   let nextNumber = starterNumber;
-  let prevNumber = starterNumber;
+  let prevNumber = 0;
   let counter = 0;
 
   while (nextNumber < currentNumber) {
     prevNumber = nextNumber
     nextNumber *= 1.5;
-    counter++
-  }
-  if (currentNumber === nextNumber) {
     counter++
   }
 
@@ -39,12 +36,12 @@ export default function MyStats() {
   const [userGames, setUserGames] = useState(null);
   const [allQuestions, setAllQuestions] = useState(null);
   const [filteredUserStats, setFilteredUserStats] = useState(null);
-  const [prevLevel, setPrevLevel] = useState(15);
-  const [nextLevel, setNextLevel] = useState(22.5);
+  const [prevLevel, setPrevLevel] = useState(0);
+  const [nextLevel, setNextLevel] = useState(15);
   const [currentLevel, setCurrentLevel] = useState(0)
 
-  const [prevLevelCat, setPrevLevelCat] = useState(6);
-  const [nextLevelCat, setNextLevelCat] = useState(9);
+  const [prevLevelCat, setPrevLevelCat] = useState(0);
+  const [nextLevelCat, setNextLevelCat] = useState(6);
   const [currentLevelCat, setCurrentLevelCat] = useState(0);
   const [selectedCat, setSelectedCat] = useState(null);
   const [selectedCatPoints, setSelectedCatPoints] = useState(null);
@@ -128,7 +125,7 @@ export default function MyStats() {
 
   useEffect(() => {
     if (userStats) {
-      const { nextNumber, prevNumber, counter } = findClosestNumbers(prevLevel, userStats.stats[1].category.points);
+      const { nextNumber, prevNumber, counter } = findClosestNumbers(nextLevel, userStats.stats[1].category.points);
       setPrevLevel(prevNumber);
       setNextLevel(nextNumber);
       setCurrentLevel(counter);
@@ -145,7 +142,7 @@ export default function MyStats() {
       console.log(selectedCat)
       const categoryObj = userStats.stats.find(object => object.category.name === selectedCat);
       console.log("catObj", categoryObj)
-      const { nextNumber, prevNumber, counter } = findClosestNumbers(prevLevelCat, categoryObj.category.points);
+      const { nextNumber, prevNumber, counter } = findClosestNumbers(nextLevelCat, categoryObj.category.points);
       setPrevLevelCat(prevNumber);
       setNextLevelCat(nextNumber);
       setCurrentLevelCat(counter);
@@ -208,10 +205,8 @@ export default function MyStats() {
             <div className="XPContRemaining statsGrid1">
               {filteredUserStats ?
                 <div>
-                  <select name="category" className="categoryDropStats" onChange={(e) => { setSelectedCat(e.target.value); setSelectedCatPoints(e.target.id) }}> {filteredUserStats
-                    .sort((a, b) => a.category.name.localeCompare(b.category.name))[0].name}
+                  <select name="category" className="categoryDropStats" onChange={(e) => { setSelectedCat(e.target.value); setSelectedCatPoints(e.target.id) }}> {filteredUserStats[0].name}
                     {filteredUserStats
-                      .sort((a, b) => a.category.name.localeCompare(b.category.name))
                       .map(cat => (
                         <option key={cat._id} id={cat.category.points} value={cat.category.name}>{cat.category.name}</option>
                       ))}
