@@ -3,6 +3,7 @@ import { UserObjectContext } from "../../App";
 import { ColorThemeContext } from "../../App";
 import HistoryListElement from "../../Components/HistoryList/HistoryElement";
 import HistoryDetailed from "../../Components/HistoryList/HistoryDetailed";
+import ReactPaginate from 'react-paginate';
 
 async function fetchData(url, id, method = "GET", body = {}) {
   try {
@@ -19,10 +20,12 @@ export default function History() {
   const [id, setID] = useState(userObj.userID);
   const [view, setView] = useState("all");
   const [allGamesArray, setAllGamesArray] = useState([]);
-  const [inspectedGame, setInspectedGame] = useState(null)
+  const [inspectedGame, setInspectedGame] = useState(null);
+
+
 
   useEffect(() => { fetchData("/api/userHistory/id/", id, "GET").then(response => setAllGamesArray(response.user.playedGames.reverse())) }, []);
-  useEffect(() => { console.log(allGamesArray) }, [allGamesArray]);
+
 
   function handleDetailedView(gameObject) {
     setInspectedGame(gameObject)
@@ -31,9 +34,10 @@ export default function History() {
 
   return (
     <>{view === "all" ?
-      <div id="allHistoryListElements" className="historyListCont">
+      <><div id="allHistoryListElements" className="historyListCont">
         {allGamesArray.map(game => <HistoryListElement key={game._id} gameObject={game} handleDetailedView={handleDetailedView} />)}
-      </div> :
+      </div>
+      </> :
       <div id="singleDetailedGameHistory"><HistoryDetailed gameObject={inspectedGame} setView={setView} /></div>}</>
   )
 }
