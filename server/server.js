@@ -210,8 +210,6 @@ app.patch("/api/users/id/:id/stats", async (req, res) => {
     const points = req.body.points;
     const { game, question, isCorrect, difficulty, category, "correct_answer": correctAnswer, "incorrect_answers": incorrectAnswers, choosenAnswer } = req.body.question;
 
-
-
     const questionObject = new Question({
       game,
       question,
@@ -232,6 +230,10 @@ app.patch("/api/users/id/:id/stats", async (req, res) => {
     }
     gameHistoryObject.questionsAndAnswers.push(questionObject._id);
     gameHistoryObject.gainedPoints += points;
+
+    if (gameHistoryObject.gainedPoints < 0) {
+      gameHistoryObject.gainedPoints = 0;
+    }
     if (isCorrect) {
       gameHistoryObject.correctAnswers++
     };
