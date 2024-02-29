@@ -51,7 +51,7 @@ export default function MyStats() {
   useEffect(() => {
     fetchData(`/api/users/id/${id}/stats`)
       .then(response => {
-        // // // console.log(response);
+        console.log(response);
         if (response.success) {
           setUserStats(response.user);
           setAllQuestions(response.allQuestions);
@@ -60,7 +60,7 @@ export default function MyStats() {
         }
       })
       .catch(error => {
-        // // // console.log(error);
+        console.log(error);
       });
   }, [])
 
@@ -97,7 +97,7 @@ export default function MyStats() {
     if (userGames) {
       const gameModePcsObject = {}
       userGames.forEach(game => {
-        if (!Object.keys(gameModePcsObject).includes(game.category)) {
+        if (!Object.keys(gameModePcsObject).includes(game.gameMode)) {
           gameModePcsObject[game.gameMode] = [game];
         } else {
           gameModePcsObject[game.gameMode].push(game);
@@ -106,7 +106,7 @@ export default function MyStats() {
       const arr = Object.entries(gameModePcsObject).reduce((acc, [key, value]) => {
         return value.length > acc[1].length ? [key, value] : acc;
       }, ['', []])
-      console.log(arr);
+      console.log(gameModePcsObject);
       setMostPlayedMode(arr);
     }
   }, [userGames])
