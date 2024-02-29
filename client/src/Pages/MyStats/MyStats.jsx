@@ -51,18 +51,28 @@ export default function MyStats() {
   useEffect(() => {
     fetchData(`/api/users/id/${id}/stats`)
       .then(response => {
-        // // console.log(response);
+        // // // console.log(response);
         if (response.success) {
           setUserStats(response.user);
           setAllQuestions(response.allQuestions);
           setUserGames(response.games);
-          // // //console.log(response.user);
+          // // // //console.log(response.user);
         }
       })
       .catch(error => {
-        // // console.log(error);
+        // // // console.log(error);
       });
   }, [])
+
+  /* if (gameObject.gameMode === "sprint") {
+    gameMode = "Sprint"
+  } else if (gameObject.gameMode === "allIn") {
+    gameMode = "All in"
+  } else if (gameObject.gameMode === "5050") {
+    gameMode = "50:50"
+  } else if (gameObject.gameMode === "zen") {
+    gameMode = "Zen"
+  } */
 
   useEffect(() => {
     if (allQuestions) {
@@ -74,14 +84,32 @@ export default function MyStats() {
           questionPcsObject[question.category].push(question);
         }
       })
-      const obj = Object.entries(questionPcsObject).reduce((acc, [key, value]) => {
+      const arr = Object.entries(questionPcsObject).reduce((acc, [key, value]) => {
         return value.length > acc[1].length ? [key, value] : acc;
       }, ['', []])
-      console.log(obj);
-      setMostQuestionsCat(obj)
+      // //console.log(obj);
+      setMostQuestionsCat(arr)
     }
 
   }, [allQuestions])
+
+  useEffect(() => {
+    if (userGames) {
+      const gameModePcsObject = {}
+      userGames.forEach(game => {
+        if (!Object.keys(gameModePcsObject).includes(game.category)) {
+          gameModePcsObject[game.gameMode] = [game];
+        } else {
+          gameModePcsObject[game.gameMode].push(game);
+        }
+      })
+      const arr = Object.entries(gameModePcsObject).reduce((acc, [key, value]) => {
+        return value.length > acc[1].length ? [key, value] : acc;
+      }, ['', []])
+      console.log(arr);
+      setMostPlayedMode(arr);
+    }
+  }, [userGames])
 
   useEffect(() => {
     if (userStats) {
@@ -95,8 +123,8 @@ export default function MyStats() {
     }
   }, [userStats])
 
-  // // // useEffect(() => { console.log(userObj) }, [userObj])
-  // // // useEffect(() => { console.log(filteredUserStats) }, [filteredUserStats])
+  // // // // useEffect(() => { console.log(userObj) }, [userObj])
+  // // // // useEffect(() => { console.log(filteredUserStats) }, [filteredUserStats])
 
   return (
     <>
@@ -106,7 +134,8 @@ export default function MyStats() {
           <>
             <div className={`generalStatsCont ${colorTheme.lightContBackground} ${colorTheme.darkText}`}>
               <div>Played games: {userStats.userRef.playedGames.length}</div>
-
+              <div>Most played game mode:</div>
+              {mostPlayedMode ? <div>{mostPlayedMode[0]} ({mostPlayedMode[1].length})</div> : <></>}
               <div className="streakCont"><div>Longest 🔥</div>
                 <div>In a single gameplay: {userStats.userRef.longestStreakOneGame}</div>
                 <div>Through multiple games: {userStats.userRef.longestStreakThroughGames}</div></div>
