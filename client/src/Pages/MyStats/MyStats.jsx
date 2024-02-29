@@ -3,6 +3,7 @@ import { UserObjectContext } from "../../App";
 import { ColorThemeContext } from "../../App";
 import { CircularProgressbar, CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import he from "he";
 
 async function fetchData(url, id, method = "GET", body = {}) {
   try {
@@ -135,7 +136,7 @@ export default function MyStats() {
       const totalObj = userStats.stats.find(object => object.category.name === 'total');
       const userStatsFiltered = userStats.stats.filter(stat => stat._id != totalObj._id);
       setFilteredUserStats(userStatsFiltered);
-      setSelectedCat(userStatsFiltered.sort((a, b) => a.category.name.localeCompare(b.category.name))[0].category.name)
+      setSelectedCat(userStatsFiltered[0].category.name)
       setHighestCat(userStatsFiltered.sort((a, b) => b.category.points - a.category.points)[0].category)
     }
   }, [userStats])
@@ -164,7 +165,7 @@ export default function MyStats() {
   }, [highestCat])
 
 
-  // // // // useEffect(() => { console.log(userObj) }, [userObj])
+  useEffect(() => { console.log(userObj) }, [userObj])
   // // // // useEffect(() => { console.log(filteredUserStats) }, [filteredUserStats])
 
   return (
@@ -208,10 +209,10 @@ export default function MyStats() {
             <div className="XPContRemaining statsGrid1">
               {filteredUserStats ?
                 <div>
-                  <select name="category" className="categoryDropStats" onChange={(e) => { setSelectedCat(e.target.value); setSelectedCatPoints(e.target.id) }}> {filteredUserStats
-                    .sort((a, b) => a.category.name.localeCompare(b.category.name))[0].name}
+                  <select name="category" className="categoryDropStats" onChange={(e) => { setSelectedCat(e.target.value); setSelectedCatPoints(e.target.id) }}> {filteredUserStats[0].name
+                  }
                     {filteredUserStats
-                      .sort((a, b) => a.category.name.localeCompare(b.category.name))
+                      //.sort((a, b) => a.category.name.localeCompare(b.category.name))
                       .map(cat => (
                         <option key={cat._id} id={cat.category.points} value={cat.category.name}>{cat.category.name}</option>
                       ))}
@@ -238,12 +239,12 @@ export default function MyStats() {
             {mostQuestionsCat ? <div className={`generalStatsCont statsGrid2 ${colorTheme.lightContBackground} ${colorTheme.darkText}`}>
               <div className="row1">
                 <h2>Highest category:</h2>
-                <h3>{highestCat.name} (LVL {highestCatLevel})</h3>
+                <h3>{he.decode(highestCat.name)} (LVL {highestCatLevel})</h3>
               </div>
               <div className="row2"></div>
               <div className="row3">
                 <h2>Most questions answered:</h2>
-                <h3>{mostQuestionsCat[0]} ({mostQuestionsCat[1].length})</h3>
+                <h3>{he.decode(mostQuestionsCat[0])} ({mostQuestionsCat[1].length})</h3>
               </div>
             </div> : <></>}
           </>) : (
