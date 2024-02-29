@@ -260,27 +260,31 @@ app.patch("/api/users/id/:id/stats", async (req, res) => {
     await gameHistoryObject.save();
 
     let categoryFound = false;
-    if (userStats.stats.length !== 0) {
-      for (let i = 0; i < userStats.stats.length; i++) {
-        if (userStats.stats[i].category.name === name) {
-          userStats.stats[i].category.points += points;
-          categoryFound = true; // Mark category as found
-          break; // Exit loop after updating points
+    {
+      if (points < 0) {
+        points = 0;
+      }
+      if (userStats.stats.length !== 0) {
+        for (let i = 0; i < userStats.stats.length; i++) {
+          if (userStats.stats[i].category.name === name) {
+            userStats.stats[i].category.points += points;
+            categoryFound = true; // Mark category as found
+            break; // Exit loop after updating points
+          }
         }
       }
-    }
 
-    if (!categoryFound) {
-      userStats.stats.push({ category: { name: name, points: points } });
-    }
+      if (!categoryFound) {
+        userStats.stats.push({ category: { name: name, points: points } });
+      }
 
-    const totalCategory = userStats.stats.find(stat => stat.category.name === "total");
-    if (totalCategory) {
-      totalCategory.category.points += points;
-    } else {
-      userStats.stats.push({ category: { name: "total", points: points } });
+      const totalCategory = userStats.stats.find(stat => stat.category.name === "total");
+      if (totalCategory) {
+        totalCategory.category.points += points;
+      } else {
+        userStats.stats.push({ category: { name: "total", points: points } });
+      }
     }
-
     await userStats.save();
     console.log(`app.patch  user:`, userStats);
     res.status(200).json({ success: true, user: userStats });

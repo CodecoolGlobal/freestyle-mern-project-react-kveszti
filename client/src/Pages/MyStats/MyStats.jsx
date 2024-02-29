@@ -54,6 +54,7 @@ export default function MyStats() {
 
   const [mostPlayedMode, setMostPlayedMode] = useState(null);
   const [mostQuestionsCat, setMostQuestionsCat] = useState(null);
+  const [gameMode, setGameMode] = useState(null);
 
   useEffect(() => {
     fetchData(`/api/users/id/${id}/stats`)
@@ -71,15 +72,6 @@ export default function MyStats() {
       });
   }, [])
 
-  /* if (gameObject.gameMode === "sprint") {
-    gameMode = "Sprint"
-  } else if (gameObject.gameMode === "allIn") {
-    gameMode = "All in"
-  } else if (gameObject.gameMode === "5050") {
-    gameMode = "50:50"
-  } else if (gameObject.gameMode === "zen") {
-    gameMode = "Zen"
-  } */
 
   useEffect(() => {
     if (allQuestions) {
@@ -117,6 +109,22 @@ export default function MyStats() {
       setMostPlayedMode(arr);
     }
   }, [userGames])
+
+  useEffect(() => {
+    if (mostPlayedMode) {
+      console.log(mostPlayedMode)
+      if (mostPlayedMode[0] === "sprint") {
+        setGameMode("Sprint");
+      } else if (mostPlayedMode[0] === "allIn") {
+        setGameMode("All in");
+      } else if (mostPlayedMode[0] === "5050") {
+        setGameMode("50:50");
+      } else if (mostPlayedMode[0] === "zen") {
+        setGameMode("Zen");
+      }
+    }
+  }, [mostPlayedMode])
+
 
   useEffect(() => {
     if (userStats) {
@@ -166,14 +174,20 @@ export default function MyStats() {
         {userStats ? (
           <>
             <div className={`generalStatsCont statsGrid1 ${colorTheme.lightContBackground} ${colorTheme.darkText}`}>
-              <div>Played games: {userStats.userRef.playedGames.length}</div>
-              <div>Most played game mode:</div>
-              {mostPlayedMode ? <div>{mostPlayedMode[0]} ({mostPlayedMode[1].length})</div> : <></>}
-              <div className="streakCont"><div>Longest 🔥</div>
-                <div>In a single gameplay: {userStats.userRef.longestStreakOneGame}</div>
-                <div>Through multiple games: {userStats.userRef.longestStreakThroughGames}</div></div>
+              <div>
+                <h2>Played games: {userStats.userRef.playedGames.length}</h2>
+              </div>
+              <div>
+                <h2>Most played game mode:</h2>
+                {gameMode ? <h2>{gameMode} ({mostPlayedMode[1].length})</h2> : <></>}
+              </div>
+              <div>
+                <div className="streakCont"><h2>Longest 🔥</h2>
+                  <h3>In a single gameplay: {userStats.userRef.longestStreakOneGame}</h3>
+                  <h3>Through multiple games: {userStats.userRef.longestStreakThroughGames}</h3></div>
+              </div>
             </div>
-            <div className="statsGrid2">
+            <div className="statsGrid2"> <div>
               <h2 className="lbTitle">Overall progress</h2>
               <div className="progressCont">
                 <CircularProgressbarWithChildren
@@ -188,12 +202,12 @@ export default function MyStats() {
                   {<div><p className="donutTxt">{`${userStats.stats[1].category.name}:`} <br /> {`${userStats.stats[1].category.points}`}</p></div>}
                 </CircularProgressbarWithChildren>
               </div>
-              <h3>CURRENT LEVEL: {currentLevel}</h3>
-            </div>
+              <h3 className="LVLTitleSpacer">CURRENT LEVEL: {currentLevel}</h3>
+            </div></div>
 
             <div className="XPContRemaining statsGrid1">
               {filteredUserStats ?
-                <>
+                <div>
                   <select name="category" className="categoryDropStats" onChange={(e) => { setSelectedCat(e.target.value); setSelectedCatPoints(e.target.id) }}> {filteredUserStats
                     .sort((a, b) => a.category.name.localeCompare(b.category.name))[0].name}
                     {filteredUserStats
@@ -213,22 +227,24 @@ export default function MyStats() {
                         pathColor: `${colorTheme.progressDonutPath}`,
                         trailColor: `${colorTheme.progressDonutTrail}`,
                       })}>
-                      {<div><p className="donutTxt"> {`${selectedCatPoints}`}</p></div>}
+                      {<div><h3 className="donutTxt"> {`${selectedCatPoints}`}</h3></div>}
                     </CircularProgressbarWithChildren>
                   </div>
                   <h2 className="lbTitle">{selectedCat}</h2>
                   <h3>CURRENT LEVEL: {currentLevelCat}</h3>
-                </>
+                </div>
                 : <></>}
             </div>
             {mostQuestionsCat ? <div className={`generalStatsCont statsGrid2 ${colorTheme.lightContBackground} ${colorTheme.darkText}`}>
-              <div>
-                <h3>Highest category:</h3>
-                {highestCat.name} (LVL {highestCatLevel})
+              <div className="row1">
+                <h2>Highest category:</h2>
+                <h3>{highestCat.name} (LVL {highestCatLevel})</h3>
               </div>
-              <div>
-                <h3>Most questions answered:</h3>
-                {mostQuestionsCat[0]} ({mostQuestionsCat[1].length})</div>
+              <div className="row2"></div>
+              <div className="row3">
+                <h2>Most questions answered:</h2>
+                <h3>{mostQuestionsCat[0]} ({mostQuestionsCat[1].length})</h3>
+              </div>
             </div> : <></>}
           </>) : (
           <p className="gameOverInfo">Loading user stats...</p>

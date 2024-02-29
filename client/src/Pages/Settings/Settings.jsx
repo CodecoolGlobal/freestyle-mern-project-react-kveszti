@@ -90,7 +90,7 @@ export default function Settings() {
       "darkText": "darkZsaniText",
       "lightOpacBackground": "lightZsaniOpacBackground",
       "bodyBackground": "linear-gradient(to bottom right, #008EAC, #09BEAD)",
-      "progressDonutPath": "#008EAC",
+      "progressDonutPath": "#E22E5D",
       "progressDonutTrail": "#09BEAD",
       "hrBorderColor": "darkZsaniHrBorder"
     }

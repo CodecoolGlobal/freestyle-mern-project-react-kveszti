@@ -1,3 +1,4 @@
+
 // import React from "react";
 
 // class ChangingProgressProvider extends React.Component {
@@ -24,16 +25,13 @@
 
 // export default ChangingProgressProvider;
 import React from "react";
-
 class ChangingProgressProvider extends React.Component {
     static defaultProps = {
         interval: 1000
     };
-
     state = {
         valuesIndex: 0
     };
-
     componentDidMount() {
         this.intervalId = setInterval(() => {
             const nextIndex = this.state.valuesIndex + 1;
@@ -46,7 +44,6 @@ class ChangingProgressProvider extends React.Component {
             }
         }, this.props.interval);
     }
-
     componentWillUnmount() {
         clearInterval(this.intervalId); // Clear the interval on unmount
     }
@@ -55,5 +52,4 @@ class ChangingProgressProvider extends React.Component {
         return this.props.children(this.props.values[this.state.valuesIndex]);
     }
 }
-
 export default ChangingProgressProvider;
