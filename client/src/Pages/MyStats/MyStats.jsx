@@ -97,6 +97,7 @@ export default function MyStats() {
               {filteredUserStats ?
                 <select name="category" className="categoryDrop" onChange={(e) => setSelectedCat(e.target.value)}>
                   {filteredUserStats
+                    //.sort((a, b) => a.category.name.localeCompare(b.category.name))
                     .map(cat => (
                       <option key={cat._id} value={cat.category.name}>{cat.category.name}</option>
                     ))}

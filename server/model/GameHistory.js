@@ -17,7 +17,9 @@ const gameHistorySchema = new Schema({
   allAnswers: Number,
   finished: Boolean,
   longestGoodAnswerStreak: Number,
-  createdAt: Date
+  createdAt: Date,
+  category: String,
+  difficulty: String,
 })
 
 export default model("GameHistory", gameHistorySchema)

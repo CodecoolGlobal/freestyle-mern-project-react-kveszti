@@ -21,7 +21,7 @@ export default function History() {
   const [allGamesArray, setAllGamesArray] = useState([]);
   const [inspectedGame, setInspectedGame] = useState(null)
 
-  useEffect(() => { fetchData("/api/userHistory/id/", id, "GET").then(response => setAllGamesArray(response.user.playedGames)) }, []);
+  useEffect(() => { fetchData("/api/userHistory/id/", id, "GET").then(response => setAllGamesArray(response.user.playedGames.reverse())) }, []);
   useEffect(() => { console.log(allGamesArray) }, [allGamesArray]);
 
   function handleDetailedView(gameObject) {

@@ -99,7 +99,7 @@ app.post("/api/users/all", async (req, res) => {
 app.post("/api/gamehistory", async (req, res) => {
   currentStreak = 0;
   try {
-    const { user, gameMode } = req.body;
+    const { user, gameMode, category, difficulty } = req.body;
     const createdAt = Date.now();
     const finished = false;
     const gainedPoints = 0;
@@ -116,7 +116,9 @@ app.post("/api/gamehistory", async (req, res) => {
       correctAnswers,
       allAnswers,
       longestGoodAnswerStreak,
-      gameMode
+      gameMode,
+      category,
+      difficulty
 
     });
     await gameHistory.save();

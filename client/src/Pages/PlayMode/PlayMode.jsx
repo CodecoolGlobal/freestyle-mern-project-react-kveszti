@@ -93,11 +93,11 @@ export default function PlayMode() {
     }
     setIsPlaying(true);
   }
-  //useEffect(() => { console.log(selectedCat); console.log(selectedDiff) }, [selectedCat, selectedDiff]);
+  useEffect(() => { console.log(selectedCat); console.log(categoryObj.find(obj => obj.id == selectedCat)) }, [selectedCat, selectedDiff]);
   useEffect(() => { console.log(gameMode) }, [gameMode]);
 
   return (<>
-    {isPlaying ? <QuestionsAndAnswers questionsArray={questionsArray} setIsPlaying={setIsPlaying} gameMode={gameMode} /> :
+    {isPlaying ? <QuestionsAndAnswers questionsArray={questionsArray} setIsPlaying={setIsPlaying} gameMode={gameMode} category={categoryObj.find(obj => obj.id == selectedCat)} difficulty={selectedDiff} /> :
       <div className={`optionsContainer ${colorTheme.darkContBackground}`}>
         <h2 className="diffLabel">Difficulty</h2>
         <select name="difficulty" className="difficultyDrop" onChange={(e) => setSelectedDiff(e.target.value)}>

@@ -4,7 +4,7 @@ import { UserObjectContext } from "../../App";
 import { ColorThemeContext } from "../../App";
 import GameOver from "../GameOver/GameOver";
 
-export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, gameMode }) {
+export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, gameMode, category, difficulty }) {
   const { userObj, setUserObj } = useContext(UserObjectContext);
   const { colorTheme } = useContext(ColorThemeContext);
   let correctAnswerSound = new Audio('/correctChime.mp3');
@@ -48,7 +48,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
         return { text: answer, isCorrect: false }
       }))
       setCorrectAnswerObject({ text: questionsArray[questionIndex].correct_answer, isCorrect: true });
-      fetchData("/api/gamehistory", "", "POST", { user: id, gameMode: gameMode }).then(response => setGameId(response.gameHistory._id));
+      fetchData("/api/gamehistory", "", "POST", { user: id, gameMode: gameMode, category: category.category, difficulty: difficulty }).then(response => setGameId(response.gameHistory._id));
     } catch (err) {
       console.error(err)
     }
@@ -240,7 +240,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
 
   return (!isGameOver ? <div className="topMargin"> <div className="questionDetails">
     <div className="whichQuestion">{questionIndex + 1 + '/' + questionsArray.length}</div>
-    <div className="currentStreak">{currentStreak} 🔥</div>
+    {currentStreak > 0 ? <div className="currentStreak">{currentStreak} 🔥</div> : ""}
   </div>{gameMode === "zen" ? <></> : isGameOver === false ? <div className="timeBarCont"><div className="timeBar" style={{ width: `${barWidth}%` }}></div></div> : <></>}
     <div className={`QAndACont ${colorTheme.darkContBackground}`}>
       <div id="question" className={`questionCont ${colorTheme.darkText}`}>{he.decode(questionsArray[questionIndex].question)}</div>

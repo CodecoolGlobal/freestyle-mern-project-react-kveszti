@@ -55,6 +55,8 @@ export default function HistoryDetailed({ gameObject, setView }) {
             <div><strong>{formattedDate}</strong></div>
             <hr className={`${colorTheme.hrBorderColor}`} />
             <div><strong>{gameMode}</strong></div>
+            <div>Category: {gameObject.category ? gameObject.category : "N/A"}</div>
+            <div>Difficulty: {gameObject.difficulty ? gameObject.difficulty.charAt(0).toUpperCase() + gameObject.difficulty.slice(1) : "N/A"}</div>
             <div>XP earned: <strong>{gameObject.gainedPoints}</strong></div>
             <div><strong>{gameObject.correctAnswers}</strong> correct answer(s) out of <strong>{gameObject.allAnswers}</strong> answered question(s)</div>
             <div>Longest streak of correct answers: <strong>{gameObject.longestGoodAnswerStreak}</strong></div>
