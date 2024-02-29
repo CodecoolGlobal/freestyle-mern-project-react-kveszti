@@ -253,7 +253,7 @@
 }
 
 body {
-  background-image: linear-gradient(to bottom right, #18A5A7, #BFFFC7);
+  background-image: linear-gradient(to bottom right, #033495, #AEE4FF);
 }
 
 .blueBodyBackground {
@@ -691,14 +691,23 @@ body {
   margin: 20px;
 }
 
+.categoryDropStats,
 .difficultyDrop,
 .categoryDrop {
-  width: 70%;
   margin: auto;
   border-radius: 25px;
   font-size: large;
   padding: 10px;
   margin-bottom: 10px
+}
+
+.difficultyDrop,
+.categoryDrop {
+  width: 70%;
+}
+
+.categoryDropStats {
+  width: 100%;
 }
 
 .startGameBtn {
@@ -1002,4 +1011,21 @@ body {
 
 .top5GlobalC3 {
   text-align: right;
+}
+
+.StatsContMain {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  width: 800px;
+  border-radius: 25px;
+  margin-top: 30px;
+}
+
+.statsGrid1,
+.statsGrid2 {
+  display: grid;
+  margin: 20px;
+  border-radius: 25px;
+  padding: 20px;
+  align-content: center;
 }

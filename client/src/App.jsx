@@ -17,27 +17,30 @@ import { Layout } from './Pages/Layout/Layout.jsx'
 export const ValidUserContext = createContext(false);
 export const UserObjectContext = createContext("");
 export const ColorThemeContext = createContext({
-  "darkContBackground": "darkGreenBackground",
-  "lightContBackground": "lightGreenBackground",
-  "lightText": "lightGreenText",
-  "darkText": "darkGreenText",
-  "lightOpacBackground": "lightGreenOpacBackground",
-  "progressDonutPath": "#18A5A7",
-  "progressDonutTrail": "#BFFFC7",
+  "darkContBackground": "darkBlueBackground",
+  "lightContBackground": "lightBlueBackground",
+  "lightText": "lightBlueText",
+  "darkText": "darkBlueText",
+  "lightOpacBackground": "lightBlueOpacBackground",
+  "bodyBackground": "linear-gradient(to bottom right, #033495, #AEE4FF)",
+  "progressDonutPath": "#033495",
+  "progressDonutTrail": "#AEE4FF",
+  "hrBorderColor": "darkBlueHrBorder"
 })
 
 function App() {
   const [validUser, setValidUser] = useState(false); //🔰 needs to be false once done
   const [userObj, setUserObj] = useState("");
   const [colorTheme, setColorTheme] = useState({
-    "darkContBackground": "darkGreenBackground",
-    "lightContBackground": "lightGreenBackground",
-    "lightText": "lightGreenText",
-    "darkText": "darkGreenText",
-    "lightOpacBackground": "lightGreenOpacBackground",
-    "progressDonutPath": "#18A5A7",
-    "progressDonutTrail": "#BFFFC7",
-    "hrBorderColor": "darkGreenHrBorder"
+    "darkContBackground": "darkBlueBackground",
+    "lightContBackground": "lightBlueBackground",
+    "lightText": "lightBlueText",
+    "darkText": "darkBlueText",
+    "lightOpacBackground": "lightBlueOpacBackground",
+    "bodyBackground": "linear-gradient(to bottom right, #033495, #AEE4FF)",
+    "progressDonutPath": "#033495",
+    "progressDonutTrail": "#AEE4FF",
+    "hrBorderColor": "darkBlueHrBorder"
   })
 
   return (

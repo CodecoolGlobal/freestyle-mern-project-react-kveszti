@@ -23,6 +23,9 @@ function findClosestNumbers(starterNumber, currentNumber) {
     nextNumber *= 1.5;
     counter++
   }
+  if (currentNumber === nextNumber) {
+    counter++
+  }
 
   return { nextNumber, prevNumber, counter };
 }
@@ -44,6 +47,10 @@ export default function MyStats() {
   const [nextLevelCat, setNextLevelCat] = useState(9);
   const [currentLevelCat, setCurrentLevelCat] = useState(0);
   const [selectedCat, setSelectedCat] = useState(null);
+  const [selectedCatPoints, setSelectedCatPoints] = useState(null);
+  const [highestCat, setHighestCat] = useState(null);
+  const [highestCatLevel, setHighestCatLevel] = useState(null);
+  const [prevLevelHighestCat, setPrevLevelHighestCat] = useState(6);
 
   const [mostPlayedMode, setMostPlayedMode] = useState(null);
   const [mostQuestionsCat, setMostQuestionsCat] = useState(null);
@@ -120,8 +127,34 @@ export default function MyStats() {
       const totalObj = userStats.stats.find(object => object.category.name === 'total');
       const userStatsFiltered = userStats.stats.filter(stat => stat._id != totalObj._id);
       setFilteredUserStats(userStatsFiltered);
+      setSelectedCat(userStatsFiltered.sort((a, b) => a.category.name.localeCompare(b.category.name))[0].category.name)
+      setHighestCat(userStatsFiltered.sort((a, b) => b.category.points - a.category.points)[0].category)
     }
   }, [userStats])
+
+  useEffect(() => {
+    if (filteredUserStats) {
+      console.log(selectedCat)
+      const categoryObj = userStats.stats.find(object => object.category.name === selectedCat);
+      console.log("catObj", categoryObj)
+      const { nextNumber, prevNumber, counter } = findClosestNumbers(prevLevelCat, categoryObj.category.points);
+      setPrevLevelCat(prevNumber);
+      setNextLevelCat(nextNumber);
+      setCurrentLevelCat(counter);
+      setSelectedCatPoints(categoryObj.category.points)
+    }
+  }, [filteredUserStats, selectedCat])
+
+  useEffect(() => {
+
+    if (highestCat) {
+      const { nextNumber, prevNumber, counter } = findClosestNumbers(prevLevelHighestCat, highestCat.points);
+      console.log("c", counter)
+
+      setHighestCatLevel(counter);
+    }
+  }, [highestCat])
+
 
   // // // // useEffect(() => { console.log(userObj) }, [userObj])
   // // // // useEffect(() => { console.log(filteredUserStats) }, [filteredUserStats])
@@ -132,7 +165,7 @@ export default function MyStats() {
 
         {userStats ? (
           <>
-            <div className={`generalStatsCont ${colorTheme.lightContBackground} ${colorTheme.darkText}`}>
+            <div className={`generalStatsCont statsGrid1 ${colorTheme.lightContBackground} ${colorTheme.darkText}`}>
               <div>Played games: {userStats.userRef.playedGames.length}</div>
               <div>Most played game mode:</div>
               {mostPlayedMode ? <div>{mostPlayedMode[0]} ({mostPlayedMode[1].length})</div> : <></>}
@@ -140,33 +173,62 @@ export default function MyStats() {
                 <div>In a single gameplay: {userStats.userRef.longestStreakOneGame}</div>
                 <div>Through multiple games: {userStats.userRef.longestStreakThroughGames}</div></div>
             </div>
-            <div className="progressCont">
+            <div className="statsGrid2">
               <h2 className="lbTitle">Overall progress</h2>
-              <CircularProgressbarWithChildren
-                value={Math.floor((userStats.stats[1].category.points - prevLevel) / (nextLevel - prevLevel) * 100)}
-                maxValue={100}
-                styles={buildStyles({
-                  strokeLinecap: "butt",
-                  textColor: "white",
-                  pathColor: `${colorTheme.progressDonutPath}`,
-                  trailColor: `${colorTheme.progressDonutTrail}`,
-                })}>
-                {<div><p className="donutTxt">{`${userStats.stats[1].category.name}:`} <br /> {`${userStats.stats[1].category.points}`}</p></div>}
-              </CircularProgressbarWithChildren>
+              <div className="progressCont">
+                <CircularProgressbarWithChildren
+                  value={Math.floor((userStats.stats[1].category.points - prevLevel) / (nextLevel - prevLevel) * 100)}
+                  maxValue={100}
+                  styles={buildStyles({
+                    strokeLinecap: "butt",
+                    textColor: "white",
+                    pathColor: `${colorTheme.progressDonutPath}`,
+                    trailColor: `${colorTheme.progressDonutTrail}`,
+                  })}>
+                  {<div><p className="donutTxt">{`${userStats.stats[1].category.name}:`} <br /> {`${userStats.stats[1].category.points}`}</p></div>}
+                </CircularProgressbarWithChildren>
+              </div>
               <h3>CURRENT LEVEL: {currentLevel}</h3>
             </div>
-            <div className="XPContRemaining">
+
+            <div className="XPContRemaining statsGrid1">
               {filteredUserStats ?
-                <select name="category" className="categoryDrop" onChange={(e) => setSelectedCat(e.target.value)}>
-                  {filteredUserStats
-                    //.sort((a, b) => a.category.name.localeCompare(b.category.name))
-                    .map(cat => (
-                      <option key={cat._id} value={cat.category.name}>{cat.category.name}</option>
-                    ))}
-                </select> : <></>}
+                <>
+                  <select name="category" className="categoryDropStats" onChange={(e) => { setSelectedCat(e.target.value); setSelectedCatPoints(e.target.id) }}> {filteredUserStats
+                    .sort((a, b) => a.category.name.localeCompare(b.category.name))[0].name}
+                    {filteredUserStats
+                      .sort((a, b) => a.category.name.localeCompare(b.category.name))
+                      .map(cat => (
+                        <option key={cat._id} id={cat.category.points} value={cat.category.name}>{cat.category.name}</option>
+                      ))}
+                  </select>
+
+                  <div className="progressCont">
+                    <CircularProgressbarWithChildren
+                      value={Math.floor((selectedCatPoints - prevLevelCat) / (nextLevelCat - prevLevelCat) * 100)}
+                      maxValue={100}
+                      styles={buildStyles({
+                        strokeLinecap: "butt",
+                        textColor: "white",
+                        pathColor: `${colorTheme.progressDonutPath}`,
+                        trailColor: `${colorTheme.progressDonutTrail}`,
+                      })}>
+                      {<div><p className="donutTxt"> {`${selectedCatPoints}`}</p></div>}
+                    </CircularProgressbarWithChildren>
+                  </div>
+                  <h2 className="lbTitle">{selectedCat}</h2>
+                  <h3>CURRENT LEVEL: {currentLevelCat}</h3>
+                </>
+                : <></>}
             </div>
-            {mostQuestionsCat ? <div className={`generalStatsCont ${colorTheme.lightContBackground} ${colorTheme.darkText}`}>
-              <div>Most questions answered: {mostQuestionsCat[0]}({mostQuestionsCat[1].length})</div>
+            {mostQuestionsCat ? <div className={`generalStatsCont statsGrid2 ${colorTheme.lightContBackground} ${colorTheme.darkText}`}>
+              <div>
+                <h3>Highest category:</h3>
+                {highestCat.name} (LVL {highestCatLevel})
+              </div>
+              <div>
+                <h3>Most questions answered:</h3>
+                {mostQuestionsCat[0]} ({mostQuestionsCat[1].length})</div>
             </div> : <></>}
           </>) : (
           <p className="gameOverInfo">Loading user stats...</p>
