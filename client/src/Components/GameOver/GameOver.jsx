@@ -16,7 +16,7 @@ async function fetchData(url, id, method = "GET", body = {}) {
 
 function findClosestNumbers(starterNumber, currentNumber) {
     let nextNumber = starterNumber;
-    let prevNumber = starterNumber;
+    let prevNumber = 0;
     let counter = 0;
 
     while (nextNumber < currentNumber) {
@@ -31,8 +31,8 @@ function findClosestNumbers(starterNumber, currentNumber) {
 export default function GameOver({ totalPoints, setIsPlaying, setIsGameOver, correctAnswersNr, questionsArrayLength, userId }) {
     const { colorTheme } = useContext(ColorThemeContext);
     const [userStats, setUserStats] = useState(null);
-    const [prevLevel, setPrevLevel] = useState(15);
-    const [nextLevel, setNextLevel] = useState(22.5);
+    const [prevLevel, setPrevLevel] = useState(0);
+    const [nextLevel, setNextLevel] = useState(15);
     const [currentLevel, setCurrentLevel] = useState(0)
 
     useEffect(() => {
@@ -51,7 +51,7 @@ export default function GameOver({ totalPoints, setIsPlaying, setIsGameOver, cor
 
     useEffect(() => {
         if (userStats) {
-            const { nextNumber, prevNumber, counter } = findClosestNumbers(prevLevel, userStats.stats[1].category.points);
+            const { nextNumber, prevNumber, counter } = findClosestNumbers(nextLevel, userStats.stats[1].category.points);
             setPrevLevel(prevNumber);
             setNextLevel(nextNumber);
             setCurrentLevel(counter);
