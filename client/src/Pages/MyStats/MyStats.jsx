@@ -3,6 +3,7 @@ import { UserObjectContext } from "../../App";
 import { ColorThemeContext } from "../../App";
 import { CircularProgressbar, CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import he from "he";
 
 async function fetchData(url, id, method = "GET", body = {}) {
   try {
@@ -15,15 +16,12 @@ async function fetchData(url, id, method = "GET", body = {}) {
 
 function findClosestNumbers(starterNumber, currentNumber) {
   let nextNumber = starterNumber;
-  let prevNumber = starterNumber;
+  let prevNumber = 0;
   let counter = 0;
 
   while (nextNumber < currentNumber) {
     prevNumber = nextNumber
     nextNumber *= 1.5;
-    counter++
-  }
-  if (currentNumber === nextNumber) {
     counter++
   }
 
@@ -39,12 +37,12 @@ export default function MyStats() {
   const [userGames, setUserGames] = useState(null);
   const [allQuestions, setAllQuestions] = useState(null);
   const [filteredUserStats, setFilteredUserStats] = useState(null);
-  const [prevLevel, setPrevLevel] = useState(15);
-  const [nextLevel, setNextLevel] = useState(22.5);
+  const [prevLevel, setPrevLevel] = useState(0);
+  const [nextLevel, setNextLevel] = useState(15);
   const [currentLevel, setCurrentLevel] = useState(0)
 
-  const [prevLevelCat, setPrevLevelCat] = useState(6);
-  const [nextLevelCat, setNextLevelCat] = useState(9);
+  const [prevLevelCat, setPrevLevelCat] = useState(0);
+  const [nextLevelCat, setNextLevelCat] = useState(6);
   const [currentLevelCat, setCurrentLevelCat] = useState(0);
   const [selectedCat, setSelectedCat] = useState(null);
   const [selectedCatPoints, setSelectedCatPoints] = useState(null);
@@ -128,14 +126,14 @@ export default function MyStats() {
 
   useEffect(() => {
     if (userStats) {
-      const { nextNumber, prevNumber, counter } = findClosestNumbers(prevLevel, userStats.stats[1].category.points);
+      const { nextNumber, prevNumber, counter } = findClosestNumbers(nextLevel, userStats.stats[1].category.points);
       setPrevLevel(prevNumber);
       setNextLevel(nextNumber);
       setCurrentLevel(counter);
       const totalObj = userStats.stats.find(object => object.category.name === 'total');
       const userStatsFiltered = userStats.stats.filter(stat => stat._id != totalObj._id);
       setFilteredUserStats(userStatsFiltered);
-      setSelectedCat(userStatsFiltered.sort((a, b) => a.category.name.localeCompare(b.category.name))[0].category.name)
+      setSelectedCat(userStatsFiltered[0].category.name)
       setHighestCat(userStatsFiltered.sort((a, b) => b.category.points - a.category.points)[0].category)
     }
   }, [userStats])
@@ -145,7 +143,7 @@ export default function MyStats() {
       console.log(selectedCat)
       const categoryObj = userStats.stats.find(object => object.category.name === selectedCat);
       console.log("catObj", categoryObj)
-      const { nextNumber, prevNumber, counter } = findClosestNumbers(prevLevelCat, categoryObj.category.points);
+      const { nextNumber, prevNumber, counter } = findClosestNumbers(nextLevelCat, categoryObj.category.points);
       setPrevLevelCat(prevNumber);
       setNextLevelCat(nextNumber);
       setCurrentLevelCat(counter);
@@ -164,7 +162,7 @@ export default function MyStats() {
   }, [highestCat])
 
 
-  // // // // useEffect(() => { console.log(userObj) }, [userObj])
+  useEffect(() => { console.log(userObj) }, [userObj])
   // // // // useEffect(() => { console.log(filteredUserStats) }, [filteredUserStats])
 
   return (
@@ -208,10 +206,10 @@ export default function MyStats() {
             <div className="XPContRemaining statsGrid1">
               {filteredUserStats ?
                 <div>
-                  <select name="category" className="categoryDropStats" onChange={(e) => { setSelectedCat(e.target.value); setSelectedCatPoints(e.target.id) }}> {filteredUserStats
-                    .sort((a, b) => a.category.name.localeCompare(b.category.name))[0].name}
+                  <select name="category" className="categoryDropStats" onChange={(e) => { setSelectedCat(e.target.value); setSelectedCatPoints(e.target.id) }}> {filteredUserStats[0].name
+                  }
                     {filteredUserStats
-                      .sort((a, b) => a.category.name.localeCompare(b.category.name))
+                      //.sort((a, b) => a.category.name.localeCompare(b.category.name))
                       .map(cat => (
                         <option key={cat._id} id={cat.category.points} value={cat.category.name}>{cat.category.name}</option>
                       ))}
@@ -238,12 +236,12 @@ export default function MyStats() {
             {mostQuestionsCat ? <div className={`generalStatsCont statsGrid2 ${colorTheme.lightContBackground} ${colorTheme.darkText}`}>
               <div className="row1">
                 <h2>Highest category:</h2>
-                <h3>{highestCat.name} (LVL {highestCatLevel})</h3>
+                <h3>{he.decode(highestCat.name)} (LVL {highestCatLevel})</h3>
               </div>
               <div className="row2"></div>
               <div className="row3">
                 <h2>Most questions answered:</h2>
-                <h3>{mostQuestionsCat[0]} ({mostQuestionsCat[1].length})</h3>
+                <h3>{he.decode(mostQuestionsCat[0])} ({mostQuestionsCat[1].length})</h3>
               </div>
             </div> : <></>}
           </>) : (
