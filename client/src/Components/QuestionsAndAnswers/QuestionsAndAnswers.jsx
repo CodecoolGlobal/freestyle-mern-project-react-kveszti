@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import he from "he";
 import { UserObjectContext } from "../../App";
 import { ColorThemeContext } from "../../App";
@@ -33,6 +33,8 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
   const [fourthAnswerCss, setFourthAnswerCss] = useState("");
 
   const abc = ["A", "B", "C", "D"];
+  const interval = useRef(null);
+  const intervalBar = useRef(null)
 
   // // //console.log(questionsArray);
 
@@ -95,7 +97,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
   useEffect(() => {
 
     if (gameMode !== "zen" && gameId) {
-      var interval = setInterval(() => {
+      interval.current = setInterval(() => {
         setCurrentStreak(0);
         const correctAnswerIndex = allAnswersArray.findIndex(answer => answer.isCorrect === true);
         setCss(correctAnswerIndex, "wrong-answer")
@@ -143,19 +145,19 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
         }, 2000);
       }, 1000 * 10);
     }
-    return () => clearInterval(interval);
+    return () => clearInterval(interval.current);
 
   }, [allAnswersArray, gameId])
 
   useEffect(() => {
     if (gameMode !== "zen") {
-      var intervalBar = setInterval(() => {
+      intervalBar.current = setInterval(() => {
         if (!answerSelected) {
           setBarWidth(prev => Math.max(prev - 1, 0));
         }
       }, 100);
     }
-    return () => clearInterval(intervalBar);
+    return () => clearInterval(intervalBar.current);
   }, [questionIndex, allAnswersArray, gameMode]);
 
   function shuffleArray(array) {
@@ -169,7 +171,8 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
   // useEffect(() => { console.log(currentStreak) }, [currentStreak])
 
   function handleAnswerSelect(isCorrect, eventTarget, index) {
-    //clearInterval();
+    clearInterval(interval.current);
+    clearInterval(intervalBar.current)
     setAnswerSelected(true);
 
     while (eventTarget && !eventTarget.classList.contains("answerCont")) {
