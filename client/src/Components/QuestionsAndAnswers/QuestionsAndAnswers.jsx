@@ -27,6 +27,11 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
 
   const [gameId, setGameId] = useState(null);
 
+  const [firstAnswerCss, setFirstAnswerCss] = useState("");
+  const [secondAnswerCss, setSecondAnswerCss] = useState("");
+  const [thirdAnswerCss, setThirdAnswerCss] = useState("");
+  const [fourthAnswerCss, setFourthAnswerCss] = useState("");
+
   const abc = ["A", "B", "C", "D"];
 
   // // //console.log(questionsArray);
@@ -39,6 +44,23 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
       return await response.json();
     } catch (err) {
       console.error("Error while fetching:", err);
+    }
+  }
+
+  function setCss(index, rightOrWrong) {
+    switch (index) {
+      case 0:
+        setFirstAnswerCss(rightOrWrong);
+        return;
+      case 1:
+        setSecondAnswerCss(rightOrWrong);
+        return;
+      case 2:
+        setThirdAnswerCss(rightOrWrong);
+        return;
+      case 4:
+        setThirdAnswerCss(rightOrWrong);
+        return;
     }
   }
 
@@ -76,8 +98,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
       var interval = setInterval(() => {
         setCurrentStreak(0);
         const correctAnswerIndex = allAnswersArray.findIndex(answer => answer.isCorrect === true);
-        const correctAnswerDiv = document.getElementById(`answer${correctAnswerIndex}`);
-        correctAnswerDiv.classList.add("wrong-answer");
+        setCss(correctAnswerIndex, "wrong-answer")
 
         const difficulty = questionsArray[questionIndex].difficulty;
         const category = he.decode(questionsArray[questionIndex].category);
@@ -112,7 +133,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
             });
         }
         setTimeout(() => {
-          correctAnswerDiv.classList.remove("wrong-answer");
+          setCss(correctAnswerIndex, "")
           if (questionIndex < questionsArray.length - 1) {
             setQuestionIndex(prevIndex => prevIndex + 1);
             setBarWidth(100);
@@ -147,15 +168,15 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
 
   // useEffect(() => { console.log(currentStreak) }, [currentStreak])
 
-  function handleAnswerSelect(isCorrect, eventTarget) {
+  function handleAnswerSelect(isCorrect, eventTarget, index) {
     //clearInterval();
     setAnswerSelected(true);
 
     while (eventTarget && !eventTarget.classList.contains("answerCont")) {
       eventTarget = eventTarget.parentElement;
     }
-    const answerDiv = document.getElementById(eventTarget.id);
-    answerDiv.classList.add(isCorrect ? "correct-answer-blink" : "wrong-answer");
+
+    isCorrect ? setCss(index, "correct-answer-blink") : setCss(index, "wrong-answer");
 
     const difficulty = questionsArray[questionIndex].difficulty;
     const category = he.decode(questionsArray[questionIndex].category);
@@ -190,7 +211,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
           console.log(error);
         });
       setTimeout(() => {
-        answerDiv.classList.remove("correct-answer-blink");
+        setCss(index, "");
         if (questionIndex < questionsArray.length - 1) {
           setQuestionIndex(prevIndex => prevIndex + 1);
           setBarWidth(100);
@@ -203,10 +224,8 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
       setCurrentStreak(0);
       incorrectAnswerSound.play();
       const correctAnswerIndex = allAnswersArray.findIndex(answer => answer.isCorrect === true);
-      // // //console.log(correctAnswerIndex)
-      const correctAnswerDiv = document.getElementById(`answer${correctAnswerIndex}`);
-      // // //console.log(correctAnswerDiv)
-      correctAnswerDiv.classList.add("correct-answer");
+      setCss(correctAnswerIndex, "correct-answer")
+
 
 
       if (gameMode === 'allIn') {
@@ -225,8 +244,8 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
           console.log(error);
         });
       setTimeout(() => {
-        answerDiv.classList.remove("wrong-answer");
-        correctAnswerDiv.classList.remove("correct-answer");
+        setCss(index, "");
+        setCss(correctAnswerIndex, "");
         if (questionIndex < questionsArray.length - 1) {
           setQuestionIndex(prevIndex => prevIndex + 1);
           setBarWidth(100);
@@ -245,7 +264,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
     <div className={`QAndACont ${colorTheme.darkContBackground}`}>
       <div id="question" className={`questionCont ${colorTheme.darkText}`}>{he.decode(questionsArray[questionIndex].question)}</div>
       <div className="answersCont">{allAnswersArray.map((obj, index) => {
-        return <><div id={"answer" + index} className="answerCont" onClick={(event) => handleAnswerSelect(obj.isCorrect, event.target)}>
+        return <><div id={"answer" + index} className={`answerCont ${index === 0 ? firstAnswerCss : index === 1 ? secondAnswerCss : index === 2 ? thirdAnswerCss : index === 3 ? fourthAnswerCss : ""}`} onClick={(event) => handleAnswerSelect(obj.isCorrect, event.target, index)}>
           <div className={`answerIndex ${colorTheme.lightText} ${colorTheme.darkContBackground}`}><div className="answerIndexText">{abc[index]}</div></div>
           <div className={`answerText ${colorTheme.darkText}`}>{obj.text}</div>
         </div></>
