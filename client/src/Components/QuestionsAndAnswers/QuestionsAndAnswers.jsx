@@ -60,8 +60,8 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
       case 2:
         setThirdAnswerCss(rightOrWrong);
         return;
-      case 4:
-        setThirdAnswerCss(rightOrWrong);
+      case 3:
+        setFourthAnswerCss(rightOrWrong);
         return;
     }
   }
@@ -228,8 +228,6 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
       incorrectAnswerSound.play();
       const correctAnswerIndex = allAnswersArray.findIndex(answer => answer.isCorrect === true);
       setCss(correctAnswerIndex, "correct-answer")
-
-
 
       if (gameMode === 'allIn') {
         points = difficulty === 'easy' ? -2 : difficulty === 'medium' ? -4 : -6;
