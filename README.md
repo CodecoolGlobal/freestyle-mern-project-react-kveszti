@@ -2,9 +2,17 @@
 Quiz Quest is a quiz game webapp with 4 game modes (Sprint, 50:50, Zen, All in), each of them gives a unique gameplay experience. The app uses the [Open Trivia Database API](https://opentdb.com/) for fetching the trivia questions. This project was created as a part of Codecool's Fullstack Developer course.
 
 Short descriptions of the game modes:
-Sprint - There are 10 questions, you only have 10 seconds to answer each of them, and you get XP based on your tempo. 
+
+
+Sprint - There are 10 questions, you only have 10 seconds to answer each of them, and you get XP based on your tempo.
+
+
 Zen - There are 15 questions and they aren't timed, you can take all the time you need to answer.
+
+
 50:50 - There are 10 true or false questions, you have 10 seconds to answer each.
+
+
 All in - There are 10 questions and they are timed for 10 seconds, but the stakes are higher - good answer count double, while wrong answers count as minus XP.
 
 The UI color theme is customizable with 8 color options. The XP system was created to give awards later on in the form of titles, this is still under development. There is a statistics page with the users game info, and a leaderboard between all the registered users.
