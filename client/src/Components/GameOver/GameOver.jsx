@@ -28,7 +28,7 @@ function findClosestNumbers(starterNumber, currentNumber) {
     return { nextNumber, prevNumber, counter };
 }
 
-export default function GameOver({ totalPoints, setIsPlaying, setIsGameOver, correctAnswersNr, questionsArrayLength, userId }) {
+export default function GameOver({ totalPoints, setIsPlaying, setIsGameOver, correctAnswersNr, questionsArrayLength}) {
     const { colorTheme } = useContext(ColorThemeContext);
     const [userStats, setUserStats] = useState(null);
     const [prevLevel, setPrevLevel] = useState(0);
@@ -36,7 +36,7 @@ export default function GameOver({ totalPoints, setIsPlaying, setIsGameOver, cor
     const [currentLevel, setCurrentLevel] = useState(0)
 
     useEffect(() => {
-        fetchData(`/api/users/id/${userId}/stats`)
+        fetchData(`/api/users/myStats`)
             .then(response => {
                 console.log(response);
                 if (response.success) {
@@ -63,8 +63,7 @@ export default function GameOver({ totalPoints, setIsPlaying, setIsGameOver, cor
         setIsGameOver(false);
         setIsPlaying(false);
     }
-
-
+    
 
     return (<div className={`gameOverCont ${colorTheme.darkContBackground}`}> {totalPoints > 0 ?
         <>

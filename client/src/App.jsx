@@ -15,7 +15,7 @@ import History from './Pages/History/History.jsx';
 import { Layout } from './Pages/Layout/Layout.jsx'
 
 export const ValidUserContext = createContext(false);
-export const UserObjectContext = createContext("");
+
 export const ColorThemeContext = createContext({
   "darkContBackground": "darkBlueBackground",
   "lightContBackground": "lightBlueBackground",
@@ -45,7 +45,6 @@ function App() {
 
   return (
     <ColorThemeContext.Provider value={{ colorTheme, setColorTheme }}>
-      <UserObjectContext.Provider value={{ userObj: userObj, setUserObj: setUserObj }}>
         <ValidUserContext.Provider value={{ validUser, setValidUser }}>
           <BrowserRouter>
             <Routes>
@@ -64,7 +63,6 @@ function App() {
             </Routes>
           </BrowserRouter >
         </ValidUserContext.Provider >
-      </UserObjectContext.Provider>
     </ColorThemeContext.Provider>
   )
 }

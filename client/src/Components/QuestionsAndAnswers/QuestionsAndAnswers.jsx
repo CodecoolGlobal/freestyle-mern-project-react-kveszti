@@ -1,15 +1,12 @@
 import { useState, useEffect, useContext } from "react";
 import he from "he";
-import { UserObjectContext } from "../../App";
 import { ColorThemeContext } from "../../App";
 import GameOver from "../GameOver/GameOver";
 
 export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, gameMode, category, difficulty }) {
-  const { userObj, setUserObj } = useContext(UserObjectContext);
   const { colorTheme } = useContext(ColorThemeContext);
   let correctAnswerSound = new Audio('/correctChime.mp3');
   let incorrectAnswerSound = new Audio('/incorrectChime.mp3');
-  const [id, setID] = useState(userObj.userID);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [allAnswersArray, setAllAnswersArray] = useState([]);
   const [objectifiedArrayIncorrect, setObjectifiedArrayIncorrect] = useState([])
@@ -28,10 +25,6 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
   const [gameId, setGameId] = useState(null);
 
   const abc = ["A", "B", "C", "D"];
-
-  // // //console.log(questionsArray);
-
-  // // //useEffect(() => { console.log(allAnswersArray) }, [allAnswersArray])
 
   async function fetchData(url, id, method = "GET", body = {}) {
     try {
@@ -95,7 +88,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
           currentQuestion.points = points;
           const data = { name: category, points: points, question: currentQuestion }
 
-          fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', data)
+          fetchData(`/api/users/myStats`, '', 'PATCH', data)
             .then(response => {
               console.log(response);
             })
@@ -103,7 +96,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
               console.log(error);
             });
         } else {
-          fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', { question: currentQuestion, points: 0 })
+          fetchData(`/api/users/myStats`, '', 'PATCH', { question: currentQuestion, points: 0 })
             .then(response => {
               console.log(response);
             })
@@ -144,8 +137,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
     }
     return array;
   }
-
-  // useEffect(() => { console.log(currentStreak) }, [currentStreak])
+  
 
   function handleAnswerSelect(isCorrect, eventTarget) {
     //clearInterval();
@@ -182,7 +174,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
       currentQuestion.points = points;
       setTotalPoints((prevPoints) => prevPoints + points);
       const data = { name: category, points: points, question: currentQuestion }
-      fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', data)
+      fetchData(`/api/users/myStats`, '', 'PATCH', data)
         .then(response => {
           console.log(response);
         })
@@ -203,9 +195,9 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
       setCurrentStreak(0);
       incorrectAnswerSound.play();
       const correctAnswerIndex = allAnswersArray.findIndex(answer => answer.isCorrect === true);
-      // // //console.log(correctAnswerIndex)
+  
       const correctAnswerDiv = document.getElementById(`answer${correctAnswerIndex}`);
-      // // //console.log(correctAnswerDiv)
+     
       correctAnswerDiv.classList.add("correct-answer");
 
 
@@ -217,7 +209,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
       currentQuestion.points = points;
 
       const data = { name: category, points: points, question: currentQuestion }
-      fetchData(`/api/users/id/${id}/stats`, '', 'PATCH', data)
+      fetchData(`/api/users/myStats`, '', 'PATCH', data)
         .then(response => {
           console.log(response);
         })

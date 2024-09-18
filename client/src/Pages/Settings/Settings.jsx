@@ -1,6 +1,4 @@
 import { useState, useEffect, useContext } from "react";
-import { ValidUserContext } from "../../App";
-import { UserObjectContext } from "../../App";
 import { ColorThemeContext } from "../../App";
 
 export default function Settings() {

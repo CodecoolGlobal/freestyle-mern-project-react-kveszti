@@ -1,11 +1,9 @@
 import { useContext, useState, useEffect } from "react";
-import { UserObjectContext } from "../../App";
 import { ValidUserContext } from "../../App";
 import { Link, useNavigate } from "react-router-dom";
 import { ColorThemeContext } from "../../App";
 
 export default function UserProfile() {
-    const { userObj, setUserObj } = useContext(UserObjectContext);
     const { validUser, setValidUser } = useContext(ValidUserContext);
     const { colorTheme } = useContext(ColorThemeContext);
     const [birthday, setBirthday] = useState(userObj.birthday);
@@ -21,9 +19,9 @@ export default function UserProfile() {
 
     const validPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]{6,}$"; //Asd4sd
 
-    async function fetchData(url, id, method = "GET", body = {}) {
+    async function fetchData(url,  method = "GET", body = {}) {
         try {
-            const response = await fetch(id !== undefined ? `${url}/${id}` : url, method === "GET" ? { method } : { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+            const response = await fetch( url, method === "GET" ? { method } : { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
             return await response.json();
         } catch (err) {
             console.error("Error while fetching:", err);
@@ -33,14 +31,12 @@ export default function UserProfile() {
     async function handleSubmit(e) {
         e.preventDefault();
 
-        const data = { username: name, email: email, birthday: birthday, gender: gender };
-        fetchData('/api/users/edit/id', userObj.userID, 'PATCH', data)
+        const data = { username: name, email: email, birthday: birthday, gender: gender }; //todo: ennek a helyére fog kelleni egy fetch
+        fetchData('/api/users/edit', 'PATCH', data)
             .then(response => {
                 console.log(response);
                 if (response.success) {
                     setSuccess(true);
-                    setUserObj(response.data);
-
                 }
             })
             .catch(error => {
@@ -52,7 +48,7 @@ export default function UserProfile() {
         e.preventDefault();
         const data = { password: password };
         if (validPwd) {
-            fetchData('/api/users/edit/id', userObj.userID, 'PATCH', data)
+            fetchData('/api/users/edit', 'PATCH', data)
                 .then(response => {
                     console.log(response);
                     console.log(editor);
@@ -71,7 +67,7 @@ export default function UserProfile() {
 
     async function handleDelete(e) {
         e.preventDefault();
-        fetchData('/api/users/edit/id', userObj.userID, 'DELETE')
+        fetchData('/api/users/edit', 'DELETE')
             .then(response => {
                 console.log(response);
                 console.log(editor);
@@ -102,7 +98,7 @@ export default function UserProfile() {
                                 name="user"
                                 className="editTextInput"
                                 maxLength={20}
-                                value={userObj.username}
+                                value={userObj.username} //todo: ezek a fetchelt adatokból kell h jöjjenek
                                 onChange={(e) => setName(e.target.value)}
                             />
                         </label>

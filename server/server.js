@@ -6,12 +6,28 @@ import Stats from "./model/Stats.js";
 import GameHistory from "./model/GameHistory.js";
 import Question from "./model/Questions.js";
 import bcrypt from "bcrypt";
+import cookieParser from "cookie-parser";
+import jwt from "jsonwebtoken";
 
 dotenv.config();
 
+function authenticateToken(req, res, next) {
+    const token = req.cookies.token;
+
+    if (!token) {
+        return res.status(401).json({ success: false, error: "No token provided" });
+    }
+    try {
+        req.user = jwt.verify(token, process.env.JWT_SECRET);
+        next();
+    } catch (err) {
+        return res.status(403).json({ message: 'Invalid token' });
+    }
+};
+
 const app = express();
 app.use(express.json());
-
+app.use(cookieParser());
 
 mongoose.connect(process.env.CONSTRING).then(app.listen(3000, () => {
     console.log("Server running on: http://localhost:3000")
@@ -21,13 +37,14 @@ mongoose.connect(process.env.CONSTRING).then(app.listen(3000, () => {
 let currentStreak = 0;
 let currentStreakThroughGames = 0;
 
+
 app.get("/", (req, res) => {
     res.send("hi")
 });
 
-app.get("/api/userHistory/id/:id", async (req, res) => {
+app.get("/api/userHistory", authenticateToken, async (req, res) => {
     try {
-        const userId = req.params.id;
+        const userId = req.user.userId;
         const user = await User.findOne({_id: userId});
         const games = await GameHistory.find({user: userId});
         games.forEach(game => {
@@ -149,17 +166,17 @@ app.patch("/api/users/login", async (req, res) => {
         if (user) {
             const match = bcrypt.compare(password, user.hashedPassword);
             if (match) {
+                const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+                res.cookie('token', token, {
+                    httpOnly: true, 
+                    secure: process.env.NODE_ENV === 'production', 
+                    maxAge: 3600000, 
+                });
                 res.status(201).json({
-                    success: true, data: {
-                        username: user.username,
-                        userID: user._id,
-                        email: user.email,
-                        birthday: user.birthday ? user.birthday : 'N/A',
-                        gender: user.gender ? user.gender : 'N/A',
-                    }
-                })
+                    success: true, message: "Login successful!"
+                });
             } else {
-                res.status(201).json({success: false, error: "Password is incorrect."})
+                res.status(401).json({success: false, error: "Password is incorrect."})
             }
         } else {
             res.status(404).json({success: false, error: 'User not found.'})
@@ -170,17 +187,14 @@ app.patch("/api/users/login", async (req, res) => {
     }
 })
 
-app.patch("/api/users/edit/id/:id", async (req, res) => {
-    const id = req.params.id;
+app.patch("/api/users/edit", authenticateToken, async (req, res) => {
+    const id = req.user.userId;
     try {
         const user = await User.findById(id);
-        // const userStats = await User.findOne({ userID: id });
         if (!user) {
             return res.status(404).json({success: false, error: 'User not found'});
         }
-        // if (!userStats) {
-        //   return res.status(404).json({ success: false, error: 'Userstats not found' });
-        // }
+        
         if (req.body.password) {
             const {password} = req.body;
             user.password = password;
@@ -190,11 +204,9 @@ app.patch("/api/users/edit/id/:id", async (req, res) => {
             user.email = email;
             user.birthday = birthday;
             user.gender = gender;
-            // userStats.username = username;
         }
 
         await user.save();
-        //await userStats.save();
         console.log(`app.patch  user:`, user);
         res.status(200).json({success: true, data: user});
     } catch (error) {
@@ -203,8 +215,8 @@ app.patch("/api/users/edit/id/:id", async (req, res) => {
     }
 })
 
-app.patch("/api/users/id/:id/stats", async (req, res) => {
-    const id = req.params.id;
+app.patch("/api/users/myStats", authenticateToken, async (req, res) => {
+    const id = req.user.userId;
     const user = await User.findById(id);
     try {
         let userStats = await Stats.findOne({userRef: id});
@@ -213,7 +225,7 @@ app.patch("/api/users/id/:id/stats", async (req, res) => {
         }
 
         const name = req.body.name;
-        const points = req.body.points;
+        let points = req.body.points;
         const {
             game,
             question,
@@ -322,9 +334,9 @@ app.patch("/api/users/id/:id/stats", async (req, res) => {
 // })
 
 
-app.get("/api/users/id/:id/stats", async (req, res) => {
-    const id = req.params.id;
-    console.log(id)
+app.get("/api/users/myStats", authenticateToken, async (req, res) => {
+    const id = req.user.userId;
+    console.log(id);
     try {
         const user = await User.findOne({_id: id});
         const games = await GameHistory.find({user: id});
@@ -354,7 +366,6 @@ app.get("/api/users/id/:id/stats", async (req, res) => {
         if (!userStats) {
             return res.status(404).json({success: false, error: 'User not found'});
         }
-        // console.log(userStats)
 
     } catch (error) {
         console.error(error);
@@ -363,16 +374,16 @@ app.get("/api/users/id/:id/stats", async (req, res) => {
 })
 
 
-app.delete("/api/users/edit/id/:id", async (req, res) => {
-    const id = req.params.id;
+app.delete("/api/users/edit", authenticateToken, async (req, res) => {
+    const id = req.user.userId;
     try {
         const result1 = await User.deleteOne({_id: id});
         const result2 = await Stats.deleteOne({userID: id});
         console.log(result1, result2);
-        res.status(200).json({success: true});
+        res.status(204).json({success: true});
     } catch (error) {
         console.error(error);
-        res.status(500).json({success: false, error: 'Failed to update user'});
+        res.status(500).json({success: false, error: 'Failed to delete user'});
     }
 })
 
@@ -380,3 +391,23 @@ app.get("/api/users/stats", async (req, res) => {
     const statistics = await Stats.find().populate("userRef");
     return res.json(statistics);
 })
+
+app.get("/api/auth/logout", (req, res) => {
+    try {
+        res.clearCookie('token');
+        res.status(200).json({ success: true, message: 'Logged out successfully' });
+    } catch (error) {
+        console.error('Error during logout:', error);
+        res.status(500).json({ success: false, error: 'An error occurred during logout' });
+    }
+})
+
+app.get("/api/auth/isLoggedIn", authenticateToken, (req, res) => {
+    try {
+        console.log("Request user:", req.user);
+        res.status(200).json({ success: true, message: 'User is logged in' });
+    } catch (error) {
+        console.error('Error during authentication check:', error);
+        res.status(500).json({ success: false, error: 'An error occurred while checking authentication' });
+    }
+});
