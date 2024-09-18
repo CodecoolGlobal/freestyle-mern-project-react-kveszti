@@ -209,7 +209,7 @@ export default function MyStats() {
                   <select name="category" className="categoryDropStats" onChange={(e) => { setSelectedCat(e.target.value); setSelectedCatPoints(e.target.id) }}> {filteredUserStats[0].name
                   }
                     {filteredUserStats
-                      //.sort((a, b) => a.category.name.localeCompare(b.category.name))
+                      .sort((a, b) => console.log(a.category.name, b.category.name))
                       .map(cat => (
                         <option key={cat._id} id={cat.category.points} value={cat.category.name}>{cat.category.name}</option>
                       ))}
