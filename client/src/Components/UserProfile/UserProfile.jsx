@@ -1,37 +1,57 @@
 import { useContext, useState, useEffect } from "react";
 import { ValidUserContext } from "../../App";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ColorThemeContext } from "../../App";
 
 export default function UserProfile() {
-    const { validUser, setValidUser } = useContext(ValidUserContext);
+    const { setValidUser } = useContext(ValidUserContext);
     const { colorTheme } = useContext(ColorThemeContext);
-    const [birthday, setBirthday] = useState(userObj.birthday);
-    const [gender, setGender] = useState(userObj.gender);
+    const [birthday, setBirthday] = useState(null);
+    const [gender, setGender] = useState(null);
     const [editor, setEditor] = useState();
-    const [name, setName] = useState(userObj.username);
-    const [email, setEmail] = useState(userObj.email);
-    const [passwordOld, setPasswordOld] = useState(userObj.password);
+    const [name, setName] = useState(null);
+    const [email, setEmail] = useState(null);
+    const [passwordOld, setPasswordOld] = useState(null);
     const [password, setPassword] = useState();
     const [validPwd, setValidPwd] = useState(false)
     const [success, setSuccess] = useState(false);
     const navigate = useNavigate();
+    const [isLoaded, setIsLoaded] = useState(false);
 
     const validPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]{6,}$"; //Asd4sd
 
     async function fetchData(url,  method = "GET", body = {}) {
         try {
-            const response = await fetch( url, method === "GET" ? { method } : { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+            const response = await fetch( url, method === "GET" ? { method, credentials: 'include' } : { method, credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
             return await response.json();
         } catch (err) {
             console.error("Error while fetching:", err);
         }
     }
+    
+    async function initialUserDataFetch(){
+        try {
+            const userProfileData = await fetchData("/api/auth/getUserProfileData");
+            const userData = userProfileData.user;
+            
+            setBirthday(userData.birthday);
+            setName(userData.username);
+            setGender(userData.gender);
+            setEmail(userData.email);
+            setIsLoaded(true);
+        } catch (err){
+            console.error("Error while fetching:", err);
+        }
+    }
 
+    useEffect(() => {
+        initialUserDataFetch();
+    }, []);
+    
     async function handleSubmit(e) {
         e.preventDefault();
 
-        const data = { username: name, email: email, birthday: birthday, gender: gender }; //todo: ennek a helyére fog kelleni egy fetch
+        const data = { username: name, email: email, birthday: birthday, gender: gender };
         fetchData('/api/users/edit', 'PATCH', data)
             .then(response => {
                 console.log(response);
@@ -46,8 +66,8 @@ export default function UserProfile() {
 
     async function handlePWSubmit(e) {
         e.preventDefault();
-        const data = { password: password };
-        if (validPwd) {
+        const data = { password: password, oldPassword: passwordOld };
+        try {
             fetchData('/api/users/edit', 'PATCH', data)
                 .then(response => {
                     console.log(response);
@@ -59,8 +79,8 @@ export default function UserProfile() {
                 .catch(error => {
                     console.log(error);
                 });
-        } else {
-            console.error('invalid old password')
+        } catch (err){
+            console.error('Error while changing password', err);
         }
     }
 
@@ -85,6 +105,10 @@ export default function UserProfile() {
             setEditor('');
         }
     }, [success])
+    
+    if(!isLoaded){
+        return <div>Loading...</div>
+    }
 
     return (
         <div>
@@ -98,7 +122,7 @@ export default function UserProfile() {
                                 name="user"
                                 className="editTextInput"
                                 maxLength={20}
-                                value={userObj.username} //todo: ezek a fetchelt adatokból kell h jöjjenek
+                                defaultValue={name} 
                                 onChange={(e) => setName(e.target.value)}
                             />
                         </label>
@@ -108,7 +132,7 @@ export default function UserProfile() {
                                 type="email"
                                 name="email"
                                 className="editTextInput"
-                                value={userObj.email}
+                                defaultValue={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </label>
@@ -118,7 +142,7 @@ export default function UserProfile() {
                                 type="date"
                                 name="birthday"
                                 className="editDateInput"
-                                value={birthday}
+                                defaultValue={birthday}
                                 required
                                 onChange={(e) => setBirthday(e.target.value)}
                             />
@@ -129,7 +153,7 @@ export default function UserProfile() {
                                 type="text"
                                 name="gender"
                                 className="editTextInput"
-                                value={gender}
+                                defaultValue={gender}
                                 onChange={(e) => setGender(e.target.value)}
                             />
                         </label>
@@ -145,7 +169,7 @@ export default function UserProfile() {
                                     name="pwdOld"
                                     className="editTextInput"
                                     required
-                                    onChange={(e) => (e.target.value === passwordOld ? setValidPwd(true) : setValidPwd(false))}
+                                    onChange={(e) => (setPasswordOld(e.target.value))}
                                 />
                             </label>
                             <label htmlFor="pwdNew" className='profileEditLabel'>

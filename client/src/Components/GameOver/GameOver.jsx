@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { ColorThemeContext } from "../../App";
-import { CircularProgressbar, CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
+import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import ChangingProgressProvider from "../ChangingProgressProvider";
 
-async function fetchData(url, id, method = "GET", body = {}) {
+async function fetchData(url, method = "GET", body = {}) {
     try {
-        const response = await fetch(id !== undefined ? `${url}/${id}` : url, method === "GET" ? { method } : { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+        const response = await fetch(url, method === "GET" ? { method, credentials: 'include' } : { method, credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
         return await response.json();
     } catch (err) {
         console.error("Error while fetching:", err);

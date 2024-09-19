@@ -60,7 +60,7 @@ app.get("/api/userHistory", authenticateToken, async (req, res) => {
     }
 });
 
-app.get("/api/gameHistory/id/:id", async (req, res) => {
+app.get("/api/gameHistory/id/:id", authenticateToken, async (req, res) => {
     try {
         const id = req.params.id;
         const gameHistory = await GameHistory.findOne({_id: id});
@@ -126,18 +126,18 @@ app.post("/api/users/all", async (req, res) => {
     }
 })
 
-app.post("/api/gamehistory", async (req, res) => {
+app.post("/api/gamehistory", authenticateToken, async (req, res) => {
     currentStreak = 0;
+    const user = req.user.userId;
     try {
-        const {user, gameMode, category, difficulty} = req.body;
+        const {gameMode, category, difficulty} = req.body;
         const createdAt = Date.now();
         const finished = false;
         const gainedPoints = 0;
         const correctAnswers = 0;
         const allAnswers = 0;
         const longestGoodAnswerStreak = 0;
-
-
+        
         const gameHistory = new GameHistory({
             user,
             createdAt,
@@ -194,10 +194,15 @@ app.patch("/api/users/edit", authenticateToken, async (req, res) => {
         if (!user) {
             return res.status(404).json({success: false, error: 'User not found'});
         }
-        
         if (req.body.password) {
-            const {password} = req.body;
-            user.password = password;
+            const match = bcrypt.compare(req.body.oldPassword, user.hashedPassword);
+            if(match){
+                const {password} = req.body;
+                user.password = password;
+            } else {
+                return res.status(400).json({success:false, message: "Old password invalid"})
+            }
+            
         } else if (req.body.username) {
             const {username, email, birthday, gender} = req.body;
             user.username = username;
@@ -296,8 +301,8 @@ app.patch("/api/users/myStats", authenticateToken, async (req, res) => {
                 for (let i = 0; i < userStats.stats.length; i++) {
                     if (userStats.stats[i].category.name === name) {
                         userStats.stats[i].category.points += points;
-                        categoryFound = true; // Mark category as found
-                        break; // Exit loop after updating points
+                        categoryFound = true; 
+                        break; 
                     }
                 }
             }
@@ -404,10 +409,22 @@ app.get("/api/auth/logout", (req, res) => {
 
 app.get("/api/auth/isLoggedIn", authenticateToken, (req, res) => {
     try {
-        console.log("Request user:", req.user);
         res.status(200).json({ success: true, message: 'User is logged in' });
-    } catch (error) {
-        console.error('Error during authentication check:', error);
+    } catch (err) {
+        console.error('Error during authentication check:', err);
         res.status(500).json({ success: false, error: 'An error occurred while checking authentication' });
     }
+});
+
+app.get("/api/auth/getUserProfileData", authenticateToken, async (req,res) => {
+    try{
+       const id = req.user.userId;
+       const user = await User.findOne({_id: id});
+       const {hashedPassword, _id, createdAt, playedGames, ...userWithoutPassword} = user._doc;
+       res.status(200).json({success: true, user: userWithoutPassword});
+    } catch(err){
+        console.error('Error while getting user profile data:', err);
+        res.status(500).json({ success: false, error: 'An error occurred while getting user profile data' });
+    }
+    
 });

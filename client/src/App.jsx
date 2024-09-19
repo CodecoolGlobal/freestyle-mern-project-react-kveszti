@@ -30,7 +30,6 @@ export const ColorThemeContext = createContext({
 
 function App() {
   const [validUser, setValidUser] = useState(false); //🔰 needs to be false once done
-  const [userObj, setUserObj] = useState("");
   const [colorTheme, setColorTheme] = useState({
     "darkContBackground": "darkBlueBackground",
     "lightContBackground": "lightBlueBackground",

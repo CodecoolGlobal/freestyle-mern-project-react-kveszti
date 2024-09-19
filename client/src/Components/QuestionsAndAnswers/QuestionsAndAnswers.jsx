@@ -26,9 +26,9 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
 
   const abc = ["A", "B", "C", "D"];
 
-  async function fetchData(url, id, method = "GET", body = {}) {
+  async function fetchData(url, method = "GET", body = {}) {
     try {
-      const response = await fetch(id !== undefined ? `${url}/${id}` : url, method === "GET" ? { method } : { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      const response = await fetch(url, method === "GET" ? { method, credentials: 'include' } : { method, credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
       return await response.json();
     } catch (err) {
       console.error("Error while fetching:", err);
@@ -41,7 +41,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
         return { text: answer, isCorrect: false }
       }))
       setCorrectAnswerObject({ text: questionsArray[questionIndex].correct_answer, isCorrect: true });
-      fetchData("/api/gamehistory", "", "POST", { user: id, gameMode: gameMode, category: category.category, difficulty: difficulty }).then(response => setGameId(response.gameHistory._id));
+      fetchData("/api/gamehistory", "POST", { gameMode: gameMode, category: category.category, difficulty: difficulty }).then(response => setGameId(response.gameHistory._id));
     } catch (err) {
       console.error(err)
     }
@@ -88,7 +88,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
           currentQuestion.points = points;
           const data = { name: category, points: points, question: currentQuestion }
 
-          fetchData(`/api/users/myStats`, '', 'PATCH', data)
+          fetchData(`/api/users/myStats`,'PATCH', data)
             .then(response => {
               console.log(response);
             })
@@ -96,7 +96,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
               console.log(error);
             });
         } else {
-          fetchData(`/api/users/myStats`, '', 'PATCH', { question: currentQuestion, points: 0 })
+          fetchData(`/api/users/myStats`, 'PATCH', { question: currentQuestion, points: 0 })
             .then(response => {
               console.log(response);
             })
@@ -110,7 +110,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
             setQuestionIndex(prevIndex => prevIndex + 1);
             setBarWidth(100);
           } else {
-            fetchData(`/api/gameover/gameID/${gameId}`, '', "PATCH", {}).then(data => setIsGameOver(true));
+            fetchData(`/api/gameover/gameID/${gameId}`, "PATCH", {}).then(data => setIsGameOver(true));
           }
         }, 2000);
       }, 1000 * 10);
@@ -140,7 +140,6 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
   
 
   function handleAnswerSelect(isCorrect, eventTarget) {
-    //clearInterval();
     setAnswerSelected(true);
 
     while (eventTarget && !eventTarget.classList.contains("answerCont")) {
@@ -174,7 +173,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
       currentQuestion.points = points;
       setTotalPoints((prevPoints) => prevPoints + points);
       const data = { name: category, points: points, question: currentQuestion }
-      fetchData(`/api/users/myStats`, '', 'PATCH', data)
+      fetchData(`/api/users/myStats`, 'PATCH', data)
         .then(response => {
           console.log(response);
         })
@@ -188,7 +187,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
           setBarWidth(100);
           setAnswerSelected(false);
         } else {
-          fetchData(`/api/gameover/gameID/${gameId}`, '', "PATCH", {}).then(data => setIsGameOver(true));
+          fetchData(`/api/gameover/gameID/${gameId}`, "PATCH", {}).then(data => setIsGameOver(true));
         }
       }, 2000);
     } else {
@@ -209,7 +208,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
       currentQuestion.points = points;
 
       const data = { name: category, points: points, question: currentQuestion }
-      fetchData(`/api/users/myStats`, '', 'PATCH', data)
+      fetchData(`/api/users/myStats`,'PATCH', data)
         .then(response => {
           console.log(response);
         })
@@ -224,7 +223,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
           setBarWidth(100);
           setAnswerSelected(false);
         } else {
-          fetchData(`/api/gameover/gameID/${gameId}`, '', "PATCH", {}).then(data => setIsGameOver(true));
+          fetchData(`/api/gameover/gameID/${gameId}`,"PATCH", {}).then(data => setIsGameOver(true));
         }
       }, 2000);
     }
@@ -243,6 +242,6 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
         </div></>
       })}
       </div>
-    </div></div> : <GameOver totalPoints={totalPoints} setIsPlaying={setIsPlaying} setIsGameOver={setIsGameOver} correctAnswersNr={correctAnswersNr} questionsArrayLength={questionsArray.length} userId={id} />)
+    </div></div> : <GameOver totalPoints={totalPoints} setIsPlaying={setIsPlaying} setIsGameOver={setIsGameOver} correctAnswersNr={correctAnswersNr} questionsArrayLength={questionsArray.length}/>)
 
 }
