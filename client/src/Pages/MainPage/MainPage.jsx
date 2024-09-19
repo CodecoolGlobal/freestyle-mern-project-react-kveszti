@@ -1,11 +1,31 @@
-import { useNavigate } from "react-router-dom";
-import { ValidUserContext } from "../../App";
+import { useNavigate } from "react-router-dom";;
 import GameModeCont from "../../Components/GameModeCont/GameModeCont";
-import { useContext } from "react";
+import {useContext, useEffect} from "react";
+import {useAuth} from "../../Authentication/AuthProvider.jsx";
 
 export default function MainPage() {
-    const { validUser } = useContext(ValidUserContext);
+    const { validUser, setValidUser } = useAuth();
     const navigate = useNavigate()
+
+    useEffect(() => {
+        async function fetchLoginStatus(){
+            try {
+                const response = await fetch("api/auth/isLoggedIn",{
+                    method: 'GET',
+                    credentials: 'include',
+                });
+                
+                if(response.ok){
+                   setValidUser(true);
+                } else {
+                    setValidUser(false);
+                }
+            } catch (err){
+                console.log("Error occured while fetching login status", err);
+            }
+        }
+        fetchLoginStatus();
+    }, []);
 
     const gameModeArray = [
         {
@@ -29,16 +49,12 @@ export default function MainPage() {
             path: "/play/allIn"
         }
     ]
-    return (validUser ?
-        <main className="mainPageCont">
-            {gameModeArray.map((mode, index) => <GameModeCont key={index + mode.title.charCodeAt(0)} title={mode.title} summary={mode.summary} validUser={validUser} path={mode.path} cls={"gridItem" + index} />)}
-        </main> :
+    return (
         <>
             <main className="mainPageCont">
                 {gameModeArray.map((mode, index) => <GameModeCont key={index + mode.title.charCodeAt(0)} title={mode.title} summary={mode.summary} validUser={validUser} path={mode.path} />)}
-
             </main>
-            <button id="goToRegister" onClick={() => navigate("/register")}>I would like to create an account</button>
+            {validUser ? '' : <button id="goToRegister" onClick={() => navigate("/register")}>I would like to create an account</button>}
         </>
     )
 }

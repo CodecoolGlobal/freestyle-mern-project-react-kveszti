@@ -1,13 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
-import { ValidUserContext } from "../../App";
-import { UserObjectContext } from "../../App";
 import { ColorThemeContext } from "../../App";
+import {useAuth} from "../../Authentication/AuthProvider.jsx";
 
 export default function Login() {
     const Navigate = useNavigate();
-    const { validUser, setValidUser } = useContext(ValidUserContext);
-    const { userObj, setUserObj } = useContext(UserObjectContext);
+    const { setValidUser } = useAuth();
     const { colorTheme } = useContext(ColorThemeContext);
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
@@ -29,12 +27,11 @@ export default function Login() {
                 console.log(response);
                 if (response.success) {
                     setValidUser(true);
-                    setUserObj(response.data);
                     Navigate('/');
                 }
             })
             .catch(error => {
-                // console.log(error);
+                console.log(error);
             });
 
     }

@@ -12,10 +12,24 @@ export default function Header({ validUser, setValidUser }) {
         setActiveItem(itemName);
         navigate(whereTo);
     }
-    function handleLogOut() {
-        setActiveItem(null);
-        setValidUser(false);
-        navigate("/")
+   async function handleLogOut() {
+        try {
+            const logoutResponse = await fetch("api/auth/logout", {
+                method: 'GET',
+                credentials: 'include',
+            });
+            const data = await logoutResponse.json();
+            if (logoutResponse.ok) {
+                setActiveItem(null);
+                setValidUser(false);
+                navigate("/")
+            } else {
+                console.error('Logout failed:', data.error);
+            }
+        }catch(err){
+            console.error('An error occurred during logout:', err);
+        }
+        
     }
     return (
         <header>

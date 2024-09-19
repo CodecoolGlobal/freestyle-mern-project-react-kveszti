@@ -13,9 +13,9 @@ import MyStats from './Pages/MyStats/MyStats.jsx';
 import History from './Pages/History/History.jsx';
 
 import { Layout } from './Pages/Layout/Layout.jsx'
+import ProtectedRoute from "./Authentication/ProtectedRoute.jsx";
 
-export const ValidUserContext = createContext(false);
-export const UserObjectContext = createContext("");
+
 export const ColorThemeContext = createContext({
   "darkContBackground": "darkBlueBackground",
   "lightContBackground": "lightBlueBackground",
@@ -29,8 +29,6 @@ export const ColorThemeContext = createContext({
 })
 
 function App() {
-  const [validUser, setValidUser] = useState(false); //🔰 needs to be false once done
-  const [userObj, setUserObj] = useState("");
   const [colorTheme, setColorTheme] = useState({
     "darkContBackground": "darkBlueBackground",
     "lightContBackground": "lightBlueBackground",
@@ -45,26 +43,22 @@ function App() {
 
   return (
     <ColorThemeContext.Provider value={{ colorTheme, setColorTheme }}>
-      <UserObjectContext.Provider value={{ userObj: userObj, setUserObj: setUserObj }}>
-        <ValidUserContext.Provider value={{ validUser, setValidUser }}>
           <BrowserRouter>
             <Routes>
               <Route path='/' element={<Layout />}>
                 <Route path='/register' element={<Register />}></Route>
                 <Route path='/login' element={<Login />}></Route>
                 <Route path='/' element={<MainPage />}></Route>
-                <Route path='/profile' element={<UserProfile />}></Route>
-                <Route path='/settings' element={<Settings />}></Route >
-                <Route path='/underconstruction' element={<UnderConstruction />}></Route>
-                <Route path='/play/:gameMode' element={<PlayMode />}></Route>
+                <Route path='/profile' element={<ProtectedRoute><UserProfile /></ProtectedRoute>}></Route>
+                <Route path='/settings' element={<ProtectedRoute><Settings /></ProtectedRoute>}></Route >
+                <Route path='/underconstruction' element={<ProtectedRoute><UnderConstruction /></ProtectedRoute>}></Route>
+                <Route path='/play/:gameMode' element={<ProtectedRoute><PlayMode /></ProtectedRoute>}></Route>
                 <Route path='/leaderboard' element={<Leaderboard />}></Route >
-                <Route path='/mystats' element={<MyStats />}></Route >
-                <Route path='/history' element={<History />}></Route >
+                <Route path='/mystats' element={<ProtectedRoute><MyStats /></ProtectedRoute>}></Route >
+                <Route path='/history' element={<ProtectedRoute><History /></ProtectedRoute>}></Route >
               </Route>
             </Routes>
           </BrowserRouter >
-        </ValidUserContext.Provider >
-      </UserObjectContext.Provider>
     </ColorThemeContext.Provider>
   )
 }
