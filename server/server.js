@@ -359,6 +359,7 @@ app.get("/api/users/myStats", authenticateToken, async (req, res) => {
             return res.status(404).json({success: false, error: 'User not found'});
         }
 
+
     } catch (error) {
         console.error(error);
         res.status(500).json({success: false, error: 'Failed to get user'});
@@ -392,6 +393,7 @@ app.get("/api/auth/logout", authenticateToken, (req, res) => {
         console.error('Error during logout:', error);
         res.status(500).json({ success: false, error: 'An error occurred during logout' });
     }
+
 })
 
 app.get("/api/auth/isLoggedIn", authenticateToken, (req, res) => {

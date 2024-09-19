@@ -60,6 +60,23 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
     }
   }
 
+  function setCss(index, rightOrWrong) {
+    switch (index) {
+      case 0:
+        setFirstAnswerCss(rightOrWrong);
+        return;
+      case 1:
+        setSecondAnswerCss(rightOrWrong);
+        return;
+      case 2:
+        setThirdAnswerCss(rightOrWrong);
+        return;
+      case 3:
+        setFourthAnswerCss(rightOrWrong);
+        return;
+    }
+  }
+
   useEffect(() => {
     try {
       setObjectifiedArrayIncorrect(questionsArray[questionIndex].incorrect_answers.map(answer => {
@@ -94,6 +111,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
       interval.current = setInterval(() => {
         setCurrentStreak(0);
         const correctAnswerIndex = allAnswersArray.findIndex(answer => answer.isCorrect === true);
+        
         setCss(correctAnswerIndex, "wrong-answer");
 
         const difficulty = questionsArray[questionIndex].difficulty;
@@ -129,7 +147,9 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
             });
         }
         setTimeout(() => {
-          setCss(correctAnswerIndex, "") 
+
+          setCss(correctAnswerIndex, "")
+
           if (questionIndex < questionsArray.length - 1) {
             setQuestionIndex(prevIndex => prevIndex + 1);
             setBarWidth(100);
@@ -163,6 +183,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
   }
   
 
+
   function handleAnswerSelect(isCorrect, eventTarget, index) {
     clearInterval(interval.current);
     clearInterval(intervalBar.current)
@@ -171,6 +192,7 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
     while (eventTarget && !eventTarget.classList.contains("answerCont")) {
       eventTarget = eventTarget.parentElement;
     }
+
     isCorrect ? setCss(index, "correct-answer-blink") : setCss(index, "wrong-answer");
 
     const difficulty = questionsArray[questionIndex].difficulty;
@@ -219,8 +241,8 @@ export default function QuestionsAndAnswers({ questionsArray, setIsPlaying, game
       setCurrentStreak(0);
       incorrectAnswerSound.play();
       const correctAnswerIndex = allAnswersArray.findIndex(answer => answer.isCorrect === true);
-      setCss(correctAnswerIndex, "correct-answer");
 
+      setCss(correctAnswerIndex, "correct-answer")
 
       if (gameMode === 'allIn') {
         points = difficulty === 'easy' ? -2 : difficulty === 'medium' ? -4 : -6;
