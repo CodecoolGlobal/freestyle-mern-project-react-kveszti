@@ -67,6 +67,8 @@ Planned features:
      - react-dom ^18.2.0
      - react-router-dom ^6.25.1
      - nodemon ^3.0.3
+     - cookie-parser ^1.4.6 
+     - bcrypt ^5.1.1
 
 3. Clone the repo.
 4. Setup a .env file where you create a CONSTRING variable for your own mongoDB cluster you'd like to use for development, a JWT_SECRET for token creation and NODE_ENV variable which should be set to "development" if you don't want the authentication to work https-only.
