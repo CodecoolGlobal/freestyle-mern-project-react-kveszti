@@ -1,10 +1,10 @@
 import { useContext, useState, useEffect } from "react";
-import { ValidUserContext } from "../../App";
 import { useNavigate } from "react-router-dom";
 import { ColorThemeContext } from "../../App";
+import {useAuth} from "../../Authentication/AuthProvider.jsx";
 
 export default function UserProfile() {
-    const { setValidUser } = useContext(ValidUserContext);
+    const { setValidUser } = useAuth();
     const { colorTheme } = useContext(ColorThemeContext);
     const [birthday, setBirthday] = useState(null);
     const [gender, setGender] = useState(null);
@@ -13,7 +13,6 @@ export default function UserProfile() {
     const [email, setEmail] = useState(null);
     const [passwordOld, setPasswordOld] = useState(null);
     const [password, setPassword] = useState();
-    const [validPwd, setValidPwd] = useState(false)
     const [success, setSuccess] = useState(false);
     const navigate = useNavigate();
     const [isLoaded, setIsLoaded] = useState(false);

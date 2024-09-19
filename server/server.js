@@ -74,7 +74,7 @@ app.get("/api/gameHistory/id/:id", authenticateToken, async (req, res) => {
     }
 })
 
-app.patch("/api/gameover/gameID/:id", async (req, res) => {
+app.patch("/api/gameover/gameID/:id", authenticateToken, async (req, res) => {
     const id = req.params.id;
     const game = await GameHistory.findOne({_id: id});
 
@@ -212,8 +212,7 @@ app.patch("/api/users/edit", authenticateToken, async (req, res) => {
         }
 
         await user.save();
-        console.log(`app.patch  user:`, user);
-        res.status(200).json({success: true, data: user});
+        res.status(200).json({success: true});
     } catch (error) {
         console.error(error);
         res.status(500).json({success: false, error: 'Failed to update user'});
@@ -326,18 +325,6 @@ app.patch("/api/users/myStats", authenticateToken, async (req, res) => {
         res.status(500).json({success: false, error: 'Failed to update user'});
     }
 })
-//ez lesz majd a mystatshoz
-// app.get("/api/user/id/:id", async (req, res) => {
-//   const id = req.params.id;
-
-//   try {
-//     const user = await User.findOne({ _id: id });
-
-//   } catch (err) {
-//     console.error("Error while fetching user data", err)
-//   }
-// })
-
 
 app.get("/api/users/myStats", authenticateToken, async (req, res) => {
     const id = req.user.userId;
@@ -397,7 +384,7 @@ app.get("/api/users/stats", async (req, res) => {
     return res.json(statistics);
 })
 
-app.get("/api/auth/logout", (req, res) => {
+app.get("/api/auth/logout", authenticateToken, (req, res) => {
     try {
         res.clearCookie('token');
         res.status(200).json({ success: true, message: 'Logged out successfully' });

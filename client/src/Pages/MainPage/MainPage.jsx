@@ -1,10 +1,10 @@
-import { useNavigate } from "react-router-dom";
-import { ValidUserContext } from "../../App";
+import { useNavigate } from "react-router-dom";;
 import GameModeCont from "../../Components/GameModeCont/GameModeCont";
 import {useContext, useEffect} from "react";
+import {useAuth} from "../../Authentication/AuthProvider.jsx";
 
 export default function MainPage() {
-    const { validUser, setValidUser } = useContext(ValidUserContext);
+    const { validUser, setValidUser } = useAuth();
     const navigate = useNavigate()
 
     useEffect(() => {
