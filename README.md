@@ -49,9 +49,9 @@ Done features:
 - Game history with overview menu and detailed view to inspect all questions and answers
 - Good answer streaks
 - Profile settings
+- Jwt + cookie authentication
 
-Planned features: 
-- Real authentication (as the current login system was solely created to learn the frontend display issues)
+Planned features:
 - Expanding XP system with titles and achievements
 
 # Installation   
@@ -69,7 +69,7 @@ Planned features:
      - nodemon ^3.0.3
 
 3. Clone the repo.
-4. Setup a .env file where you create a CONSTRING variable for your own mongoDB cluster you'd like to use for development.
+4. Setup a .env file where you create a CONSTRING variable for your own mongoDB cluster you'd like to use for development, a JWT_SECRET for token creation and NODE_ENV variable which should be set to "development" if you don't want the authentication to work https-only.
 5. From the root folder: ```cd client```
 6. In the terminal: ```npm run dev```
 7. From the root folder: ```cd server```
